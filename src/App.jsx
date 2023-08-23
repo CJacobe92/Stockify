@@ -8,12 +8,14 @@ import { GlobalContextProvider } from './providers/GlobalContextProvider'
 import Activate from './pages/Activate'
 import Dashboard from './pages/Dashboard'
 import VerifyOTP from './pages/VerifyOTP'
+import Landing from './pages/Landing'
 
 
 const App = () => {
   return (
     <GlobalContextProvider>
       <Routes>
+        <Route path={'/'} element={<Landing />}/>
         <Route path={'/register'} element={<Register />}/>
         <Route path={'/login'} element={<Login />}/>
         <Route path={'/review'} element={<Review />}/>
