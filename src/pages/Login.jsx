@@ -3,13 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import LoginForm from '../components/forms/LoginForm';
 import { fetchLogin } from '../providers/ApiFetch';
 import { GlobalContext } from '../providers/GlobalContextProvider';
+import VerifyOTPForm from '../components/forms/VerifyOTPForm';
+
 
 const Login = () => {
   
   const { dispatch } = useContext(GlobalContext)
+  const [showVerifyOTP, setShowVerifyOTP] = useState(false)
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
+    password: ''
   })
 
   const navigate = useNavigate();
@@ -22,7 +25,7 @@ const Login = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
     try{
-      const response = await fetchLogin(formData)
+      const response = await fetchLogin(formData, null)
 
       if (response.ok){
         dispatch({type: 'SET_UID', uid: response.uid})
@@ -33,6 +36,8 @@ const Login = () => {
         navigate('/review')
       }else if (response.activated === 'true' && response.otp_enabled === 'false'){
         navigate('/enableotp')
+      }else if(response.activated === 'true' && response.otp_enabled === 'true'){
+        navigate('/verifyotp')
       }
     }catch(error){
       console.error(error)
@@ -41,11 +46,10 @@ const Login = () => {
 
   return (
     <section className='flex items-center justify-center w-full min-h-screen bg-gray-900'>
-      <LoginForm
+      <LoginForm 
         handleSubmit={handleSubmit}
         handleChange={handleChange}
-        formData={formData}
-      />
+        formData={formData}/>
     </section>
   )
 }

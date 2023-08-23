@@ -7,6 +7,7 @@ import EnableOTP from './pages/EnableOTP'
 import { GlobalContextProvider } from './providers/GlobalContextProvider'
 import Activate from './pages/Activate'
 import Dashboard from './pages/Dashboard'
+import VerifyOTP from './pages/VerifyOTP'
 
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
         <Route path={'/login'} element={<Login />}/>
         <Route path={'/review'} element={<Review />}/>
         <Route path={'/enableotp'} element={<EnableOTP />}/>
+        <Route path={'/verifyotp'} element={<VerifyOTP />}/>
         <Route path={'/api/v1/auth/activate'} element={<Activate />}/>
         <Route path={'/dashboard'} element={<Dashboard />}/>
       </Routes>

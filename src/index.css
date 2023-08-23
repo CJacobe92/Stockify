@@ -9,3 +9,7 @@
 .steps__line{
   @apply h-full border border-indigo-900 border-opacity-80 w-0
 }
+
+.otp__input{
+  @apply border border-black border-opacity-30 m-2 p-2 w-10 h-14 text-center text-2xl font-bold outline-indigo-700
+}

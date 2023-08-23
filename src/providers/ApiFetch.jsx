@@ -26,7 +26,7 @@ export const fetchLogin = async(formData) => {
 
   const payload = {
     email: formData.email,
-    password: formData.password,
+    password: formData.password
   }
 
   const requestOptions = {
@@ -46,6 +46,27 @@ export const fetchLogin = async(formData) => {
     }
 
     return payload
+  } else {
+    console.error('Failed to fetch')
+  }
+}
+
+export const fetchActivateAccount  = async(auth) => {
+
+  const baseURL = `${import.meta.env.VITE_API_URL}/auth/activate?token=${auth}`
+
+  const requestOptions = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': auth 
+    }
+  }
+  
+  const response = await fetch(baseURL, requestOptions)
+
+  if (response.ok) {
+    return response
   } else {
     console.error('Failed to fetch')
   }
@@ -101,26 +122,36 @@ export const fetchEnableOTP = async(uid, auth, pin) => {
   }
 }
 
-export const fetchActivateAccount  = async(auth) => {
+export const fetchVerifyOTP = async(uid, auth, pin) => {
 
-  const baseURL = `${import.meta.env.VITE_API_URL}/auth/activate?token=${auth}`
+  const baseURL = `${import.meta.env.VITE_API_URL}/auth/verify_otp/${uid}`
 
   const requestOptions = {
-    method: 'PATCH',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': auth 
-    }
+    },
+    body: JSON.stringify({'auth': {"otp": pin}})
   }
-  
   const response = await fetch(baseURL, requestOptions)
 
   if (response.ok) {
-    return response
+    const payload = {
+      uid: response.headers.get('Uid'),
+      auth: response.headers.get('Authorization'),
+      activated: response.headers.get('Activated'),
+      otp_enabled: response.headers.get('Otp_enabled'),
+      ok: true
+    }
+
+    return payload
   } else {
     console.error('Failed to fetch')
   }
 }
+
+
 
 
 
