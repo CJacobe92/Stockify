@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.steps__indicator{
+  @apply flex items-center justify-center flex-shrink-0 w-10 h-10 bg-indigo-900 text-white rounded-full shadow-lg
+}
+
+.steps__line{
+  @apply h-full border border-indigo-900 border-opacity-80 w-0
+}
