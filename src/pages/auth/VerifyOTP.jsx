@@ -1,5 +1,5 @@
 import React from 'react'
-import VerifyOTPForm from '../components/forms/VerifyOTPForm'
+import VerifyOTPForm from '../../components/forms/VerifyOTPForm'
 
 const VerifyOTP = () => {
   return (

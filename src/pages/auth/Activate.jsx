@@ -1,14 +1,17 @@
 import React, { useContext, useEffect } from 'react'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { GlobalContext } from '../providers/GlobalContextProvider';
+import { GlobalContext } from '../../providers/GlobalContextProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchActivateAccount } from '../providers/ApiFetch';
+import { useFetchActivateAccount } from '../../providers/ApiFetch';
+import FetchLoading from '../../components/spinners/FetchLoading';
+
 
 
 const Activate = () => {
   
   const { dispatch} = useContext(GlobalContext)
   const navigate =  useNavigate()
+  const {mutate, isLoading, isFetching} = useFetchActivateAccount();
 
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token');
@@ -16,14 +19,11 @@ const Activate = () => {
   useEffect(() => {
 
     if(token) {
-      const activate = async () => {
-        await fetchActivateAccount(token)
-      }
-      activate();
+      mutate(token)
     }
   }, [token])
   
-  const handleLogin = (e) => {
+  const handleBackToLogin = (e) => {
     e.preventDefault();
   
     dispatch({type: "LOGOFF"})
@@ -31,7 +31,7 @@ const Activate = () => {
     
   }
   
-  return (
+  return (isLoading || isFetching ? <FetchLoading /> :
     <div className='flex flex-col items-center justify-center w-full min-h-screen text-white bg-gray-900'>
         <div className='py-8 text-center'>
           <p className='m-2'><HowToRegIcon style={{fontSize: '5rem'}}/></p>
@@ -63,7 +63,7 @@ const Activate = () => {
           </div>
       
           <div className='w-full text-right'>
-              <button className='p-2 bg-indigo-900 rounded-md' onClick={handleLogin} >Back to Login</button>
+              <button className='p-2 bg-indigo-900 rounded-md' onClick={handleBackToLogin} >Back to Login</button>
           </div>
         </div>
         

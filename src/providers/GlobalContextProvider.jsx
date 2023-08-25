@@ -6,7 +6,8 @@ const root = JSON.parse(localStorage.getItem('root'))
 
 const initialState = {
   uid: root ? root.uid : null,
-  auth: root ? root.auth : null
+  auth: root ? root.auth : null,
+  logoff_inprogress: false
 }
 
 const reducer = (state, action) => {
@@ -15,6 +16,8 @@ const reducer = (state, action) => {
       return {...state, uid: action.uid};
     case 'SET_AUTH':
       return {...state, auth: action.auth};
+    case 'LOGOFF_INPROGRESS':
+      return {...state, logoff_inprogress: action.logoff_inprogress}
     case 'LOGOFF':
       return {...state, auth: null, uid: null}
 

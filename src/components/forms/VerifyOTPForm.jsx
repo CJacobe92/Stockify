@@ -1,9 +1,11 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import verify from '../../assets/verify.jpg'
-import PinIcon from '@mui/icons-material/Pin';
-import { fetchVerifyOTP } from '../../providers/ApiFetch';
-import { GlobalContext } from '../../providers/GlobalContextProvider';
+import { GlobalContext } from '../../providers/GlobalContextProvider'
+import { fetchVerifyOTP } from '../../providers/ApiFetch'
+
+// import { fetchVerifyOTP } from '../../providers/ApiFetch';
+// import { GlobalContext } from '../../providers/GlobalContextProvider';
 
 const VerifyOTPForm = () => {
 
@@ -47,11 +49,13 @@ const VerifyOTPForm = () => {
       if(response.ok){
         dispatch({type: 'SET_UID', uid: response.uid})
         dispatch({type: 'SET_AUTH', auth: response.auth})
-        navigate('/dashboard')
+        navigate('/portfolio')
         console.log(response)
       }else{
         console.error('Failed to verify otp')
       }
+
+      console.log(response)
     } catch(error) {
       console.error(error.message)
     } 
@@ -70,6 +74,7 @@ const VerifyOTPForm = () => {
             {
               inputRefs && inputRefs.map((ref, index) => 
               <input 
+                autoFocus={index === 0 ? true : false}
                 key={index}
                 type="text"
                 name={`digit${index}`}
