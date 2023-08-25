@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { useNavigate } from 'react-router-dom';
-import { GlobalContext } from '../providers/GlobalContextProvider';
+import { GlobalContext } from '../../providers/GlobalContextProvider';
 
 const Review = () => {
 
