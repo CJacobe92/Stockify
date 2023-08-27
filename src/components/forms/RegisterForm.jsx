@@ -7,7 +7,7 @@ const RegisterForm = ({handleChange, handleSubmit, formData}) => {
     <form className='flex flex-row justify-center bg-white rounded-sm shadow-md' onSubmit={handleSubmit}>
       <div className='rounded-l-sm'>
         <img src={register}
-        className='object-cover h-full rounded-l-sm w-60'/>
+        className='object-cover w-56 h-full rounded-l-sm' />
       </div>
     <div className='p-4 mt-4 mb-4 w-96'>
       <div className='mt-4 mb-4 text-center'>

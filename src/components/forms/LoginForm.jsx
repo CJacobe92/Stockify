@@ -43,7 +43,7 @@ const LoginForm = ({handleChange, handleSubmit, formData}) => {
 
       <div className='rounded-r-sm'>
         <img src={login}
-        className='object-cover h-full rounded-r-sm w-60'/>
+        className='object-cover w-56 h-full rounded-r-sm'/>
       </div>
   </form>
   )

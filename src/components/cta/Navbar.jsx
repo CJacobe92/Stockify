@@ -1,19 +1,24 @@
 import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useFetchLogout } from '../../providers/ApiFetch'
 import { GlobalContext } from '../../providers/GlobalContextProvider';
-import { useQueryClient } from '@tanstack/react-query';
+import fetchLogout from '../../services/fetchLogout';
+
 
 const Navbar = () => {
-  const { mutate }= useFetchLogout()
 
+  const { state, dispatch} = useContext(GlobalContext)
+  const {uid, auth} = state
+
+  const navigate = useNavigate();
   
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try{
-      mutate()
-      // dispatch({type: 'LOGOFF'})
-      // navigate('/login')
-      console.log('clicked')
+      const responseData = await fetchLogout(uid, auth)
+
+      if(responseData.ok){
+        dispatch({type: 'LOGOFF'})
+        navigate('/login')
+      }
     }catch(error){
       console.error(error)
     }
