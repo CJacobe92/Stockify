@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { GlobalContext } from '../../providers/GlobalContextProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useFetchActivateAccount } from '../../providers/ApiFetch';
+
 import FetchLoading from '../../components/spinners/FetchLoading';
 
 
@@ -11,7 +11,6 @@ const Activate = () => {
   
   const { dispatch} = useContext(GlobalContext)
   const navigate =  useNavigate()
-  const {mutate, isLoading, isFetching} = useFetchActivateAccount();
 
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token');
@@ -19,7 +18,6 @@ const Activate = () => {
   useEffect(() => {
 
     if(token) {
-      mutate(token)
     }
   }, [token])
   

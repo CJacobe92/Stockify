@@ -1,19 +1,43 @@
-import React from 'react'
-import { useFetchConfigureOTP } from '../../providers/ApiFetch'
+import React, { useContext, useEffect, useState } from 'react'
 import FetchLoading from '../spinners/FetchLoading'
+import { GlobalContext } from '../../providers/GlobalContextProvider'
+import fetchConfigureOTP from '../../services/fetchConfigureOTP'
 
 
 const EnableOTPForm = ({setPin, handleSubmit}) => {
 
-  const {data: data, isLoading, isError, error, isFetching} = useFetchConfigureOTP()
+  const [data, setData] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  if(isError){
-    console.error(error)
-  }
+  const { state } = useContext(GlobalContext)
+  const { uid, auth } = state
+
+  useEffect(() => {
+    const getConfigureOTPData = async() => {
+      try {
+        
+        if(uid, auth) {
+          
+          setIsLoading(true)
+          
+          const data = await fetchConfigureOTP(uid, auth)
+          setData(data)
+        }
+  
+      } catch(error) {
+        setError(error)
+        console.error(error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    getConfigureOTPData()
+  }, [])
 
   return (
-    <>{isLoading || isFetching ? <FetchLoading /> :
-      <form className='flex flex-col text-white w-96' onSubmit={handleSubmit}>
+    isLoading ? <FetchLoading /> :
+      <div className='flex flex-col text-white w-96'>
         <h1 className='m-2 text-xl font-bold text-center text-indigo-500'>Stockify</h1>
         <h2 className='mx-2 mb-2 font-bold text-center text-gray-300 text-md'>Set up your two factor authentication</h2>
         <p className='mx-2 mb-4 text-sm text-center text-gray-400'>Please help us secure your account by setting up your two factor authentication before signing in to this account.</p>
@@ -67,16 +91,16 @@ const EnableOTPForm = ({setPin, handleSubmit}) => {
                 onChange={(e) => setPin(e.target.value)}
                 />
               <p className='mt-1 text-xs text-gray-500'>Provided by your authenticator (numbers only)</p>
-              <button type='submit' className='w-full p-2 mt-4 text-white bg-indigo-900 shadow-xl'>Verify</button>
+              <button type='button' onClick={handleSubmit} className='w-full p-2 mt-4 text-white bg-indigo-900 shadow-xl'>Verify</button>
             </div>
           </div>
           
         </div>
   
     
-      </form>
-      }
-    </>
+      </div>
+    
+
   )
 }
 

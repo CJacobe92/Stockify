@@ -1,29 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 import Navbar from '../components/cta/Navbar'
 import usePrivateRoute from '../hooks/usePrivateRoute'
-import { Navigate } from 'react-router-dom';
-import { GlobalContext } from '../providers/GlobalContextProvider';
-import { useFetchUserData} from '../providers/ApiFetch';
+import { Navigate, Outlet } from 'react-router-dom';
 import FetchLoading from '../components/spinners/FetchLoading';
+import useGetData from '../hooks/useGetData';
 
 const Layout = () => {
   const isAuthenticated = usePrivateRoute();
+  const { data, isLoading } = useGetData()
 
-  const {data: data, isLoading, isError, error, isFetching} = useFetchUserData()
-  
-  if(isLoading || isFetching){
-    return <FetchLoading />
-  }
-  
-  if(isError){
-    console.log(error.message)
-  }
-  
-  console.log(data && data.accounts)
-  
   return isAuthenticated ? (
+    isLoading ? <FetchLoading /> :
     <div className='flex flex-col w-full min-h-screen text-white bg-gray-900'>
       <Navbar />
+      <Outlet />
     </div>
   ): (
     <Navigate to={'/login'} />

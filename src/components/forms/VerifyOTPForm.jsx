@@ -2,15 +2,17 @@ import React, { useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import verify from '../../assets/verify.jpg'
 import { GlobalContext } from '../../providers/GlobalContextProvider'
-import { fetchVerifyOTP } from '../../providers/ApiFetch'
-
-// import { fetchVerifyOTP } from '../../providers/ApiFetch';
-// import { GlobalContext } from '../../providers/GlobalContextProvider';
+import fetchVerifyOTP from '../../services/fetchVerifyOTP'
+import FetchLoading from '../spinners/FetchLoading'
 
 const VerifyOTPForm = () => {
 
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+
   const inputRefs = Array.from({ length: 6 }, () => useRef(null))
   const {state, dispatch} = useContext(GlobalContext)
+  const {uid, auth} = state
   
   const [digits, setDigits] = useState  ({
     digit0: '',
@@ -42,25 +44,31 @@ const VerifyOTPForm = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    try{
-      const otp = Object.values(digits).join('')
-      const response = await fetchVerifyOTP(state.uid, state.auth, otp)
-      
-      if(response.ok){
-        dispatch({type: 'SET_UID', uid: response.uid})
-        dispatch({type: 'SET_AUTH', auth: response.auth})
-        navigate('/portfolio')
-        console.log(response)
-      }else{
-        console.error('Failed to verify otp')
-      }
 
-      console.log(response)
+    try{
+
+      setIsLoading(true)
+      
+      const pin = Object.values(digits).join('')
+      const data = await fetchVerifyOTP(uid, auth, pin)
+
+      if(data.auth != null){
+
+        dispatch({type: 'SET_UID', uid: data.uid})
+        dispatch({type: 'SET_AUTH', auth: data.auth})
+
+        navigate('/portfolio')
+      }
     } catch(error) {
-      console.error(error.message)
-    } 
+      setError(error)
+    } finally {
+      setIsLoading(false)
+      
+    }
   }
+
   return (
+    isLoading ? <FetchLoading /> :
     <form className='flex flex-row justify-center bg-white rounded-sm shadow-md' onSubmit={handleSubmit}>
       <div className='p-4 mt-10 mb-10 w-96'>
         <div className='m-2 mb-6 text-center'>
