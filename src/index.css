@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root, *, *:before, *:after{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 .steps__indicator{
   @apply flex items-center justify-center flex-shrink-0 w-10 h-10 bg-indigo-900 text-white rounded-full shadow-lg
 }

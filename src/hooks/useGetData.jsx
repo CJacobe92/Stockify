@@ -20,6 +20,7 @@ const useGetData = () => {
           if(data){
             dispatch({ type: 'SET_DATA', data: data });
             dispatch({type: 'SET_ACCOUNTS', accounts: data.accounts})
+            dispatch({type: 'SET_PORTFOLIOS', portfolios: data.accounts})
           }
           
         } catch (error) {
