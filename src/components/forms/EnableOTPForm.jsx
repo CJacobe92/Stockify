@@ -33,7 +33,7 @@ const EnableOTPForm = ({setPin, handleSubmit}) => {
       }
     }
     getConfigureOTPData()
-  }, [])
+  }, [state.auth, state.uid])
 
   return (
     isLoading ? <FetchLoading /> :

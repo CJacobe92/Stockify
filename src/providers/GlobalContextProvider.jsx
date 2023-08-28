@@ -47,21 +47,23 @@ const reducer = (state, action) => {
     case 'SET_ACCOUNT_ID':
       return {...state, account_id: action.account_id}
     case 'SET_PORTFOLIOS':
-        const portfolio = action.portfolios.flatMap((account) => (
-          account.portfolios.map((portfolio) =>(
-            {
-              symbol: portfolio.symbol,
-              description: portfolio.description,
-              current_price: portfolio.current_price,
-              percent_change: portfolio.percent_change,
-              avg_purchase_price: portfolio.average_purchase_price,
-              total_quantity: portfolio.total_quantity,
-              total_value: portfolio.total_value,
-              total_gl: portfolio.total_gl
-            }
-          ))
-        ))
-      return {...state, portfolios: portfolio}
+      const portfolios = action.portfolios.flatMap((account) => (
+         account.portfolios !=  undefined ? account.portfolios.flatMap((portfolio) => (
+          {
+            symbol: portfolio.symbol,
+            description: portfolio.description,
+            current_price: portfolio.current_price,
+            percent_change: portfolio.percent_change,
+            avg_purchase_price: portfolio.average_purchase_price,
+            total_quantity: portfolio.total_quantity,
+            total_value: portfolio.total_value,
+            total_gl: portfolio.total_gl,
+            stock_id: portfolio.stock_id,
+            account_id: portfolio.account_id
+          }
+        )) : null
+      ))
+      return {...state, portfolios: portfolios}
 
     case 'LOGOFF':
       return {...state, auth: null, uid: null}
@@ -147,8 +149,7 @@ export const GlobalContextProvider = ({children}) => {
       getStockData();
     }
     
-  }, [uid, auth])
-  
+  }, [uid, auth, dispatch])
 
   return(
     <GlobalContext.Provider value={{state, dispatch}}>
