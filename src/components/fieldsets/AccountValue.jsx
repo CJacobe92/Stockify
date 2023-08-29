@@ -8,7 +8,7 @@ const AccountValue = () => {
   const accounts = state.accounts && state.accounts
   const portfolios = state.portfolios && state.portfolios
   
-  console.log(state.data)
+
   useEffect(() => {
     if (portfolios) {
       let sum = 0
