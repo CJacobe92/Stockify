@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState } from 'react';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-const SellModal = ({children, open, onClose, title}) => {
+const SellModal = ({ children, title }) => {
   
-  if(!open) return null
+  const [open, setOpen] = useState(false);
 
-  return ReactDOM.createPortal(
+  return (
     <>
-      <div className='fixed inset-0 z-50 bg-black bg-opacity-30'/>
-      <div className='fixed top-1/2 left-1/2 transfrom translate-x-[-50%] translate-y-[-50%] bg-white p-4 rounded-lg z-50 h-auto w-96'>
-        <div>
-          <p className='p-2 text-sm font-semibold text-gray-700'>{title}</p>
+      <button onClick={() => setOpen(!open)} className='w-full p-1 text-white rounded-sm bg-amber-800'>
+        Sell
+      </button>
+      {open && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30'>
+          <div className='relative z-50 h-auto p-4 bg-white rounded-lg w-96'>
+            <div className='flex flex-row justify-between'>
+              <p className='text-sm font-semibold text-indigo-700'>{title}</p>
+              <button onClick={() => setOpen(!open)} className='text-xs text-indigo-900 '><CancelIcon /></button>
+            </div>
+            {children}
+          </div>
         </div>
-        { children }
-      </div>
-    </>,
-    document.getElementById('portal')
-  )
-}
+      )}
+    </>
+  );
+};
 
-export default SellModal
+export default SellModal;
