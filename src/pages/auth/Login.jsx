@@ -13,7 +13,7 @@ const Login = () => {
 
   const { dispatch } = useContext(GlobalContext)
   const navigate = useNavigate()
-
+ 
   const handleChange = (e) => {
     const {id, value} = e.target
     setFormData({...formData, [id]: value})
@@ -26,7 +26,7 @@ const Login = () => {
       setIsLoading(true)
  
       const data = await fetchLogin(formData)
-      
+      console.log(data)
       dispatch({type: 'SET_AUTH', auth: data.auth})
       dispatch({type: 'SET_UID', uid: data.uid})
 
