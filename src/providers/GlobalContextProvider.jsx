@@ -18,6 +18,7 @@ const initialState = {
   accounts: null,
   account_id: null,
   portfolios: null,
+  transactions: null,
 }
 
 const reducer = (state, action) => {
@@ -65,6 +66,22 @@ const reducer = (state, action) => {
       ))
       return {...state, portfolios: portfolios}
 
+      case 'SET_TRANSACTIONS':
+        const transactions = action.transactions.flatMap((account) => (
+           account.transactions !=  undefined ? account.transactions.flatMap((transaction) => (
+            {
+              id: transaction.id,
+              symbol: transaction.symbol,
+              type: transaction.transaction_type,
+              quantity: transaction.quantity,
+              price: transaction.price,
+              total_cash_value: transaction.total_cash_value,
+              date: transaction.created_at
+            }
+          )) : null
+        ))
+        return {...state, transactions: transactions}
+        
     case 'LOGOFF':
       return {...state, auth: null, uid: null}
 
@@ -107,7 +124,7 @@ export const GlobalContextProvider = ({children}) => {
             dispatch({type: 'SET_DATA', data: data })
             dispatch({type: 'SET_ACCOUNTS', accounts: data.accounts})
             dispatch({type: 'SET_PORTFOLIOS', portfolios: data.accounts})
-
+            dispatch({type: 'SET_TRANSACTIONS', transactions: data.accounts})
           }
           
         }

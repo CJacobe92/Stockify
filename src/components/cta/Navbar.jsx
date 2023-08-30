@@ -26,13 +26,15 @@ const Navbar = () => {
   
   return (
     <div className='text-white h-[10vh] border-b border-white flex flex-row items-end justify-between px-36'>
+      <h1 className='m-2 text-2xl font-bold text-center text-indigo-500'>Stockify</h1>
       <div className='flex flex-row m-2'>
         <Link className='mx-2 text-xl font-semibold' to={'/portfolio'}>Portfolio</Link>
-        <Link className='mx-2 text-xl font-semibold' to={'/trade'}>Trade</Link>
+        <Link className='mx-2 text-xl font-semibold' to={'/transaction'}>Transactions</Link>
         <Link className='mx-2 text-xl font-semibold' to={'/account'}>Account</Link>
+        <button className='p-2 bg-indigo-900' onClick={handleLogout}>Logout</button>
       </div>
-      <h1 className='m-2 text-2xl font-bold text-center text-indigo-500'>Stockify</h1>
-      <button className='p-2 m-2 bg-indigo-900' onClick={handleLogout}>Logout</button>
+      
+     
     </div>
   )
 }

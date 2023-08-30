@@ -31,7 +31,7 @@ const AccountValue = () => {
     accounts && accounts.map((account, index) => (
       <fieldset className='px-2 py-4 mb-4 bg-white border-2 border-indigo-700 rounded-sm' key={index}>
         <legend className='ml-2 text-sm font-semibold text-indigo-700'>Total Account Value</legend>
-        <p className='text-5xl font-bold text-indigo-900'>$ {account ? parseFloat(account.balance  ) + totalValue : null}</p>
+        <p className='text-5xl font-bold text-indigo-900'>$ {account ? (parseFloat(account.balance  ) + totalValue).toFixed(2) : null}</p>
       </fieldset>          
     ))
   )
