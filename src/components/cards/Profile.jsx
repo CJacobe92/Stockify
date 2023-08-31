@@ -70,7 +70,7 @@ const Profile = () => {
   return (
     <div className='p-2 m-2 bg-white w-96'>
       <fieldset className='p-2 text-indigo-700 border border-indigo-700'>
-        <legend>Profile</legend>
+        <legend className='font-semibold'>Profile</legend>
           <div className='text-sm'>
             <div className='flex flex-row p-1'>
               <p className='w-20 font-semibold'>Firstname: </p>
