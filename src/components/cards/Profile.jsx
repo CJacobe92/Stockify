@@ -68,7 +68,7 @@ const Profile = () => {
   }
 
   return (
-    <div className='p-2 bg-white w-80'>
+    <div className='p-2 m-2 bg-white w-96'>
       <fieldset className='p-2 text-indigo-700 border border-indigo-700'>
         <legend>Profile</legend>
           <div className='text-sm'>
@@ -99,10 +99,10 @@ const Profile = () => {
               <p className='p-1 ml-2'>{formatDate(date)}</p>
             </div>
           </div>
-          <div className='w-full mt-2 text-xs text-right'>
+          <div className='w-full mt-2 text-sm text-right'>
             {!editMode ? 
-              <button onClick={handleEdit} className='px-2 py-1 text-white bg-indigo-900 w-14'>Edit</button> :
-              <button onClick={handleSave} className='px-2 py-1 text-white bg-indigo-700 w-14'>Save</button>
+              <button onClick={handleEdit} className='w-16 px-2 py-1 text-white bg-indigo-900'>Edit</button> :
+              <button onClick={handleSave} className='w-16 px-2 py-1 text-white bg-indigo-700'>Save</button>
             }
             
           </div>

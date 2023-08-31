@@ -8,7 +8,7 @@ import Stock from '../../components/cards/Stock'
 
 const Portfolio = () => {
   return (
-    <div className='grid w-full min-h-screen grid-cols-4 gap-6 p-10'>
+    <div className='grid w-full h-[90vh] grid-cols-4 gap-6 px-10 py-4'>
         <div className='col-span-1 row-span-3'>
           <Stock/>
         </div>
@@ -21,10 +21,6 @@ const Portfolio = () => {
         <div className='col-span-3 col-start-2 row-span-1 bg-white h-52'>
           <Holdings />
         </div>
-        
-  
-          
-
     </div>
       
   )

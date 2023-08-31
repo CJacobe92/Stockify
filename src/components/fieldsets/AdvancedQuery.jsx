@@ -99,7 +99,7 @@ const AdvancedQuery = ({setQuery, query}) => {
           </tbody>
         </table>
         <div className='flex flex-row justify-between mx-2 mt-2'>
-          <button onClick={handleQuery} className='w-full p-2 text-white bg-indigo-700'>Query</button>
+          <button onClick={handleQuery} className='w-full p-2 text-white bg-indigo-900'>Query</button>
           <button onClick={handleReset} className='p-1 ml-2 bg-indigo-700'><RotateLeftIcon style={{fontSize: '2rem'}}/></button>
         </div>
         

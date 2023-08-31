@@ -11,7 +11,7 @@ const Stock = () => {
   
   return (
     <div>
-      <p className='mb-2 bg-gray-900'>Stock</p>
+      <p className='mb-2 font-semibold bg-gray-900'>Stock</p>
       <div className='p-2 bg-white'>
         <StockSearch />
         <StockDetails selected={selected}/>
