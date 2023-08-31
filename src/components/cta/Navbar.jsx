@@ -2,12 +2,14 @@ import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { GlobalContext } from '../../providers/GlobalContextProvider';
 import fetchLogout from '../../services/fetchLogout';
+import useRefetchData from '../../hooks/useRefetchData';
 
 
 const Navbar = () => {
 
   const { state, dispatch} = useContext(GlobalContext)
   const {uid, auth} = state
+  const { refetch } = useRefetchData()
 
   const navigate = useNavigate();
   
@@ -28,9 +30,9 @@ const Navbar = () => {
     <div className='text-white h-[10vh] border-b border-white flex flex-row items-end justify-between px-36'>
       <h1 className='m-2 text-2xl font-bold text-center text-indigo-500'>Stockify</h1>
       <div className='flex flex-row m-2'>
-        <Link className='mx-2 text-xl font-semibold' to={'/portfolio'}>Portfolio</Link>
-        <Link className='mx-2 text-xl font-semibold' to={'/transaction'}>Transactions</Link>
-        <Link className='mx-2 text-xl font-semibold' to={'/account'}>Account</Link>
+        <Link onClick={refetch} className='mx-2 text-xl font-semibold' to={'/portfolio'}>Portfolio</Link>
+        <Link onClick={refetch} className='mx-2 text-xl font-semibold' to={'/transaction'}>Transactions</Link>
+        <Link onClick={refetch} className='mx-2 text-xl font-semibold' to={'/account'}>Account</Link>
         <button className='p-2 bg-indigo-900' onClick={handleLogout}>Logout</button>
       </div>
       

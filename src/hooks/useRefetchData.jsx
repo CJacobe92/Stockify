@@ -15,6 +15,7 @@ const useRefetchData = () => {
     try {
        if (uid, auth) {
         const data = await fetchUserData(uid, auth)
+        console.log('Refetch data called')
           if(data) {
             dispatch({type: 'SET_DATA', data: data })
             dispatch({type: 'SET_ACCOUNTS', accounts: data.accounts})
