@@ -9,7 +9,7 @@ const Overview = () => {
 
   return (
     <div>
-      <p className='mb-2 font-semibold'>Overview</p>
+      <p className='w-full mb-2 font-semibold'>Overview</p>
       <div className='p-2 bg-white'>
         <AccountValue />
         <BuyingPower />

@@ -26,7 +26,6 @@ const Login = () => {
       setIsLoading(true)
  
       const data = await fetchLogin(formData)
-      console.log(data)
       dispatch({type: 'SET_AUTH', auth: data.auth})
       dispatch({type: 'SET_UID', uid: data.uid})
 
