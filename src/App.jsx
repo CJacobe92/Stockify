@@ -10,8 +10,8 @@ import VerifyOTP from './pages/auth/VerifyOTP'
 import Activate from './pages/auth/Activate'
 import Portfolio from './pages/app/Portfolio'
 import Layout from './pages/Layout'
-import Trade from './pages/app/Trade'
 import Account from './pages/app/Account'
+import Transaction from './pages/app/Transaction'
 
 const App = () => {
   return (
@@ -27,7 +27,7 @@ const App = () => {
           <Route path={'/api/v1/auth/activate'} element={<Activate />}/>
           <Route element={<Layout />}>
             <Route path={'/portfolio'} element={<Portfolio />}/>
-            <Route path={'/trade'} element={<Trade />}/>
+            <Route path={'/transaction'} element={<Transaction />}/>
             <Route path={'/account'} element={<Account />}/>
           </Route>
         </Routes>

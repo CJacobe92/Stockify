@@ -7,15 +7,14 @@ import useGetData from '../hooks/useGetData';
 
 const Layout = () => {
   const isAuthenticated = usePrivateRoute();
-  const { data, isLoading } = useGetData()
+  // const { data, isLoading } = useGetData()
 
   return isAuthenticated ? (
-    isLoading ? <FetchLoading /> :
     <div className='flex flex-col w-full min-h-screen text-white bg-gray-900'>
       <Navbar />
       <Outlet />
     </div>
-  ): (
+  ) : (
     <Navigate to={'/login'} />
   )
 }

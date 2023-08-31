@@ -4,10 +4,9 @@ import { GlobalContext } from '../../providers/GlobalContextProvider'
 import AccountValue from '../fieldsets/AccountValue'
 import BuyingPower from '../fieldsets/Buying Power'
 
+
 const Overview = () => {
 
-
- 
   return (
     <div>
       <p className='mb-2 font-semibold'>Overview</p>

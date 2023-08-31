@@ -32,10 +32,10 @@ const Holdings = () => {
                     <td className='p-1 font-semibold text-center'>{portfolio != null ? portfolio.symbol : null }</td>
                     <td className='p-1 text-center'>{portfolio != null ? portfolio.description.slice(0, 30) : null }</td>
                     <td className='p-1 text-center'>{portfolio != null ? portfolio.current_price : null }</td>
-                    <td className='p-1 text-center'>{portfolio != null ? portfolio.avg_purchase_price : null }</td>
+                    <td className='p-1 text-center'>{portfolio != null ? portfolio.avg_purchase_price.slice(0, portfolio.avg_purchase_price.indexOf('.') + 3) : null }</td>
                     <td className='p-1 text-center'>{portfolio != null ? portfolio.total_quantity : null }</td>
                     <td className='p-1 text-center'>{portfolio != null ? portfolio.total_value : null }</td>
-                    <td className='p-1 text-center'>{portfolio != null ? portfolio.total_gl : null}</td>
+                    <td className='p-1 text-center'>{portfolio != null ? portfolio.total_gl.slice(0, portfolio.total_gl.indexOf('.') + 3) : null}</td>
                     <td className='p-1 text-center'>
                       {portfolio != null ?
                         <SellModal title={'Sell Stocks'}>
