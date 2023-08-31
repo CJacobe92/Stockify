@@ -17,9 +17,10 @@ const useRefetchData = () => {
         const data = await fetchUserData(uid, auth)
         console.log('Refetch data called')
           if(data) {
-            dispatch({type: 'SET_DATA', data: data })
-            dispatch({type: 'SET_ACCOUNTS', accounts: data.accounts})
-            dispatch({type: 'SET_PORTFOLIOS', portfolios: data.accounts})
+            dispatch({type: 'SET_DATA', data: data });
+            dispatch({type: 'SET_ACCOUNTS', accounts: data.accounts});
+            dispatch({type: 'SET_PORTFOLIOS', portfolios: data.accounts});
+            dispatch({type: 'SET_TRANSACTIONS', transactions: data.accounts})
           }
        }
     } catch(error){

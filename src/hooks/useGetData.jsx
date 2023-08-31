@@ -22,6 +22,7 @@ const useGetData = () => {
             dispatch({ type: 'SET_DATA', data: fetchedData });
             dispatch({ type: 'SET_ACCOUNTS', accounts: fetchedData.accounts });
             dispatch({ type: 'SET_PORTFOLIOS', portfolios: fetchedData.accounts });
+            dispatch({type: 'SET_TRANSACTIONS', transactions: data.accounts});
           }
         } catch (error) {
           setError('Failed to fetch user data: ' + error.message);

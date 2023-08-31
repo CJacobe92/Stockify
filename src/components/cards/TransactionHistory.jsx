@@ -1,15 +1,17 @@
 import React, { useContext } from 'react';
 import { GlobalContext } from '../../providers/GlobalContextProvider';
+import useFormatDate from '../../hooks/useFormatDate';
 
 const TransactionHistory = ({input, query}) => {
   const { state } = useContext(GlobalContext);
   const transactions = state.transactions && state.transactions;
+  const {formatDate} = useFormatDate()
 
   return (
-    <div className='flex items-center w-full'>
+    <div className='w-full'>
       <div className='w-full overflow-y-auto scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-indigo-500 h-[72vh]'>
-        <table className='w-full h-full'>
-          <thead className='relative sticky top-0 text-black bg-white'>
+        <table className='w-full'>
+          <thead className='sticky top-0 text-black bg-white'>
             <tr>
               <th className='p-2'>Id</th>
               <th className='p-2'>Type</th>
@@ -17,7 +19,7 @@ const TransactionHistory = ({input, query}) => {
               <th className='p-2'>Quantity</th>
               <th className='p-2'>Price</th>
               <th className='p-2'>Cash Value</th>
-              <th className='p-2'>Date</th>
+              <th className='p-2'>Time</th>
             </tr>
           </thead>
           <tbody>
@@ -116,14 +118,14 @@ const TransactionHistory = ({input, query}) => {
     
                 
               }).map((transaction, index) => (
-                  <tr key={index}>
+                  <tr key={index} className='border border-white'>
                     <td className='p-2 text-center'>{transaction != null ? transaction.id : null}</td>
                     <td className='p-2 text-center'>{transaction != null ? transaction.type : null}</td>
                     <td className='p-2 text-center'>{transaction != null ? transaction.symbol : null}</td>
                     <td className='p-2 text-center'>{transaction != null ? transaction.quantity : null}</td>
                     <td className='p-2 text-center'>{transaction != null ? transaction.price : null}</td>
                     <td className='p-2 text-center'>{transaction != null ? transaction.total_cash_value : null}</td>
-                    <td className='p-2 text-center'>{transaction != null ? transaction.date : null}</td>
+                    <td className='p-2 text-center'>{transaction != null ? formatDate(transaction.date) : null}</td>
                   </tr>
               ))}
           </tbody>
