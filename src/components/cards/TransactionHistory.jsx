@@ -49,10 +49,6 @@ const TransactionHistory = ({input, query}) => {
                 const symbolQueryParam = query.symbol && query.symbol.parameter
                 const symbolQueryValue = query.symbol && query.symbol.value
 
-                // const quantityQuery = query && query.quantity
-                // const quantityQueryParam = query.quantity && query.quantity.parameter
-                // const quantityQueryValue = query.quantity && query.quantity.value
-
                 // Normal Query
                 if(search){
                   let searchResult;
