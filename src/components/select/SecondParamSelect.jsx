@@ -9,7 +9,6 @@ const SecondParamSelect = ({setTypeQueryInput, typeQueryInput}) => {
         <option value={'contains'}>contains</option>
         <option value={'startsWith'}>starts with</option>
         <option value={'endsWith'}>ends with</option>
-        <option value={'equalTo'}>equal to</option>
     </select>
   )
 }

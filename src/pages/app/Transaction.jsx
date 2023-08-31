@@ -27,7 +27,7 @@ const Transaction = () => {
   }
   
   useEffect(() => {
-    const timer = setTimeout(() => setInput(debouncedInput), 500);
+    const timer = setTimeout(() => setInput(debouncedInput), 100);
     return () => clearTimeout(timer);
   }, [debouncedInput])
 

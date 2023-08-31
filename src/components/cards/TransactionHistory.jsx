@@ -45,13 +45,13 @@ const TransactionHistory = ({input, query}) => {
                 const typeQueryParam = query.type && query.type.parameter
                 const typeQueryValue = query.type && query.type.value
                 
-                const symbolQuery = query && query.symbol
+                const symbolQuery = query && query.symbol 
                 const symbolQueryParam = query.symbol && query.symbol.parameter
                 const symbolQueryValue = query.symbol && query.symbol.value
 
-                const quantityQuery = query && query.quantity
-                const quantityQueryParam = query.quantity && query.quantity.parameter
-                const quantityQueryValue = query.quantity && query.quantity.value
+                // const quantityQuery = query && query.quantity
+                // const quantityQueryParam = query.quantity && query.quantity.parameter
+                // const quantityQueryValue = query.quantity && query.quantity.value
 
                 // Normal Query
                 if(search){
@@ -90,104 +90,34 @@ const TransactionHistory = ({input, query}) => {
                 }   
                 
                 // Advance Query
+                if( idQuery || typeQuery || symbolQuery){
 
-                if(idQuery){
-                  let idResult;
-                  switch (idQueryParam) {
-                    case 'contains':
-                      idResult = id.includes(idQueryValue);
-                      break;
-                    case 'startsWith':
-                      idResult = id.startsWith(idQueryValue);
-                      break;
-                    case 'endsWith':
-                      idResult = id.endsWith(idQueryValue);
-                      break;
-                    case 'equalTo':	
-                      idResult = id === idQueryValue;
-                      break;
-                    
-                    default:
-                      idResult = transaction;
-                      break;
+                  const idContainsQuery = idQueryParam === 'contains' ? id.includes(idQueryValue) : true
+                  const typeContainsQuery = typeQueryParam === 'contains' ? type.includes(typeQueryValue) : true
+                  const symbolContainsQuery = symbolQueryParam === 'contains' ? symbol.includes(symbolQueryValue) : true
+
+                  const idStartsWithQuery = idQueryParam === 'startsWith' ? id.startsWith(idQueryValue) : true
+                  const typeStartsWithQuery = typeQueryParam === 'startsWith' ? type.startsWith(typeQueryValue) : true
+                  const symbolStartsWithQuery = symbolQueryParam === 'startsWith' ? symbol.startsWith(symbolQueryValue) : true
+
+                  const idEndsWithQuery = idQueryParam === 'endsWith' ? id.endsWith(idQueryValue) : true
+                  const typeEndsWithQuery = typeQueryParam === 'endsWith' ? type.endsWith(typeQueryValue) : true
+                  const symbolEndsWithQuery = symbolQueryParam === 'endsWith' ? symbol.endsWith(symbolQueryValue) : true
+
+
+                  if(idContainsQuery && 
+                    typeContainsQuery && 
+                    symbolContainsQuery && 
+                    idStartsWithQuery && 
+                    typeStartsWithQuery && 
+                    symbolStartsWithQuery && 
+                    idEndsWithQuery &&
+                    typeEndsWithQuery &&
+                    symbolEndsWithQuery)
+                    {return true
                   }
-                  // If idResult is false, the transaction doesn't pass this condition
-                  return idResult;
                 }
-
-                if (typeQuery) {
-                  let typeResult;
-                  switch (typeQueryParam) {
-                    case 'contains':
-                      typeResult = type.includes(typeQueryValue);
-                      break;
-                    case 'startsWith':
-                      typeResult = type.startsWith(typeQueryValue);
-                      break;
-                    case 'endsWith':
-                      typeResult = type.endsWith(typeQueryValue);
-                      break;
-                    case 'equalTo':
-                      typeResult = type === typeQueryValue;
-                      break;
-
-                    default:
-                      typeResult = transaction
-                      break;
-                  }
-              
-                  // If typeResult is false, the transaction doesn't pass this condition
-                 return typeResult
-                }
-
-                if (symbolQuery) {
-                  let symbolResult;
-                  switch (symbolQueryParam) {
-                    case 'contains':
-                      symbolResult = symbol.includes(symbolQueryValue);
-                      break;
-                    case 'startsWith':
-                      symbolResult = symbol.startsWith(symbolQueryValue);
-                      break;
-                    case 'endsWith':
-                      symbolResult = symbol.endsWith(symbolQueryValue);
-                      break;
-                    case 'equalTo':
-                      symbolResult = symbol === symbolQueryValue;
-                      break;
-
-                    default:
-                      symbolResult = transaction
-                      break;
-                  }
-                
-                  // If symbolResult is false, the transaction doesn't pass this condition
-                  return symbolResult;
-                }
-                  
-                if(quantityQuery){
-                  let quantityResult;
-                  
-                  switch(quantityQueryParam){
-                    case 'equalTo':
-                      quantityResult = parseFloat(quantityQueryValue) ===  parseFloat(quantity)   ;
-                      break;
-                    case 'greaterThan':
-                      quantityResult = parseFloat(quantity) > parseFloat(quantityQueryValue)  ;
-                      break;
-                    case 'lessThan':
-                      quantityResult = parseFloat(quantity) < parseFloat(quantityQueryValue)  ;
-                      break;
-
-                    default:
-                      quantityResult = transaction
-                      break;
-                  }
-                  
-                 return quantityResult
-                }
-
-                return transaction
+    
                 
               }).map((transaction, index) => (
                   <tr key={index}>

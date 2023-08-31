@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FirstParamSelect from '../select/FirstParamSelect'
 import SecondParamSelect from '../select/SecondParamSelect'
 import ThirdParamSelect from '../select/ThirdParamSelect'
-import FourthParamSelect from '../select/FourthParamSelect'
+// import FourthParamSelect from '../select/FourthParamSelect'
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 
 
@@ -11,24 +11,29 @@ const AdvancedQuery = ({setQuery, query}) => {
   const [idQueryInput, setIdQueryInput] = useState({parameter: 'contains', value: ''})
   const [typeQueryInput, setTypeQueryInput] = useState({parameter: 'contains', value: ''})
   const [symbolQueryInput, setSymbolQueryInput] = useState({parameter: 'contains', value: ''})
-  const [quantityQueryInput, setQuantityQueryInput] = useState({parameter: 'equalTo', value: ''})
+  // const [quantityQueryInput, setQuantityQueryInput] = useState({parameter: 'equalTo', value: ''})
 
   const handleQuery = () => {
     setQuery(
       {...query, 
         id: idQueryInput, 
         type: typeQueryInput, 
-        symbol: symbolQueryInput,
-        quantity: quantityQueryInput
+        symbol: symbolQueryInput
       })
   }
   
   const handleReset = () => {
+    // Reset query
     setQuery({
       id: {parameter: 'contains', value: ''},
       type: {parameter: 'contains', value: ''},
-      symbol: {parameter: '', value: ''},
-      quantity: {parameter: 'contains', value: ''}})
+      symbol: {parameter: 'contains', value: ''}}
+    )
+
+    // Reset input
+    setIdQueryInput({parameter: 'contains', value: ''})
+    setTypeQueryInput({parameter: 'contains', value: ''})
+    setSymbolQueryInput({parameter: 'contains', value: ''})
   }
   
   return (
@@ -62,6 +67,7 @@ const AdvancedQuery = ({setQuery, query}) => {
               <td className='p-2'>
               <input 
                   onChange={(e) => setTypeQueryInput({...typeQueryInput, value: e.target.value})}
+                  value={typeQueryInput.value}
                   type="text" 
                   id='typeValue' 
                   className='w-full px-2 py-1 border-b-2 border-indigo-700 outline-none'/>
@@ -73,12 +79,13 @@ const AdvancedQuery = ({setQuery, query}) => {
               <td className='p-2'>
               <input 
                   onChange={(e) => setSymbolQueryInput({...symbolQueryInput, value: e.target.value})}
+                  value={symbolQueryInput.value}
                   type="text" 
                   id='symbolValue' 
                   className='w-full px-2 py-1 border-b-2 border-indigo-700 outline-none'/>
               </td>
             </tr>
-            <tr>
+            {/* <tr>
               <td className='p-2'>Quantity</td>
               <td className='p-2'><FourthParamSelect setQuantityQueryInput={setQuantityQueryInput} quantityQueryInput={quantityQueryInput}/></td>
               <td className='p-2'>
@@ -88,7 +95,7 @@ const AdvancedQuery = ({setQuery, query}) => {
                   id='quantityValue' 
                   className='w-full px-2 py-1 border-b-2 border-indigo-700 outline-none'/>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
         <div className='flex flex-row justify-between mx-2 mt-2'>
