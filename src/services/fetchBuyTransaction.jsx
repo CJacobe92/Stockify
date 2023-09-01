@@ -23,12 +23,11 @@ const fetchBuyTransaction = async(uid, auth, account_id, stock_id, formData) => 
     }
 
     const response = await fetch(baseURL, request)
+    const result = await response.json()
 
     if (!response.ok) {
-      console.error('Failed to fetch')
+      return result
     }
-
-    const result = await response.json()
 
     return result
   } catch(error) {
