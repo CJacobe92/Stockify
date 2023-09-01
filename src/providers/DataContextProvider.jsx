@@ -45,11 +45,13 @@ export const DataContextProvider = ({children}) => {
       try{
         console.log('fetch data called')
         dispatch({type: 'FETCH_START'})
-        const data = await fetchUserData(currentUser, token)
-        const stockData = await fetchStockData(token)
-        if(data && stockData){
-          dispatch({type: 'FETCH_SUCCESS', data: data.data, stockData: stockData.data})
-          dispatch({type: 'RESET_REFETCH'})
+        if(currentUser, token){
+          const data = await fetchUserData(currentUser, token)
+          const stockData = await fetchStockData(token)
+          if(data && stockData){
+            dispatch({type: 'FETCH_SUCCESS', data: data.data, stockData: stockData.data})
+            dispatch({type: 'RESET_REFETCH'})
+          }
         }
       } catch (error){
         console.error(error)
