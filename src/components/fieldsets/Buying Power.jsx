@@ -4,12 +4,13 @@ import { DataContext } from '../../providers/DataContextProvider'
 const BuyingPower = () => {
 
   const { state } = useContext(DataContext)
-  const [buyingPower, setBuyingPower] = useState('')
+  const [buyingPower, setBuyingPower] = useState()
   const accounts = state.data && state.data.accounts && state.data.accounts
-  
+  const accountBalance = accounts && accounts.map((account) => (account.balance))
+
   useEffect(() => {
     if(accounts){
-      setBuyingPower(parseFloat(accounts[0].balance))
+      setBuyingPower(parseFloat(accountBalance))
     } 
     
   }, [accounts])
