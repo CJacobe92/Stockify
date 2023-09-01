@@ -43,6 +43,7 @@ export const DataContextProvider = ({children}) => {
   useEffect(() => {
     const fetchData = async() => {
       try{
+        console.log('fetch data called')
         dispatch({type: 'FETCH_START'})
         const data = await fetchUserData(currentUser, token)
         const stockData = await fetchStockData(token)

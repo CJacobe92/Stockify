@@ -14,6 +14,7 @@ const useGetData = () => {
     const handleVisibilityChange = async () => {
       if (!document.hidden && currentUser && token) {
         try {
+          console.log('Visibility change fetch called')
           setIsLoading(true);
           dispatch({type: 'REFETCH'})
         } catch (error) {
