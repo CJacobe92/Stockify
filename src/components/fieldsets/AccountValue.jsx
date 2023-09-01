@@ -6,22 +6,22 @@ const AccountValue = () => {
   const { state } = useContext(DataContext)
   const [totalValue, setTotalValue] = useState()
   const accounts = state.data && state.data.accounts && state.data.accounts
-  const account = accounts && accounts.reduce((account) => (account.balance))
-  const portfolios = accounts && accounts[0].portfolios
+  const account = accounts && accounts.reduce((account) => (account))
+  const accountBalance = account && account.balance
+  const portfolios = account && account.portfolios
   
-
   useEffect(() => {
     let sum = 0
     
     if (portfolios !== undefined) {
         portfolios && portfolios.forEach((portfolio) => {
           sum += parseFloat(portfolio.total_value);
-          let balance = parseFloat(account.balance)
+          let balance = parseFloat(accountBalance)
           let total = balance + sum
           setTotalValue(parseFloat(total))
       })
     }else{
-      setTotalValue(parseFloat(accounts.balance))
+      setTotalValue(parseFloat(accountBalance))
     }
   }, [accounts, portfolios])
  

@@ -6,7 +6,8 @@ import SellTransaction from './SellTransaction'
 const Holdings = () => {
   const { state } = useContext(DataContext)
   const accounts = state.data && state.data.accounts && state.data.accounts
-  const portfolios = accounts && accounts[0].portfolios
+  const account = accounts && accounts.reduce((account) => (account))
+  const portfolios = account && account.portfolios
 
   return (
     <div className='w-full'>

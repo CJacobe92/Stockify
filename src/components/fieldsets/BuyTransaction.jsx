@@ -14,7 +14,8 @@ const BuyTransaction = () => {
   
   const { state, dispatch } = useContext(DataContext)
   const stock = state && state.stock
-  const account = state.data && state.data.accounts[0]
+  const accounts = state.data && state.data.accounts && state.data.accounts
+  const account = accounts && accounts.reduce((account) => (account))
   
   const {currentUser, token} = useAuth();
   

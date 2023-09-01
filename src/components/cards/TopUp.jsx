@@ -10,9 +10,9 @@ const TopUp = () => {
 
   const { state } = useContext(DataContext)
   const {currentUser, token} = useAuth();
-  
-  const account_id = state.data && state.data.accounts[0].id
-  console.log(account_id)
+  const accounts = state.data && state.data.accounts && state.data.accounts
+  const account = accounts && accounts.reduce((account) => (account))
+  const account_id = account && account.id
 
   const [formData, setFormData] = useState({balance: ''})
   const [error, setError] = useState(null)

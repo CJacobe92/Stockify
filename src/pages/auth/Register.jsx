@@ -9,10 +9,6 @@ import { ErrorOutlineRounded } from '@mui/icons-material'
 const Register = () => {
 
   const [isLoading, setIsLoading] = useState(false)
-
-  const [passwordMatched, setPasswordMatched] = useState(false)
-  const [firstNamePresent, setFirstNamePresent] = useState(false)
-  const [lastNamePresent, setLastNamePresent] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
 
   const [error, setError] = useState(null)
@@ -53,7 +49,7 @@ const Register = () => {
         
         if (response.error) {
           setError(response.error)
-        }else if (response.ok) {
+        }else if (response.message) {
          
           navigate('/review')
         }
@@ -79,7 +75,7 @@ const Register = () => {
 
   }, [formData])
 
-  return(
+  return(isLoading ? <FetchLoading /> :
     <section className='flex items-center justify-center w-full min-h-screen bg-gray-900'>
       <RegisterForm 
         handleSubmit={handleSubmit}
