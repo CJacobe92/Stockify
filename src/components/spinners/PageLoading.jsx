@@ -1,9 +1,9 @@
 import React from 'react'
-import pagespinner from '../../assets/pagespinner.gif'
+import reload from '../../assets/reload.gif'
 
 const PageLoading = () => {
   return (
-    <img src={pagespinner} alt='Loading...' height='50' width='50' className='bg-white'/>
+    <img src={reload} alt='Loading...' height='50' width='50' className='bg-white'/>
   )
 }
 
