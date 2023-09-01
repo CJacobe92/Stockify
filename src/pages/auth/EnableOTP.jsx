@@ -5,15 +5,17 @@ import fetchConfigureOTP from '../../services/fetchConfigureOTP';
 import { DataContext } from '../../providers/DataContextProvider';
 import fetchEnableOTP from '../../services/fetchEnableOTP';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const EnableOTP = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [pin, setPin] = useState()
+  const [pin, setPin] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
   
   const {state, dispatch} = useContext(DataContext)
-  const {uid, auth} = state
+  const { currentUser, token, signIn} = useAuth();
 
   const navigate = useNavigate();
 
@@ -23,20 +25,23 @@ const EnableOTP = () => {
     e.preventDefault();
     
     try {
-      
-      if(uid && auth){
+
+      if(pin === ''){
+        setError('Please enter your pin')
+        return
+      }else if(currentUser && token){
         
-        const data = await fetchEnableOTP(uid, auth, pin)
-        
+        const data = await fetchEnableOTP(currentUser, token, pin)
+
         if(data.auth != null){
           setIsLoading(true)
-          
-          dispatch({type: 'SET_AUTH', auth: data.auth})
-          dispatch({type: 'SET_UID', uid: data.uid})
-
+          signIn(data.uid, data.auth)
           navigate('/portfolio')
+        
+        }else{
+          setIsTyping(false)
+          setError(data.result.error)
         }
-       
       }
      
     } catch(error) {
@@ -52,7 +57,11 @@ const EnableOTP = () => {
     <div className='flex items-center justify-center w-full min-h-screen bg-gray-900'>
       <EnableOTPForm 
       setPin={setPin}
-      handleSubmit={handleSubmit}/>
+      handleSubmit={handleSubmit}
+      error={error}
+      setError={setError}
+      isTyping={isTyping}
+      setIsTyping={setIsTyping}/>
     </div>
   )
 }
