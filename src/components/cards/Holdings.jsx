@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react'
 import { DataContext } from '../../providers/DataContextProvider'
 import SellModal from '../modals/SellModal'
 import SellTransaction from './SellTransaction'
+import PageSpinner from '../spinners/pageSpinner'
 
 const Holdings = () => {
   const { state } = useContext(DataContext)
+  const isLoading = state && state.isLoading
   const accounts = state.data && state.data.accounts && state.data.accounts
   const account = accounts && accounts.reduce((account) => (account))
   const portfolios = account && account.portfolios
@@ -13,9 +15,15 @@ const Holdings = () => {
     <div className='w-full'>
       <p className='pb-2 text-lg font-semibold text-white bg-gray-900'>Holdings</p>
       <div className='overflow-y-auto bg-white max-h-[72vh] min-h-[72vh] scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-indigo-500' >
+        {isLoading ? (
+          <div className='max-h-[72vh] min-h-[72vh] border border-black flex justify-center items-center'>
+            <PageSpinner /> 
+          </div>)
+           :
         <div className='flex items-center bg-white'>
           <table className='w-full h-full text-black bg-white'>
             <thead className='sticky top-0 text-white bg-indigo-900'>
+              
               <tr className='w-full text-xs'>
                 <th className='w-10 p-2 text-center'>Symbol</th>
                 <th className='w-10 p-2 text-center'>Description</th>
@@ -28,8 +36,7 @@ const Holdings = () => {
               </tr>
             </thead>
             <tbody className='text-xs bg-white'>
-            {
-              portfolios && portfolios.flatMap((portfolio, index) => (
+            { portfolios && portfolios.flatMap((portfolio, index) => (
                 <tr key={index} className={`${index % 2 === 0 ? 'bg-slate-100' : 'bg-indigo-200'} cursor-pointer hover:bg-indigo-500 hover:text-black`}>
                   <td className='p-1 font-semibold text-center'>{portfolio?.symbol}</td>
                   <td className='p-1 text-center'>{portfolio?.description?.slice(0, 30)}</td>
@@ -51,7 +58,7 @@ const Holdings = () => {
             }
             </tbody>
           </table>
-        </div>
+        </div>}
       </div>
     </div>
   )

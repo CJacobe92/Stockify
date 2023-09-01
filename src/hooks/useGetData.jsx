@@ -15,7 +15,7 @@ const useGetData = () => {
       if (!document.hidden && currentUser && token) {
         try {
           setIsLoading(true);
-          dispatch({type: 'FETCH_START'})
+          dispatch({type: 'REFETCH'})
         } catch (error) {
           setError('Failed to fetch user data: ' + error.message);
         } finally {

@@ -4,6 +4,7 @@ import fetchLogout from '../../services/fetchLogout';
 import LogoutIcon from '@mui/icons-material/Logout';
 import useAuthToken from '../../hooks/useAuth';
 import { DataContext } from '../../providers/DataContextProvider';
+import FetchLoading from '../spinners/FetchLoading';
 
 
 const Navbar = () => {
@@ -11,6 +12,8 @@ const Navbar = () => {
   const [activeLink, setActiveLink] = useState('/portfolio')
   const { currentUser, token, signOut } = useAuthToken();
   const { state, dispatch } = useContext(DataContext)
+  
+  const isLoading = state && state.isLoading
   
   const location = useLocation();
 
@@ -45,9 +48,7 @@ const Navbar = () => {
         <Link onClick={handleRefetch} className={`${activeLink === '/transaction' ? 'bg-indigo-700': ''} mx-2  px-2 py-2 text-xl font-semibold hover:bg-indigo-500 rounded-t-lg`} to={'/transaction'}>Transactions</Link>
         <Link onClick={handleRefetch} className={`${activeLink === '/acount' ? 'bg-indigo-700': ''} mx-2 px-2 py-2 text-xl font-semibold hover:bg-indigo-500 rounded-t-lg`} to={'/account'}>Account</Link>
         <button className='mx-2 mb-1 text-indigo-400' onClick={handleLogout}><LogoutIcon style={{fontSize: '2rem', fontWeight: 'bolder'}}/></button>
-      </div>
-      
-     
+      </div> 
     </div>
   )
 }
