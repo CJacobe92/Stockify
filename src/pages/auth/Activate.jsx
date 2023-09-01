@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { GlobalContext } from '../../providers/GlobalContextProvider';
+import { DataContext } from '../../providers/DataContextProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FetchLoading from '../../components/spinners/FetchLoading';
@@ -9,7 +9,7 @@ import FetchLoading from '../../components/spinners/FetchLoading';
 
 const Activate = () => {
   
-  const { dispatch} = useContext(GlobalContext)
+  const { dispatch} = useContext(DataContext)
   const navigate =  useNavigate()
 
   const location = useLocation();

@@ -14,14 +14,12 @@ const fetchUserData = async(uid, auth) => {
     }
 
     const response = await fetch(baseURL, request)
+    const result = await response.json();
 
     if (!response.ok) {
       console.error('Failed to fetch')
     }
 
-    const data = await response.json();
-
-    const result = data.data
     return result
 
   } catch(error) {

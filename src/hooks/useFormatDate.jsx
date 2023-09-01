@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 const useFormatDate = () => {
-
-  // const [formattedDate, setFormattedDate] = useState('')
-
   
   const formatDate = (value) => {
     const date = new Date(value)

@@ -15,8 +15,8 @@ const Transaction = () => {
   const [query, setQuery] = useState({
     id: {parameter: 'contains', value: ''},
     type: {parameter: 'contains', value: ''},
-    symbol: {parameter: '', value: ''},
-    quantity: {parameter: 'contains', value: ''}
+    symbol: {parameter: 'contains', value: ''},
+    quantity: {parameter: 'equalTo', value: 0}
   })
 
   const [debouncedInput, setDebouncedInput] = useState(input)

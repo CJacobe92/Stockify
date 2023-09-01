@@ -1,9 +1,9 @@
 import React from 'react'
 
-const fetchUpdateUserData = async(uid, auth, payload) => {
+const fetchUpdateAccount = async(uid, auth, account_id, payload) => {
 
   try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/users/${uid}`
+    const baseURL = `${import.meta.env.VITE_API_URL}/users/${uid}/accounts/${account_id}`
 
     const request = {
       method: 'PATCH',
@@ -11,7 +11,7 @@ const fetchUpdateUserData = async(uid, auth, payload) => {
         'Content-Type': 'application/json',
         'Authorization': auth
       },
-      body: JSON.stringify({'user': payload})
+      body: JSON.stringify({'account': payload})
     }
 
     const response = await fetch(baseURL, request)
@@ -26,4 +26,4 @@ const fetchUpdateUserData = async(uid, auth, payload) => {
   }
 }
 
-export default fetchUpdateUserData
+export default fetchUpdateAccount

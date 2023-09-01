@@ -21,19 +21,19 @@ const fetchLogin = async(formData) => {
     const response = await fetch(baseURL, request)
 
     if (!response.ok) {
-      console.error('Failed to fetch')
+      const result = await response.json()
+      return result
+    }else if(response.ok){
+      const data = {
+        auth: response.headers.get('Authorization'),
+        uid:  response.headers.get('Uid'),
+        activated: response.headers.get('Activated'),
+        otp_enabled:  response.headers.get('Otp_enabled'),
+        otp_required: response.headers.get('Otp_required')
+      }
+  
+      return data
     }
-
-    const data = {
-      auth: response.headers.get('Authorization'),
-      uid:  response.headers.get('Uid'),
-      activated: response.headers.get('Activated'),
-      otp_enabled:  response.headers.get('Otp_enabled'),
-      otp_required: response.headers.get('Otp_required')
-    }
-
-    return data
-
   } catch(error) {
     console.error(error)
   }

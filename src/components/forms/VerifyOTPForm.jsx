@@ -1,18 +1,19 @@
 import React, { useContext, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import verify from '../../assets/verify.jpg'
-import { GlobalContext } from '../../providers/GlobalContextProvider'
+import { DataContext } from '../../providers/DataContextProvider'
 import fetchVerifyOTP from '../../services/fetchVerifyOTP'
 import FetchLoading from '../spinners/FetchLoading'
+import useAuth from '../../hooks/useAuth'
 
 const VerifyOTPForm = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+  const { currentUser, token, signIn } = useAuth();
+  const { dispatch } = useContext(DataContext)
 
   const inputRefs = Array.from({ length: 6 }, () => useRef(null))
-  const {state, dispatch} = useContext(GlobalContext)
-  const {uid, auth} = state
   
   const [digits, setDigits] = useState  ({
     digit0: '',
@@ -50,13 +51,10 @@ const VerifyOTPForm = () => {
       setIsLoading(true)
       
       const pin = Object.values(digits).join('')
-      const data = await fetchVerifyOTP(uid, auth, pin)
+      const data = await fetchVerifyOTP(currentUser, token, pin)
 
       if(data.auth != null){
-
-        dispatch({type: 'SET_UID', uid: data.uid})
-        dispatch({type: 'SET_AUTH', auth: data.auth})
-
+        signIn(data.uid, data.auth)
         navigate('/portfolio')
       }
     } catch(error) {

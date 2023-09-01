@@ -22,12 +22,13 @@ const fetchRegister = async(formData) => {
     }
 
     const response = await fetch(baseURL, request)
+    const result = await response.json();
 
     if (!response.ok) {
-      throw new Error('Registration failed')
+      return result
     }
-
-    return response
+    
+    return result
   } catch(error) {
     console.error(error)
   }

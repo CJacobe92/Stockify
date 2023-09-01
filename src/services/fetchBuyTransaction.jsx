@@ -30,7 +30,7 @@ const fetchBuyTransaction = async(uid, auth, account_id, stock_id, formData) => 
 
     const result = await response.json()
 
-    console.log(result)
+    return result
   } catch(error) {
     console.error(error)
   }

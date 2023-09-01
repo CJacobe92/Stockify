@@ -2,7 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import register from '../../assets/register.jpg'
 
-const RegisterForm = ({handleChange, handleSubmit, formData}) => {
+const RegisterForm = ({handleChange, handleSubmit, formData, error}) => {
+
   return(
     <form className='flex flex-row justify-center bg-white rounded-sm shadow-md' onSubmit={handleSubmit}>
       <div className='rounded-l-sm'>
@@ -10,13 +11,15 @@ const RegisterForm = ({handleChange, handleSubmit, formData}) => {
         className='object-cover w-56 h-full rounded-l-sm' />
       </div>
     <div className='p-4 mt-4 mb-4 w-96'>
-      <div className='mt-4 mb-4 text-center'>
+      <div className='mt-4 text-center'>
         <h1 className='text-3xl font-bold text-center text-indigo-500'>Stockify</h1>
         <p className='m-1 text-xs text-gray-600'>"Trade. Thrive. Triumph."</p>
         <p className='mt-4 mb-2 text-xl font-bold text-gray-700'>Sign up for an account.</p>
         <p className='mb-2 text-xs font-semibold text-gray-600'>Already have an account? <Link to={'/login'} className='font-bold text-indigo-900'>Sign in.</Link></p>
       </div>
-      
+      <div className='flex flex-col h-2 mx-2'>
+          <span className='text-xs font-semibold text-red-600'>{error}</span>
+        </div>
       <div className='flex flex-row'>
         <div className='w-full m-2'>
           <label htmlFor="firstname" className='text-xs font-semibold text-gray-700'>Firstname</label>
@@ -26,6 +29,7 @@ const RegisterForm = ({handleChange, handleSubmit, formData}) => {
             id="firstname" 
             value={formData.firstname}
             onChange={handleChange}
+            // onFocus={handleFocus}
             className='w-full p-1 border border-black rounded-sm border-opacity-30 outline-indigo-900'/>
           </div>
           <div className='w-full m-2'>

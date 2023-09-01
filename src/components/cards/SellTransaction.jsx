@@ -1,16 +1,13 @@
 import React, { useContext, useState } from 'react'
 import fetchSellTransaction from '../../services/fetchSellTransaction'
-import { GlobalContext } from '../../providers/GlobalContextProvider'
-import useGetData from '../../hooks/useGetData'
-import useRefetchData from '../../hooks/useRefetchData'
+import { DataContext } from '../../providers/DataContextProvider'
+import useAuth from '../../hooks/useAuth'
 
 const SellTransaction = ({portfolio}) => {
 
-  const { state } = useContext(GlobalContext)
-  const {refetch, error, isLoading} = useRefetchData()
+  const { state, dispatch } = useContext(DataContext)
+  const {currentUser, token} = useAuth()
   
-  const uid = state.uid
-  const auth = state.auth
   const account_id = portfolio && portfolio.account_id
   const stock_id = portfolio && portfolio.stock_id
   
@@ -24,8 +21,8 @@ const SellTransaction = ({portfolio}) => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-      await fetchSellTransaction(uid, auth, account_id, stock_id, transaction)
-      refetch();
+      await fetchSellTransaction(currentUser, token, account_id, stock_id, transaction)
+      dispatch({type: 'REFETCH'})
     } catch(error) {
       console.error(error)
     }

@@ -1,19 +1,25 @@
-import React, { useContext } from 'react'
-import { GlobalContext } from '../../providers/GlobalContextProvider'
+import React, { useContext, useEffect, useState } from 'react'
+import { DataContext } from '../../providers/DataContextProvider'
 
 const BuyingPower = () => {
 
-  const { state } = useContext(GlobalContext)
-  const accounts = state.accounts
-
+  const { state } = useContext(DataContext)
+  const [buyingPower, setBuyingPower] = useState('')
+  const accounts = state.data && state.data.accounts && state.data.accounts
+  
+  useEffect(() => {
+    if(accounts){
+      setBuyingPower(parseFloat(accounts[0].balance))
+    } 
+    
+  }, [accounts])
   return (
-    accounts && accounts.map((account, index) => (
-      <fieldset className='px-2 py-4 bg-white border-2 border-indigo-700 rounded-sm' key={index}>
+      <fieldset className='px-2 py-4 bg-white border-2 border-indigo-700 rounded-sm'>
         <legend className='ml-2 text-xs font-semibold text-indigo-700'>Buying Power</legend>
-        <p className='text-4xl font-semibold text-indigo-900'>$ {parseFloat(account.balance).toFixed(2)}</p>
+        <p className='text-4xl font-semibold text-indigo-900'>$ {buyingPower ? buyingPower.toFixed(2) : null}</p>
       </fieldset>          
-    ))
-  )
+    )
+
 }
 
 export default BuyingPower

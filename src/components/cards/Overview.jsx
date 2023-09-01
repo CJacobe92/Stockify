@@ -1,6 +1,4 @@
 import React from 'react'
-import { useContext } from 'react'
-import { GlobalContext } from '../../providers/GlobalContextProvider'
 import AccountValue from '../fieldsets/AccountValue'
 import BuyingPower from '../fieldsets/Buying Power'
 
@@ -8,8 +6,8 @@ import BuyingPower from '../fieldsets/Buying Power'
 const Overview = () => {
 
   return (
-    <div>
-      <p className='w-full mb-2 font-semibold'>Overview</p>
+    <div className='mb-6'>
+      <p className='mb-2 text-lg font-semibold'>Overview</p>
       <div className='p-2 bg-white'>
         <AccountValue />
         <BuyingPower />
