@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { DataContext } from '../../providers/DataContextProvider'
 import SellModal from '../modals/SellModal'
 import SellTransaction from './SellTransaction'
-import PageSpinner from '../spinners/pageSpinner'
+import PageLoading from '../spinners/PageLoading'
 
 const Holdings = () => {
   const { state } = useContext(DataContext)
@@ -17,7 +17,7 @@ const Holdings = () => {
       <div className='overflow-y-auto bg-white max-h-[72vh] min-h-[72vh] scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-indigo-500' >
         {isLoading ? (
           <div className='max-h-[72vh] min-h-[72vh] border border-black flex justify-center items-center'>
-            <PageSpinner /> 
+            <PageLoading /> 
           </div>)
            :
         <div className='flex items-center bg-white'>
