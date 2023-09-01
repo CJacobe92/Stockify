@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth'
 
 const SellTransaction = ({portfolio}) => {
 
-  const { state, dispatch } = useContext(DataContext)
+  const { dispatch } = useContext(DataContext)
   const {currentUser, token} = useAuth()
   
   const account_id = portfolio && portfolio.account_id

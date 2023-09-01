@@ -4,6 +4,7 @@ import { DataContext } from '../../providers/DataContextProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FetchLoading from '../../components/spinners/FetchLoading';
+import useAuth from '../../hooks/useAuth';
 
 
 
@@ -11,6 +12,7 @@ const Activate = () => {
   
   const { dispatch} = useContext(DataContext)
   const navigate =  useNavigate()
+  const { signOut } = useAuth();
 
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token');
@@ -24,7 +26,7 @@ const Activate = () => {
   const handleBackToLogin = (e) => {
     e.preventDefault();
   
-    dispatch({type: "LOGOFF"})
+    signOut();
     navigate('/login')
     
   }

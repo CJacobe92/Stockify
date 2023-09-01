@@ -4,15 +4,19 @@ import { DataContext } from '../../providers/DataContextProvider'
 const BuyingPower = () => {
 
   const { state } = useContext(DataContext)
-  const [buyingPower, setBuyingPower] = useState('')
+  const [buyingPower, setBuyingPower] = useState()
   const accounts = state.data && state.data.accounts && state.data.accounts
-  
+  const account = accounts && accounts.reduce((account) => (account))
+  const accountBalance = account && account.balance
+
   useEffect(() => {
     if(accounts){
-      setBuyingPower(parseFloat(accounts[0].balance))
+      setBuyingPower(parseFloat(accountBalance))
     } 
     
   }, [accounts])
+
+  console.log(accountBalance)
   return (
       <fieldset className='px-2 py-4 bg-white border-2 border-indigo-700 rounded-sm'>
         <legend className='ml-2 text-xs font-semibold text-indigo-700'>Buying Power</legend>
