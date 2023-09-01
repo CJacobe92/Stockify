@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FirstParamSelect from '../select/FirstParamSelect'
 import SecondParamSelect from '../select/SecondParamSelect'
 import ThirdParamSelect from '../select/ThirdParamSelect'
-// import FourthParamSelect from '../select/FourthParamSelect'
+import FourthParamSelect from '../select/FourthParamSelect'
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 
 
@@ -11,15 +11,17 @@ const AdvancedQuery = ({setQuery, query}) => {
   const [idQueryInput, setIdQueryInput] = useState({parameter: 'contains', value: ''})
   const [typeQueryInput, setTypeQueryInput] = useState({parameter: 'contains', value: ''})
   const [symbolQueryInput, setSymbolQueryInput] = useState({parameter: 'contains', value: ''})
-  // const [quantityQueryInput, setQuantityQueryInput] = useState({parameter: 'equalTo', value: ''})
+  const [quantityQueryInput, setQuantityQueryInput] = useState({parameter: 'equalTo', value: 0})
 
   const handleQuery = () => {
     setQuery(
       {...query, 
         id: idQueryInput, 
         type: typeQueryInput, 
-        symbol: symbolQueryInput
+        symbol: symbolQueryInput,
+        quantity: quantityQueryInput
       })
+
   }
   
   const handleReset = () => {
@@ -27,13 +29,15 @@ const AdvancedQuery = ({setQuery, query}) => {
     setQuery({
       id: {parameter: 'contains', value: ''},
       type: {parameter: 'contains', value: ''},
-      symbol: {parameter: 'contains', value: ''}}
+      symbol: {parameter: 'contains', value: ''},
+      quantity: {parameter: 'equalTo', value: 0}}
     )
 
     // Reset input
     setIdQueryInput({parameter: 'contains', value: ''})
     setTypeQueryInput({parameter: 'contains', value: ''})
     setSymbolQueryInput({parameter: 'contains', value: ''})
+    setQuantityQueryInput({parameter: 'equalTo', value: 0})
   }
   
   return (
@@ -85,7 +89,7 @@ const AdvancedQuery = ({setQuery, query}) => {
                   className='w-full px-2 py-1 border-b-2 border-indigo-700 outline-none'/>
               </td>
             </tr>
-            {/* <tr>
+            <tr>
               <td className='p-2'>Quantity</td>
               <td className='p-2'><FourthParamSelect setQuantityQueryInput={setQuantityQueryInput} quantityQueryInput={quantityQueryInput}/></td>
               <td className='p-2'>
@@ -95,7 +99,7 @@ const AdvancedQuery = ({setQuery, query}) => {
                   id='quantityValue' 
                   className='w-full px-2 py-1 border-b-2 border-indigo-700 outline-none'/>
               </td>
-            </tr> */}
+            </tr>
           </tbody>
         </table>
         <div className='flex flex-row justify-between mx-2 mt-2'>

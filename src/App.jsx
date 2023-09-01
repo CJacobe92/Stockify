@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { GlobalContextProvider } from './providers/GlobalContextProvider'
 import Landing from './pages/Landing'
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
@@ -12,11 +11,11 @@ import Portfolio from './pages/app/Portfolio'
 import Layout from './pages/Layout'
 import Account from './pages/app/Account'
 import Transaction from './pages/app/Transaction'
+import { DataContextProvider } from './providers/DataContextProvider'
 
 const App = () => {
   return (
-   
-      <GlobalContextProvider>
+      <DataContextProvider>
         <Routes>
           <Route path={'/'} element={<Landing />}/>
           <Route path={'/register'} element={<Register />}/>
@@ -31,8 +30,7 @@ const App = () => {
             <Route path={'/account'} element={<Account />}/>
           </Route>
         </Routes>
-      </GlobalContextProvider>
-      
+      </DataContextProvider>
   )
 }
 

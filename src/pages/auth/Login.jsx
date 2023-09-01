@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
 import LoginForm from '../../components/forms/LoginForm';
-import { GlobalContext } from '../../providers/GlobalContextProvider';
 import FetchLoading from '../../components/spinners/FetchLoading';
 import { useNavigate } from 'react-router-dom';
 import fetchLogin from '../../services/fetchLogin';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
-  
+
   const [formData, setFormData] = useState({email: '', password: ''})
   const [error, setError] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { dispatch } = useContext(GlobalContext)
+  // Hooks
   const navigate = useNavigate()
- 
+  const { signIn } = useAuth()
+  
   const handleChange = (e) => {
     const {id, value} = e.target
     setFormData({...formData, [id]: value})
@@ -27,8 +28,10 @@ const Login = () => {
       setIsLoading(true)
  
       const response = await fetchLogin(formData)
-      dispatch({type: 'SET_AUTH', auth: response.auth})
-      dispatch({type: 'SET_UID', uid: response.uid})
+      const currentUser = response.uid
+      const auth = response.auth
+      
+      signIn(currentUser, auth)
       
       if(response.error){
         setError(response.error)

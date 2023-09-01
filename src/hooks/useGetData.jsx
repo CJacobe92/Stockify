@@ -1,29 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../providers/GlobalContextProvider';
 import fetchUserData from '../services/fetchUserData';
+import useAuth from './useAuth';
+import { DataContext } from '../providers/DataContextProvider';
 
 const useGetData = () => {
-  const [data, setData] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const { dispatch, state } = useContext(GlobalContext);
-  const { uid, auth } = state;
+  const { dispatch, state } = useContext(DataContext)
+  const {currentUser, token} = useAuth();
 
   useEffect(() => {
     const handleVisibilityChange = async () => {
-      if (!document.hidden && uid && auth) {
+      if (!document.hidden && currentUser && token) {
         try {
           setIsLoading(true);
-
-          const fetchedData = await fetchUserData(uid, auth);
-          console.log('fetch on window focus called')
-          if (fetchedData) {
-            dispatch({ type: 'SET_DATA', data: fetchedData });
-            dispatch({ type: 'SET_ACCOUNTS', accounts: fetchedData.accounts });
-            dispatch({ type: 'SET_PORTFOLIOS', portfolios: fetchedData.accounts });
-            dispatch({type: 'SET_TRANSACTIONS', transactions: data.accounts});
-          }
+          dispatch({type: 'FETCH_START'})
         } catch (error) {
           setError('Failed to fetch user data: ' + error.message);
         } finally {
@@ -43,9 +35,9 @@ const useGetData = () => {
     return () => {
       window.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [uid, auth, dispatch]);
+  }, [currentUser && token]);
 
-  return { data, isLoading, error };
+  return { isLoading, error };
 };
 
 export default useGetData;

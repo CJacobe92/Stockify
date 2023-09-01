@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import FetchLoading from '../spinners/FetchLoading'
-import { GlobalContext } from '../../providers/GlobalContextProvider'
+import { DataContext } from '../../providers/DataContextProvider'
 import fetchConfigureOTP from '../../services/fetchConfigureOTP'
 
 
@@ -10,7 +10,7 @@ const EnableOTPForm = ({setPin, handleSubmit}) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const { state } = useContext(GlobalContext)
+  const { state } = useContext(DataContext)
   const { uid, auth } = state
 
   useEffect(() => {

@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import topup from '../../assets/topup.jpg'
 import fetchUpdateAccount from '../../services/fetchUpdateAccount'
-import { GlobalContext } from '../../providers/GlobalContextProvider'
+import { DataContext } from '../../providers/DataContextProvider'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PanToolIcon from '@mui/icons-material/PanTool';
+import useAuth from '../../hooks/useAuth';
 
 const TopUp = () => {
 
-  const { state } = useContext(GlobalContext)
-  const uid = state.uid
-  const auth = state.auth
+  const { state } = useContext(DataContext)
+  const {currentUser, token} = useAuth();
+  
   const account_id = state.data && state.data.accounts[0].id
   console.log(account_id)
 
@@ -25,7 +26,7 @@ const TopUp = () => {
 
   const handleSubmit = async() => {
     if(isTyping){
-      const response = await fetchUpdateAccount(uid, auth, account_id, formData)
+      const response = await fetchUpdateAccount(currentUser, token, account_id, formData)
       if(response.ok){
         setError(false)
         setIsTyping(false)

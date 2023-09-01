@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import EnableOTPForm from '../../components/forms/EnableOTPForm'
 import FetchLoading from '../../components/spinners/FetchLoading';
 import fetchConfigureOTP from '../../services/fetchConfigureOTP';
-import { GlobalContext } from '../../providers/GlobalContextProvider';
+import { DataContext } from '../../providers/DataContextProvider';
 import fetchEnableOTP from '../../services/fetchEnableOTP';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const EnableOTP = () => {
   const [error, setError] = useState(null)
   const [pin, setPin] = useState()
   
-  const {state, dispatch} = useContext(GlobalContext)
+  const {state, dispatch} = useContext(DataContext)
   const {uid, auth} = state
 
   const navigate = useNavigate();

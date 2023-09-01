@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { GlobalContext } from '../../providers/GlobalContextProvider';
+import { DataContext } from '../../providers/DataContextProvider';
 import fetchUpdateUserData from '../../services/fetchUpdateUserData';
 import { useNavigate } from 'react-router-dom';
 import fetchLogout from '../../services/fetchLogout';
+import useAuth from '../../hooks/useAuth';
 
 const Credentials = () => {
 
-  const { state, dispatch } = useContext(GlobalContext)
+  const { state, dispatch } = useContext(DataContext)
   const navigate = useNavigate()
-
-  const uid = state.uid
-  const auth = state.auth
+  const {currentUser, token, signOut} = useAuth();
   
   const [credentials, setCredentials] = useState({
     password: '',
@@ -29,13 +28,13 @@ const Credentials = () => {
   }
 
   const handleUpdate = async() => {
-    if(isDataEdited && matched){
-      const response = await fetchUpdateUserData(uid, auth, credentials)
+    if(isDataEdited && matched && currentUser && token){
+      const response = await fetchUpdateUserData(currentUser, token, credentials)
       
       if(response.ok){
-        const response = await fetchLogout(uid, auth)
+        const response = await fetchLogout(currentUser, token)
         if(response.ok){
-          dispatch({type: 'LOGOFF'})
+          signOut()
           navigate('/login')
         }
       }

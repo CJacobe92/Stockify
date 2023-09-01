@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { useNavigate } from 'react-router-dom';
-import { GlobalContext } from '../../providers/GlobalContextProvider';
+import { DataContext } from '../../providers/DataContextProvider';
 
 const Review = () => {
 
-  const { dispatch } = useContext(GlobalContext)
+  const { dispatch } = useContext(DataContext)
   const navigate =  useNavigate()
   
   const handleLogin = (e) => {

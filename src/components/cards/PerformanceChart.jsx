@@ -32,9 +32,9 @@ const PerformanceChart = () => {
   }, []);
 
   return (
-    <div className='w-full'>
+    <div className='w-full h-40 mt-4'>
       <p className='mb-2 font-semibold bg-gray-900'>Performance</p>
-      <div className='w-full bg-white rounded-sm h-80'>
+      <div className='w-full h-40 bg-white rounded-sm'>
         <canvas id="myChart" className='w-full bg-white'></canvas>
       </div>
     </div>

@@ -1,23 +1,20 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { GlobalContext } from '../../providers/GlobalContextProvider'
+import { DataContext } from '../../providers/DataContextProvider'
 import useFormatDate from '../../hooks/useFormatDate'
 import fetchUpdateUserData from '../../services/fetchUpdateUserData'
-import useRefetchData from '../../hooks/useRefetchData'
+import useAuth from '../../hooks/useAuth'
 
 const Profile = () => {
   
-  const {state} = useContext(GlobalContext)
+  const {state, dispatch} = useContext(DataContext)
 
-  const uid = state.uid
-  const auth = state.auth
+  const {currentUser, token} = useAuth();
 
-  const user = state.data && state.data
+  const user = state && state.data
   const firstname = user && user.firstname
   const lastname = user && user.lastname
   const email = user && user.email
   const date = user && user.created_at
-
-  const { refetch } = useRefetchData()
 
   const firstnameRef = useRef();
   const lastnameRef = useRef();
@@ -51,11 +48,13 @@ const Profile = () => {
 
     if(isDataEdited){
       try{
-        await fetchUpdateUserData(uid, auth, formData)
+        if(currentUser && token){
+          await fetchUpdateUserData(currentUser, token, formData)
+          dispatch({type: 'REFETCH'})
+        }
       }catch(error){
         console.log(error)
       } finally {
-        refetch()
         setIsDataEdited(!isDataEdited)
       }
     }else{

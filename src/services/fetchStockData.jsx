@@ -1,6 +1,6 @@
 import React from 'react'
 
-const fetchStockData = async(uid, auth) => {
+const fetchStockData = async(auth) => {
 
   try {
     const baseURL = `${import.meta.env.VITE_API_URL}/stocks`

@@ -1,39 +1,34 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { GlobalContext } from '../../providers/GlobalContextProvider'
+import { DataContext } from '../../providers/DataContextProvider'
 
 const AccountValue = () => {
 
-  const { state } = useContext(GlobalContext)
+  const { state } = useContext(DataContext)
   const [totalValue, setTotalValue] = useState()
-  const accounts = state.accounts && state.accounts
-  const portfolios = state.portfolios && state.portfolios
+  const accounts = state.data && state.data.accounts && state.data.accounts
+  const portfolios = accounts && accounts[0].portfolios
   
 
   useEffect(() => {
-    if (portfolios) {
-      let sum = 0
-      portfolios.forEach((portfolio) => {
-        if(portfolio != undefined){
+    let sum = 0
+    
+    if (portfolios !== undefined) {
+        portfolios && portfolios.forEach((portfolio) => {
           sum += parseFloat(portfolio.total_value);
-          setTotalValue(sum)
-        }else{
-          setTotalValue(0)
-        }
-      });
-
-      
+          let total = parseFloat(accounts[0].balance) + sum
+          setTotalValue(parseFloat(total))
+      })
+    }else{
+      setTotalValue(parseFloat(accounts[0].balance))
     }
-  }, [state.accounts, state.portfolios])
-
-
+  }, [accounts, portfolios])
  
   return (
-    accounts && accounts.map((account, index) => (
-      <fieldset className='px-2 py-4 mb-4 bg-white border-2 border-indigo-700 rounded-sm' key={index}>
-        <legend className='ml-2 text-sm font-semibold text-indigo-700'>Total Account Value</legend>
-        <p className='text-5xl font-bold text-indigo-900'>$ {account ? (parseFloat(account.balance  ) + totalValue).toFixed(2) : null}</p>
+
+      <fieldset className='px-2 py-4 mb-4 bg-white border-2 border-indigo-700 rounded-sm'>
+        <legend className='text-sm font-semibold text-indigo-700'>Total Account Value</legend>
+        <p className='text-3xl font-bold text-indigo-900'>$ {totalValue ? totalValue.toFixed(2) : null}</p>
       </fieldset>          
-    ))
   )
 }
 

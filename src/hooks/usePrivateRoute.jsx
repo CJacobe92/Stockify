@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import { GlobalContext } from '../providers/GlobalContextProvider';
+import { DataContext } from '../providers/DataContextProvider';
+import useAuthToken from './useAuth';
 
 const usePrivateRoute = () => {
-  const { state } = useContext(GlobalContext);
-  return state.auth !== null ? true : false;
+  const { auth } = useAuthToken()
+  return auth !== null ? true : false;
 }
 
 export default usePrivateRoute
