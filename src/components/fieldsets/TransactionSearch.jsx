@@ -17,9 +17,9 @@ const TransactionSearch = ({handleChange, input, handleValuesChange, values}) =>
           </div>
           <div className='col-span-1 ml-1 text-indigo-700'>
             <select onChange={handleChange} name='filter' defaultValue={input.filter} className='w-full px-1 py-2 text-black border border-b-4 border-indigo-700 outline-none'>
-              <option value={'symbol'}>Symbol</option>
               <option value={'id'}>Id</option>
               <option value={'type'}>Type</option>
+              <option value={'symbol'}>Symbol</option>
               <option value={'quantity'}>Quantity</option>
               <option value={'price'}>Price</option>
               <option value={'total_cash_value'}>Cash Value</option>

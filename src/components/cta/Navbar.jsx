@@ -2,25 +2,20 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import fetchLogout from '../../services/fetchLogout';
 import LogoutIcon from '@mui/icons-material/Logout';
-import useAuthToken from '../../hooks/useAuth';
 import { DataContext } from '../../providers/DataContextProvider';
-import FetchLoading from '../spinners/FetchLoading';
 
 const Navbar = () => {
 
   const [activeLink, setActiveLink] = useState('/portfolio')
-  const { currentUser, token, signOut} = useAuthToken();
-  const { state, dispatch, refetch } = useContext(DataContext)
-  
-  const isLoading = state && state.isLoading
-  
+  const { state, refetch, currentUser, auth, signOut } = useContext(DataContext)
+    
   const location = useLocation();
 
   const navigate = useNavigate();
   
   const handleLogout = async () => {
     try{
-      const responseData = await fetchLogout(currentUser, token)
+      const responseData = await fetchLogout(currentUser, auth)
 
       if(responseData.ok){
         signOut()

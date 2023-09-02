@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import EnableOTPForm from '../../components/forms/EnableOTPForm'
 import FetchLoading from '../../components/spinners/FetchLoading';
-import fetchConfigureOTP from '../../services/fetchConfigureOTP';
 import { DataContext } from '../../providers/DataContextProvider';
 import fetchEnableOTP from '../../services/fetchEnableOTP';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../../hooks/useAuth';
 
 const EnableOTP = () => {
 
@@ -14,8 +12,7 @@ const EnableOTP = () => {
   const [pin, setPin] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   
-  const {state, dispatch} = useContext(DataContext)
-  const { currentUser, token, signIn} = useAuth();
+  const {currentUser, auth, signIn} = useContext(DataContext)
 
   const navigate = useNavigate();
 
@@ -29,9 +26,9 @@ const EnableOTP = () => {
       if(pin === ''){
         setError('Please enter your pin')
         return
-      }else if(currentUser && token){
+      }else if(currentUser && auth){
         
-        const data = await fetchEnableOTP(currentUser, token, pin)
+        const data = await fetchEnableOTP(currentUser, auth, pin)
 
         if(data.auth != null){
           setIsLoading(true)

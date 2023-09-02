@@ -1,14 +1,11 @@
   import React, { useContext, useEffect, useState } from 'react';
-  import fetchUserData from '../services/fetchUserData';
-  import useAuth from './useAuth';
   import { DataContext } from '../providers/DataContextProvider';
 
   const useGetData = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { refetch } = useContext(DataContext)
-    const {currentUser, token} = useAuth();
+    const { refetch, currentUser, auth } = useContext(DataContext)
 
     useEffect(() => {
       const handleVisibilityChange = () => {
@@ -37,7 +34,7 @@
       return () => {
         window.removeEventListener('visibilitychange', handleVisibilityChange);
       };
-    }, [currentUser, token]);
+    }, [currentUser, auth]);
 
     return { isLoading, error };
   };

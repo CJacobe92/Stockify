@@ -3,12 +3,11 @@ import { DataContext } from '../../providers/DataContextProvider';
 import fetchUpdateUserData from '../../services/fetchUpdateUserData';
 import { useNavigate } from 'react-router-dom';
 import fetchLogout from '../../services/fetchLogout';
-import useAuth from '../../hooks/useAuth';
 
 const Credentials = () => {
 
   const navigate = useNavigate()
-  const {currentUser, token, signOut} = useAuth();
+  const { currentUser, auth, signOut } = useContext(DataContext);
   
   const [credentials, setCredentials] = useState({
     password: '',
@@ -27,11 +26,11 @@ const Credentials = () => {
   }
 
   const handleUpdate = async() => {
-    if(isDataEdited && matched && currentUser && token){
-      const response = await fetchUpdateUserData(currentUser, token, credentials)
+    if(isDataEdited && matched && currentUser && auth){
+      const response = await fetchUpdateUserData(currentUser, auth, credentials)
       
       if(response.ok){
-        const response = await fetchLogout(currentUser, token)
+        const response = await fetchLogout(currentUser, auth)
         if(response.ok){
           signOut()
           navigate('/login')

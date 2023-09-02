@@ -2,17 +2,12 @@ import React, { useContext, useEffect } from 'react'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { DataContext } from '../../providers/DataContextProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import FetchLoading from '../../components/spinners/FetchLoading';
-import useAuth from '../../hooks/useAuth';
-
-
 
 const Activate = () => {
   
-  const { dispatch} = useContext(DataContext)
+  const { dispatch, signOut} = useContext(DataContext)
   const navigate =  useNavigate()
-  const { signOut } = useAuth();
 
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token');
