@@ -6,11 +6,11 @@ import useAuth from '../../hooks/useAuth'
 
 const Profile = () => {
   
-  const {state, dispatch} = useContext(DataContext)
+  const {dataMemo, refetch} = useContext(DataContext)
 
   const {currentUser, token} = useAuth();
 
-  const user = state && state.data
+  const user = dataMemo && dataMemo
   const firstname = user && user.firstname
   const lastname = user && user.lastname
   const email = user && user.email
@@ -50,7 +50,7 @@ const Profile = () => {
       try{
         if(currentUser && token){
           await fetchUpdateUserData(currentUser, token, formData)
-          dispatch({type: 'REFETCH'})
+          refetch();
         }
       }catch(error){
         console.log(error)
@@ -95,7 +95,7 @@ const Profile = () => {
             </div>
             <div className='flex flex-row p-1'>
               <p className='w-20 font-semibold '>Member: </p>
-              <p className='p-1 ml-2'>{formatDate(date)}</p>
+              <p className='p-1 ml-2'>{date && formatDate(date)}</p>
             </div>
           </div>
           <div className='w-full mt-2 text-sm text-right'>

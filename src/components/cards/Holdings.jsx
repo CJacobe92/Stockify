@@ -5,9 +5,10 @@ import SellTransaction from './SellTransaction'
 import PageLoading from '../spinners/PageLoading'
 
 const Holdings = () => {
-  const { state } = useContext(DataContext)
+  const { state, dataMemo } = useContext(DataContext)
+
   const isLoading = state && state.isLoading
-  const accounts = state.data && state.data.accounts && state.data.accounts
+  const accounts = dataMemo && dataMemo.accounts
   const account = accounts && accounts.reduce((account) => (account))
   const portfolios = account && account.portfolios
 

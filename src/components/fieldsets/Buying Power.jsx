@@ -4,10 +4,10 @@ import PageLoading from '../spinners/PageLoading'
 
 const BuyingPower = () => {
 
-  const { state } = useContext(DataContext)
+  const { state, dataMemo} = useContext(DataContext)
   const isLoading = state && state.isLoading
   const [buyingPower, setBuyingPower] = useState()
-  const accounts = state.data && state.data.accounts && state.data.accounts
+  const accounts = dataMemo && dataMemo.accounts
   const account = accounts && accounts.reduce((account) => (account))
   const accountBalance = account && account.balance
 
@@ -18,7 +18,6 @@ const BuyingPower = () => {
     
   }, [accounts])
 
-  console.log(accountBalance)
   return (
       <fieldset className='px-2 py-4 bg-white border-2 border-indigo-700 rounded-sm'>
         <legend className='ml-2 text-xs font-semibold text-indigo-700'>Buying Power</legend>

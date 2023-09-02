@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth'
 
 const SellTransaction = ({portfolio}) => {
 
-  const { dispatch } = useContext(DataContext)
+  const { refetch } = useContext(DataContext)
   const {currentUser, token} = useAuth()
   
   const account_id = portfolio && portfolio.account_id
@@ -22,7 +22,7 @@ const SellTransaction = ({portfolio}) => {
     e.preventDefault();
     try {
       await fetchSellTransaction(currentUser, token, account_id, stock_id, transaction)
-      dispatch({type: 'REFETCH'})
+      refetch();
     } catch(error) {
       console.error(error)
     }

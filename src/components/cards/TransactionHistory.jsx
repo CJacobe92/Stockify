@@ -3,8 +3,10 @@ import { DataContext } from '../../providers/DataContextProvider';
 import useFormatDate from '../../hooks/useFormatDate';
 
 const TransactionHistory = ({input, query}) => {
-  const { state } = useContext(DataContext);
-  const transactions = state.data && state.data.accounts[0].transactions
+  const { dataMemo } = useContext(DataContext);
+  const accounts = dataMemo && dataMemo.accounts
+  const account = accounts && accounts.reduce((account) => (account))
+  const transactions = account && account.transactions
   const {formatDate} = useFormatDate()
 
   return (
