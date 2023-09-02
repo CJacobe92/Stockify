@@ -4,12 +4,10 @@ import fetchUpdateAccount from '../../services/fetchUpdateAccount'
 import { DataContext } from '../../providers/DataContextProvider'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PanToolIcon from '@mui/icons-material/PanTool';
-import useAuth from '../../hooks/useAuth';
 
 const TopUp = () => {
 
-  const { state } = useContext(DataContext)
-  const {currentUser, token} = useAuth();
+  const { state, currentUser, auth } = useContext(DataContext)
   const accounts = state.data && state.data.accounts && state.data.accounts
   const account = accounts && accounts.reduce((account) => (account))
   const account_id = account && account.id
@@ -26,7 +24,7 @@ const TopUp = () => {
 
   const handleSubmit = async() => {
     if(isTyping){
-      const response = await fetchUpdateAccount(currentUser, token, account_id, formData)
+      const response = await fetchUpdateAccount(currentUser, auth, account_id, formData)
       if(response.ok){
         setError(false)
         setIsTyping(false)

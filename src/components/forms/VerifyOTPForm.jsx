@@ -4,14 +4,12 @@ import verify from '../../assets/verify.jpg'
 import { DataContext } from '../../providers/DataContextProvider'
 import fetchVerifyOTP from '../../services/fetchVerifyOTP'
 import FetchLoading from '../spinners/FetchLoading'
-import useAuth from '../../hooks/useAuth'
 
 const VerifyOTPForm = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { currentUser, token, signIn } = useAuth();
-  const { dispatch } = useContext(DataContext)
+  const { currentUser, auth, signIn } = useContext(DataContext)
 
   const inputRefs = Array.from({ length: 6 }, () => useRef(null))
   
@@ -51,7 +49,7 @@ const VerifyOTPForm = () => {
       setIsLoading(true)
       
       const pin = Object.values(digits).join('')
-      const data = await fetchVerifyOTP(currentUser, token, pin)
+      const data = await fetchVerifyOTP(currentUser, auth, pin)
 
       if(data.auth != null){
         signIn(data.uid, data.auth)

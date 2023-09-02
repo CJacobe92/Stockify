@@ -32,18 +32,40 @@ const TransactionHistory = ({input, query}) => {
               const filter = input.filter
             
                 if (search) {
-                  let searchResult = false;
                   
+                  let searchResult = false;
 
-                  return (
-                    transaction.id.toString().includes(search) ||
-                    transaction.transaction_type.includes(search) ||
-                    transaction.symbol.includes(search) ||
-                    transaction.quantity.toString().includes(search) ||
-                    transaction.price.toString().includes(search) ||
-                    transaction.total_cash_value.toString().includes(search) ||
-                    transaction.created_at.includes(search)
-                  );
+                  switch(filter){
+                    case 'id':
+                      searchResult =  transaction.id.toString().includes(search);
+                      break;
+                    case 'type':
+                      searchResult = transaction.transaction_type.includes(search);
+                      break;
+                    case 'symbol':
+                      searchResult = transaction.symbol.includes(search);
+                      break;
+                    case 'quantity':
+                      searchResult = transaction.quantity.toString().includes(search);
+                      break;
+                    case 'price':
+                      searchResult = transaction.price.toString().includes(search);
+                      break;
+                    case 'total_cash_value':
+                      searchResult = transaction.total_cash_value.toString().includes(search);
+                      break;
+                    case 'date':
+                      searchResult = transaction.created_at.includes(search)
+                      break;
+                    default:
+                      searchResult = transaction
+                      break;
+                  }
+                  
+                  if(!searchResult){
+                    return false
+                  }
+                  return true
                 }
                 
                 // Queries

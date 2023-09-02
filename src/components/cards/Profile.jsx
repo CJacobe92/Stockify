@@ -2,14 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { DataContext } from '../../providers/DataContextProvider'
 import useFormatDate from '../../hooks/useFormatDate'
 import fetchUpdateUserData from '../../services/fetchUpdateUserData'
-import useAuth from '../../hooks/useAuth'
 
 const Profile = () => {
   
-  const {dataMemo, refetch} = useContext(DataContext)
-
-  const {currentUser, token} = useAuth();
-
+  const {dataMemo, refetch, currentUser, auth} = useContext(DataContext)
+  
   const user = dataMemo && dataMemo
   const firstname = user && user.firstname
   const lastname = user && user.lastname
@@ -48,8 +45,8 @@ const Profile = () => {
 
     if(isDataEdited){
       try{
-        if(currentUser && token){
-          await fetchUpdateUserData(currentUser, token, formData)
+        if(currentUser && auth){
+          await fetchUpdateUserData(currentUser, auth, formData)
           refetch();
         }
       }catch(error){

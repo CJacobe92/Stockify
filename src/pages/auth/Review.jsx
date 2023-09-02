@@ -1,22 +1,20 @@
 import React, { useContext } from 'react'
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { DataContext } from '../../providers/DataContextProvider';
+import useAuth from '../../hooks/useAuth';
+import Login from './Login';
 
 const Review = () => {
 
-  const { dispatch } = useContext(DataContext)
-  const navigate =  useNavigate()
+  const { signOut } = useContext(DataContext)
+  const isAuthenticated = useAuth();
   
-  const handleLogin = (e) => {
-    e.preventDefault();
-  
-    dispatch({type: "LOGOFF"})
-    navigate('/login')
-    
+  const handleReturn = () => {
+      signOut();
   }
   
-  return (
+  return isAuthenticated ? (
     <div className='flex flex-col items-center justify-center w-full min-h-screen text-white bg-gray-900'>
         <div className='py-8 text-center'>
           <p className='m-2'><PendingActionsIcon style={{fontSize: '3rem'}}/></p>
@@ -56,14 +54,11 @@ const Review = () => {
             </li>
           </ol>
           <div className='w-full text-right'>
-              <button className='p-2 bg-indigo-900 rounded-md' onClick={handleLogin} >Back to Login</button>
+              <button className='p-2 bg-indigo-900 rounded-md' onClick={handleReturn} >Return</button>
           </div>
         </div>
-        
-       
-      </div>
-     
-  )
+      </div> 
+  ) : <Navigate to='/login' />
 }
 
 export default Review

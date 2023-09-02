@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../../providers/DataContextProvider'
-import StockSearch from './StockSearch'
 import fetchBuyTransaction from '../../services/fetchBuyTransaction'
-import useAuth from '../../hooks/useAuth'
 
 const BuyTransaction = () => {
 
@@ -12,13 +10,11 @@ const BuyTransaction = () => {
   const [message, setMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   
-  const { state, refetch } = useContext(DataContext)
+  const { state, refetch, currentUser, auth } = useContext(DataContext)
   const stock = state && state.stock
   const accounts = state.data && state.data.accounts && state.data.accounts
   const account = accounts && accounts.reduce((account) => (account))
-  
-  const {currentUser, token} = useAuth();
-  
+    
   const handleChange = (e) => {
     const {value} = e.target
     setTransaction({...transaction, quantity: value})
@@ -32,13 +28,13 @@ const BuyTransaction = () => {
       if(transaction.quantity == 0 || transaction.quantity < 0 || stock.id === null){
         setError(true)
         setMessage('Invalid action')
-      }else if(currentUser && token ){
-        const data =  await fetchBuyTransaction(currentUser, token, account.id, stock.id, transaction)
+      }else if(currentUser && auth ){
+        const data =  await fetchBuyTransaction(currentUser, auth, account.id, stock.id, transaction)
         
         if(data.error){
           setError(true)
           setMessage(data.error)
-        }else if(data.message){
+        }else{
           refetch();
           setSuccess(true)
           setError(false)
