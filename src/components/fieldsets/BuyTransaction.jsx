@@ -12,7 +12,7 @@ const BuyTransaction = () => {
   const [message, setMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   
-  const { state, dispatch } = useContext(DataContext)
+  const { state, refetch } = useContext(DataContext)
   const stock = state && state.stock
   const accounts = state.data && state.data.accounts && state.data.accounts
   const account = accounts && accounts.reduce((account) => (account))
@@ -34,13 +34,12 @@ const BuyTransaction = () => {
         setMessage('Invalid action')
       }else if(currentUser && token ){
         const data =  await fetchBuyTransaction(currentUser, token, account.id, stock.id, transaction)
-        console.log(data)
         
         if(data.error){
           setError(true)
           setMessage(data.error)
         }else if(data.message){
-          dispatch({type: 'REFETCH'})
+          refetch();
           setSuccess(true)
           setError(false)
           setIsTyping(false)

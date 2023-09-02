@@ -7,7 +7,6 @@ import useAuth from '../../hooks/useAuth';
 
 const Credentials = () => {
 
-  const { state, dispatch } = useContext(DataContext)
   const navigate = useNavigate()
   const {currentUser, token, signOut} = useAuth();
   

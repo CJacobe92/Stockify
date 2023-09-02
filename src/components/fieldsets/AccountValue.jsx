@@ -4,10 +4,10 @@ import PageLoading from '../spinners/PageLoading'
 
 const AccountValue = () => {
 
-  const { state } = useContext(DataContext)
+  const { state, dataMemo } = useContext(DataContext)
   const isLoading = state && state.isLoading
   const [totalValue, setTotalValue] = useState()
-  const accounts = state.data && state.data.accounts && state.data.accounts
+  const accounts = dataMemo && dataMemo.accounts
   const account = accounts && accounts.reduce((account) => (account))
   const accountBalance = account && account.balance
   const portfolios = account && account.portfolios

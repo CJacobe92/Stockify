@@ -6,8 +6,8 @@ const StockSearch = () => {
   const [input, setInput] = useState('')
   const [debouncedInput, setDebouncedInput] = useState(input)
  
-  const { state, dispatch } = useContext(DataContext)
-  const stockData = state && state.stockData
+  const { dispatch, stockMemo } = useContext(DataContext)
+  const stockData = stockMemo && stockMemo
 
   const onSelect = (id, symbol, name, percent_change, price, volume) => {
     const payload = {id: id, symbol: symbol, name: name, percent_change: percent_change, price: price, volume: volume }
