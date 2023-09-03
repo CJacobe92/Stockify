@@ -48,7 +48,6 @@ const Credentials = () => {
         setMatched(false)
       }else if(credentials.password === credentials.password_confirmation){
         setMessage('')
-        console.log('Password matched')
         setMatched(true)
       }
     }
