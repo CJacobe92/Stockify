@@ -9,9 +9,11 @@ const Review = () => {
 
   const { signOut } = useContext(DataContext)
   const isAuthenticated = useAuth();
+  const navigate = useNavigate();
   
   const handleReturn = () => {
-      signOut();
+    signOut();
+    navigate('/login')
   }
   
   return isAuthenticated ? (

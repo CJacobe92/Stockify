@@ -3,7 +3,7 @@ import { DataContext } from '../providers/DataContextProvider';
 
 const useAuth = () => {
   const { auth } = useContext(DataContext)
-  return auth !== null ? true : false;
+  return auth !== '' ? true : false;
 }
 
 export default useAuth

@@ -20,7 +20,6 @@
     query.type.value == '' ? true : false
   
     const transactions = showPagination ? transactionsData && transactionsData.slice(startIndex, endIndex) : transactionsData
-    console.log(transactions)
     
       // Handle next page button click
     const handleNextPage = () => {
@@ -29,8 +28,6 @@
         setCurrentPage(currentPage + 1);
       }
     };
-
-    console.log(showPagination)
 
     // Handle previous page button click
     const handlePrevPage = () => {
