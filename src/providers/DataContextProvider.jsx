@@ -2,12 +2,11 @@ import { createContext, useEffect, useMemo, useReducer } from "react";
 import fetchUserData from "../services/fetchUserData";
 import fetchStockData from "../services/fetchStockData";
 
-const currentUser = JSON.parse(localStorage.getItem('current_user'))
-const auth = JSON.parse(localStorage.getItem('auth'))
+const root = JSON.parse(localStorage.getItem('root'))
 
 const initialState = {
-  auth: auth ? auth: null,
-  currentUser: currentUser ? currentUser : null,
+  auth: root?.auth || null,
+  currentUser: root?.currentUser || null,
   data: null,
   isLoading: false,
   stock: null,
@@ -40,7 +39,6 @@ export const DataContext = createContext(null)
 export const DataContextProvider = ({children}) => {
 
   const [ state, dispatch ] = useReducer(reducer, initialState)
-  
   const dataMemo = useMemo(() => state.data, [state.data])
   const stockMemo = useMemo(() => state.stockData, [state.stockData])
   const currentUser = useMemo(() => state.currentUser, [state.currentUser])
@@ -71,6 +69,15 @@ export const DataContextProvider = ({children}) => {
   }
 
   useEffect(() => {
+    const payload = {
+      auth: state.auth,
+      currentUser: state.currentUser
+    }
+    localStorage.setItem('root', JSON.stringify(payload))
+  }, [])
+
+
+  useEffect(() => {
     const fetchData = async() => {
       try{
         if(currentUser, auth){
@@ -89,12 +96,7 @@ export const DataContextProvider = ({children}) => {
 
     fetchData();
   }, [currentUser , auth, dispatch])
-
-  useEffect(() => {
-    localStorage.setItem('current_user', JSON.stringify(currentUser))
-    localStorage.setItem('auth', JSON.stringify(auth))
-  }, [signIn, signOut])
-
+  
   return(
     <DataContext.Provider value={{
       state, 

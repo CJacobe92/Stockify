@@ -12,7 +12,6 @@ const Holdings = () => {
   const account = accounts && accounts.reduce((account) => (account))
   const portfolios = account && account.portfolios
 
-  console.log(account)
   return (
     <div className='w-full'>
       <p className='pb-2 text-lg font-semibold text-white bg-gray-900'>Holdings</p>
