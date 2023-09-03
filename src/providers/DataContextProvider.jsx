@@ -6,8 +6,8 @@ const currentUser = JSON.parse(localStorage.getItem('current_user'))
 const auth = JSON.parse(localStorage.getItem('auth'))
 
 const initialState = {
-  auth: auth ? auth: '',
-  currentUser: currentUser ? currentUser : '',
+  auth: auth ? auth: null,
+  currentUser: currentUser ? currentUser : null,
   data: null,
   isLoading: false,
   stock: null,
