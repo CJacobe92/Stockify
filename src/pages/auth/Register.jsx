@@ -51,7 +51,7 @@ const Register = () => {
           setError(response.error)
         }else if (response.message) {
          
-          navigate('/review')
+          navigate('/login')
         }
         setIsLoading(false)
       } catch (error) {

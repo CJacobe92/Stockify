@@ -12,6 +12,8 @@ import { DataContextProvider } from './providers/DataContextProvider'
 import EnableOTP from './pages/auth/EnableOTP'
 import VerifyOTP from './pages/auth/VerifyOTP'
 import Review from './pages/auth/Review'
+import Reset from './pages/auth/Reset'
+import Update from './pages/auth/Update'
 
 const App = () => {
   return (
@@ -24,6 +26,8 @@ const App = () => {
           <Route path={'/enableotp'} element={<EnableOTP />} />
           <Route path={'/verifyotp'} element={<VerifyOTP />} />
           <Route path={'/review'} element={<Review />} />
+          <Route path={'/reset'} element={<Reset />}/>
+          <Route path={'/api/v1/auth/password_update'} element={<Update />}/>
           <Route element={<Layout />}>
             <Route path={'/portfolio'} element={<Portfolio />}/>
             <Route path={'/transaction'} element={<Transaction />}/>

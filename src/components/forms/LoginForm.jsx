@@ -1,8 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import login from '../../assets/login.jpg'
 
 const LoginForm = ({handleChange, handleSubmit, formData, error}) => {
+
+  const navigate = useNavigate();
+  
+  const handleReset = () => {
+    navigate('/reset')
+  }
+
   return (
     <form className='flex flex-row justify-center bg-white rounded-sm shadow-md' onSubmit={handleSubmit}>
 
@@ -37,7 +44,10 @@ const LoginForm = ({handleChange, handleSubmit, formData, error}) => {
               className='w-full p-1 border border-black rounded-sm border-opacity-30 outline-indigo-900'/>
           
         </div>
-        <div className='mx-2 mt-6 mb-4'>
+        <div className='flex flex-row justify-end mx-2 mt-2 text-xs font-semibold text-indigo-700'>
+          <button onClick={handleReset} type='button'>Forgot password?</button>
+        </div>
+        <div className='mx-2 mt-2 mb-4'>
           <button type='submit' className='w-full p-2 text-white bg-indigo-900 rounded-sm shadow-lg'>Sign In</button>
         </div>
         <div className='m-2 text-xs text-center text-gray-600'>

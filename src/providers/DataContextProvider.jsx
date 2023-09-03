@@ -6,8 +6,8 @@ const currentUser = JSON.parse(localStorage.getItem('current_user'))
 const auth = JSON.parse(localStorage.getItem('auth'))
 
 const initialState = {
-  auth: auth ? auth: null,
-  currentUser: currentUser ? currentUser : null,
+  auth: auth ? auth: '',
+  currentUser: currentUser ? currentUser : '',
   data: null,
   isLoading: false,
   stock: null,
@@ -73,13 +73,10 @@ export const DataContextProvider = ({children}) => {
   useEffect(() => {
     const fetchData = async() => {
       try{
-        console.log('Refetch called')
         if(currentUser, auth){
           const data = await fetchUserData(currentUser, auth)
           const stockData = await fetchStockData(auth)
           if(data && stockData){
-            console.log('Refetch successful')
-
             dispatch({type: 'FETCH_SUCCESS', data: data.data, stockData: stockData.data})
           }
         }
