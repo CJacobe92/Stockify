@@ -52,7 +52,11 @@ const VerifyOTPForm = () => {
       const data = await fetchVerifyOTP(currentUser, auth, pin)
 
       if(data.auth != null){
-        signIn(data.uid, data.auth)
+        const uid = data.uid
+        const auth = data.auth
+        const userType = data.userType
+        
+        signIn(uid, auth, userType)
         navigate('/portfolio')
       }
     } catch(error) {

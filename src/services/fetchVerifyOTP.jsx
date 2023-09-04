@@ -30,6 +30,7 @@ const fetchVerifyOTP = async(uid, auth, pin) => {
       activated: response.headers.get('Activated'),
       otp_enabled:  response.headers.get('Otp_enabled'),
       otp_required: response.headers.get('Otp_required'),
+      userType: response.headers.get('User-Type'),
       res: response
     }
 

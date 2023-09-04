@@ -33,38 +33,43 @@ const Login = () => {
       const response = await fetchLogin(formData);
       const uid = response.uid;
       const auth = response.auth;
+      const userType = response.userType
   
-      signIn(uid, auth);
-
-      console.log(response)
+      signIn(uid, auth, userType);
   
       if (response.error) {
         setError(response.error);
       } else {
         setIsTyping(false);
-  
-        // Use a switch statement to determine the route to navigate to
-        switch (true) {
-          case response.activated === 'false':
-            navigate('/review');
-            break;
-  
-          case response.activated === 'true' && response.otp_enabled === 'false':
-            navigate('/enableotp');
-            break;
-  
-          case response.activated === 'true' && response.otp_enabled === 'true' && response.otp_required === 'true':
-            navigate('/verifyotp');
-            break;
-  
-          case response.activated === 'true' && response.otp_enabled === 'true' && response.otp_required === 'false':
-            navigate('/portfolio');
-            break;
-  
-          default:
-            // Handle any other cases here
-            break;
+        
+        if(userType == 'Admin') {
+          navigate('/dashboard')
         }
+        
+        if (userType == 'User'){
+          switch (true) {
+            case response.activated === 'false':
+              navigate('/review');
+              break;
+    
+            case response.activated === 'true' && response.otp_enabled === 'false':
+              navigate('/enableotp');
+              break;
+    
+            case response.activated === 'true' && response.otp_enabled === 'true' && response.otp_required === 'true':
+              navigate('/verifyotp');
+              break;
+    
+            case response.activated === 'true' && response.otp_enabled === 'true' && response.otp_required === 'false':
+              navigate('/portfolio');
+              break;
+    
+            default:
+              // Handle any other cases here
+              break;
+          }
+        }
+        
       }
     } catch (error) {
       setError(error);
