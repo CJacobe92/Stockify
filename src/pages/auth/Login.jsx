@@ -44,9 +44,7 @@ const Login = () => {
         
         if(userType == 'Admin') {
           navigate('/dashboard')
-        }
-        
-        if (userType == 'User'){
+        }else if (userType == 'User'){
           switch (true) {
             case response.activated === 'false':
               navigate('/review');

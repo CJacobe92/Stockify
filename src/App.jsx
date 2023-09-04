@@ -14,8 +14,10 @@ import Reset from './pages/auth/Reset'
 import Update from './pages/auth/Update'
 import UserLayout from './pages/UserLayout'
 import AdminLayout from './pages/AdminLayout'
-import { Dashboard } from '@mui/icons-material'
 import { DataContext } from './providers/DataContextProvider'
+import Approvals from './pages/admin/Approvals'
+import Transactions from './pages/admin/Transactions'
+import Dashboard from './pages/admin/Dashboard'
 
 const App = () => {
 
@@ -44,7 +46,10 @@ const App = () => {
 
           {userType && userType == 'Admin' &&
             <Route element={<AdminLayout />}>
-              <Route path={'/dashboard'} element={<Dashboard />} />
+              <Route path={'/dashboard'} element={<Dashboard/>} />
+              <Route path={'/approvals'} element={<Approvals />} />
+              <Route path={'/transactions'} element={<Transactions />} />
+
             </Route>
           }
         </Routes>
