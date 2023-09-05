@@ -7,13 +7,9 @@ import { useNavigate } from 'react-router-dom'
 import { ErrorOutlineRounded } from '@mui/icons-material'
 
 const Register = () => {
-
-  const [isLoading, setIsLoading] = useState(false)
+  
   const [isTyping, setIsTyping] = useState(false)
-
   const [error, setError] = useState(null)
-
-
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -22,7 +18,9 @@ const Register = () => {
     password_confirmation: ''
   })
 
+  // hooks
   const navigate = useNavigate();
+  const {mutate, isLoading} = fetchRegister();
 
   const handleChange = (e) => {
     const {id, value} = e.target
@@ -42,23 +40,14 @@ const Register = () => {
     if(firstname == '' || lastname == '' || email == '' || password == '' || passwordConf == ''){
       setError("**Please fill all required fields.")
     }else{
-      try {
-        setIsLoading(true)
-        
-        const response = await fetchRegister(formData)
-        
-        if (response.error) {
-          setError(response.error)
-        }else if (response.message) {
-         
-          navigate('/login')
-        }
-        setIsLoading(false)
-      } catch (error) {
-        setError('An error occurred during registration:', error)
-      } finally {
-        setIsLoading(false)
-      }
+      mutate(formData, {
+        onSuccess: () => {
+          navigate('/review')
+        },
+        onError: (error) => {
+          setError(error)
+        }  
+      })
     }
     
   }

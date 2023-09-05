@@ -1,44 +1,36 @@
 import React from 'react'
+import { API } from './fetchUtils'
+import { useMutation } from '@tanstack/react-query'
 
-const fetchVerifyOTP = async(uid, auth, pin) => {
+const fetchVerifyOTP = () => {
+  return useMutation(async(context) => {
+    try {
+      
+      const uid = JSON.parse(localStorage.getItem('root'))?.uid
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/auth/verify_otp/${uid}`
+      const res = await API.post(`/auth/verify_otp/${uid}`,{auth: {otp: context}})
+      
+      if(res.status === 200){
+        const data = {
+          auth: res.headers.authorization,
+          uid:  res.headers.uid,
+          activated: res.headers.activated,
+          otp_enabled:  res.headers.otp_enabled,
+          otp_required: res.headers.otp_required,
+          user_type: res.headers.user_type
+        }
+        
+        localStorage.setItem('root', JSON.stringify({auth: data.auth, uid: data.uid, user_type: data.user_type}))
 
-    const payload = {
-      otp: pin
+        return data
+      }
+    
+    } catch(err) {
+      throw err.response.data.error
     }
-
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-      },
-      body: JSON.stringify({auth: payload})
-    }
-
-    const response = await fetch(baseURL, request)
-
-    if (!response.ok) {
-      console.error('Failed to fetch')
-    }
-
-    const data = {
-      auth: response.headers.get('Authorization'),
-      uid:  response.headers.get('Uid'),
-      activated: response.headers.get('Activated'),
-      otp_enabled:  response.headers.get('Otp_enabled'),
-      otp_required: response.headers.get('Otp_required'),
-      userType: response.headers.get('User_Type'),
-      res: response
-    }
-
-    return data
-
-  } catch(error) {
-    console.error(error)
-  }
+  }, {
+    onMutate: (variables) => {return variables}
+  })
 }
 
 export default fetchVerifyOTP

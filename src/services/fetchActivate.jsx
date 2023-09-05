@@ -1,19 +1,26 @@
 import React from 'react'
 import { API } from './fetchUtils'
+import { useMutation } from '@tanstack/react-query'
 
-const fetchActivate = async(auth) => {
+const fetchActivate = () => {
+  return useMutation(async(context) => {
+    try {
 
-  try {
+      const res = await API.patch(`/auth/activate?token=${context}`)
 
-    const res = await API.patch(`/auth/activate?token=${auth}`)
+      if(res.status === 200){
+        return res.data
+      }
 
-    if(res.status === 200){
-      return res.data
+    } catch(err) {
+      throw err.data.response.error
     }
-
-  } catch(err) {
-    return {error: err.response.data.error}
+  }, {
+    onMutate: (variables) => {
+      return variables
+    }
   }
+  )
 }
 
 export default fetchActivate

@@ -1,30 +1,25 @@
+import { useMutation } from '@tanstack/react-query'
 import React from 'react'
+import { API } from './fetchUtils'
 
-const fetchLogout = async(uid, auth) => {
+const fetchLogout = () => {
+  return useMutation(async() => {
+    try { 
+      
+      const uid = JSON.parse(localStorage.getItem('root'))?.uid
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/auth/logout/${uid}`
-
-
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
+      const res = await API.post(`/auth/logout/${uid}`)
+  
+      if(res.status <= 300 && res.status >= 200){
+        console.log(res)
+        localStorage.removeItem('root')
+        return res.data
       }
+      
+    } catch(err) {
+      throw err.response.data.error
     }
-
-    const response = await fetch(baseURL, request)
-
-    if (!response.ok) {
-      console.error('Failed to fetch')
-    }
-
-    return response
-    
-  } catch(error) {
-    console.error(error)
-  }
+  })
 }
 
 export default fetchLogout

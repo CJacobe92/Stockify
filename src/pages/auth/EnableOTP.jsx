@@ -7,50 +7,30 @@ import { useNavigate } from 'react-router-dom';
 
 const EnableOTP = () => {
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [showError, setshowError] = useState(null)
   const [pin, setPin] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const {mutate, isLoading} = fetchEnableOTP();
   
-  const {currentUser, auth, signIn} = useContext(DataContext)
-
   const navigate = useNavigate();
-
-  const regex = /^\d+$/;
   
   const handleSubmit = async(e) => {
     e.preventDefault();
-    
-    try {
 
-      if(pin === ''){
-        setError('Please enter your pin')
-        return
-      }else if(currentUser && auth){
-        
-        const data = await fetchEnableOTP(pin)
-
-        if(data.auth != null){
-          const uid = data.uid
-          const auth = data.auth
-          const userType =  data.userType
-          setIsLoading(true)
-          signIn(uid, auth, userType)
+    if(pin === ''){
+      setshowError('Please enter your pin')
+      return
+    }else{
+      mutate(pin, {
+        onSuccess: () => {
           navigate('/portfolio')
-        
-        }else{
-          setIsTyping(false)
-          setError(data.result.error)
+        },
+        onError: (error) => {
+          setshowError(error)
         }
-      }
-     
-    } catch(error) {
-      setError(error)
-      console.error(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+      })
+    }   
+ }
 
   return (
     isLoading ? <FetchLoading /> :
@@ -58,8 +38,8 @@ const EnableOTP = () => {
       <EnableOTPForm 
       setPin={setPin}
       handleSubmit={handleSubmit}
-      error={error}
-      setError={setError}
+      showError={showError}
+      setshowError={setshowError}
       isTyping={isTyping}
       setIsTyping={setIsTyping}/>
     </div>

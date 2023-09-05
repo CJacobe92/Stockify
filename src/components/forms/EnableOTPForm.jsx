@@ -5,32 +5,9 @@ import fetchConfigureOTP from '../../services/fetchConfigureOTP'
 import { useLocation } from 'react-router-dom'
 
 
-const EnableOTPForm = ({setPin, handleSubmit, error, setError, isTyping, setIsTyping}) => {
+const EnableOTPForm = ({setPin, handleSubmit, showError, setshowError, isTyping, setIsTyping}) => {
 
-  const [data, setData] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
-  
-  useEffect(() => {
-    const getConfigureOTPData = async() => {
-      try {
-        console.log('useEffect called')
-        
-        setIsLoading(true)
-        
-        const data = await fetchConfigureOTP()
-        setData(data)
-      
-      } catch(error) {
-        setError(error)
-        console.error(error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    
-    getConfigureOTPData()
-    
-  }, [])
+  const { data, isLoading } = fetchConfigureOTP()
 
   const handleChange = (e) => {
     setPin(e.target.value)
@@ -39,7 +16,7 @@ const EnableOTPForm = ({setPin, handleSubmit, error, setError, isTyping, setIsTy
 
   useEffect(() => {
     if(isTyping == true){
-      setError('')
+      setshowError('')
     }
   }, [isTyping])
 
@@ -93,7 +70,7 @@ const EnableOTPForm = ({setPin, handleSubmit, error, setError, isTyping, setIsTy
             <div className='p-1 ml-4'>
               <p className='mb-2 font-bold'>Enter 6 digit verification code</p>
               <div className='h-6'>
-                <p className='text-xs text-red-500'>{error}</p>
+                <p className='text-xs text-red-500'>{showError}</p>
               </div>
               <input 
                 type="text" 

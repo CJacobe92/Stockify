@@ -25,22 +25,26 @@ const Login = () => {
       
       mutate(formData, {
         onSuccess: (data) => {
+          console.log(data)
           if(data.user_type === 'Admin'){
             navigate('/dashboard')
           }else if(data.user_type === 'User'){
             if(data.activated === "false"){
               navigate('/review')
+              return
             }
 
-            if(data.activated === 'true' && data.otp_enabled === 'true'){
+            if(data.activated === 'true' && data.otp_enabled === 'false'){
               navigate('/enableotp');
+              return
             }
 
             if(data.activated === 'true' && data.otp_enabled === 'true' && data.otp_required === 'true'){
               navigate('/verifyotp');
+              return
             }
 
-            if(data.activated === 'true' && data.otp_enabled === 'true' && data.otp_required === 'true'){
+            if(data.activated === 'true' && data.otp_enabled === 'true' && data.otp_required === 'false'){
               navigate('/portfolio');
             }
           }
