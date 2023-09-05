@@ -1,38 +1,44 @@
 import React from 'react'
+import { API } from './fetchUtils'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const fetchBuyTransaction = async(uid, auth, account_id, stock_id, formData) => {
+export const fetchBuyTransaction = () => {
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/users/${uid}/accounts/${account_id}/transactions`
+  const queryClient = useQueryClient();
 
-    const payload = {
-      transaction_type: 'buy',
-      quantity: formData.quantity
-    }
+  return useMutation(async(context) => {
 
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-      },
-      body: JSON.stringify({
-        transaction: payload, 
+    try{
+      const uid = JSON.parse(localStorage.getItem('root'))?.currentUser
+      const account_id = context.account_id
+      const stock_id = context.stock_id
+      const formData = context.formData
+
+      const payload = {
+        transaction: formData, 
         stock_id: stock_id
-      })
+      }
+
+      const res = await API.post(`/users/${uid}/accounts/${account_id}/transactions`, payload)
+
+      if(res.status <= 300 && res.status >= 200 ){
+        return {message: 'Order successful'}
+      }
+    }catch(err){
+      throw err.response.data.error
     }
-
-    const response = await fetch(baseURL, request)
-    const result = await response.json()
-
-    if (!response.ok) {
-      return result
+  }, {
+    onMutate: (variables) => {
+      return variables
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('userData')
+      return data
+    },
+    onError: (error) => {
+      console.error(error)
     }
-
-    return result
-  } catch(error) {
-    console.error(error)
-  }
-}
+  });
+};
 
 export default fetchBuyTransaction

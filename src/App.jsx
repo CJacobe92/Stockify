@@ -21,7 +21,7 @@ import Dashboard from './pages/admin/Dashboard'
 
 const App = () => {
 
-  const { userType } = useContext(DataContext)
+  const user_type = JSON.parse(localStorage.getItem('root'))?.user_type
 
   return (
  
@@ -36,7 +36,7 @@ const App = () => {
           <Route path={'/reset'} element={<Reset />}/>
           <Route path={'/api/v1/auth/password_update'} element={<Update />}/>
 
-          {userType && userType == 'User' &&
+          {user_type && user_type == 'User' &&
             <Route element={<UserLayout />}>
               <Route path={'/portfolio'} element={<Portfolio />}/>
               <Route path={'/transaction'} element={<Transaction />}/>
@@ -44,7 +44,7 @@ const App = () => {
             </Route> 
           } 
 
-          {userType && userType == 'Admin' &&
+          {user_type && user_type == 'Admin' &&
             <Route element={<AdminLayout />}>
               <Route path={'/dashboard'} element={<Dashboard/>} />
               <Route path={'/approvals'} element={<Approvals />} />

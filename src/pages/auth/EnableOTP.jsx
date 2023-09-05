@@ -28,7 +28,7 @@ const EnableOTP = () => {
         return
       }else if(currentUser && auth){
         
-        const data = await fetchEnableOTP(currentUser, auth, pin)
+        const data = await fetchEnableOTP(pin)
 
         if(data.auth != null){
           const uid = data.uid

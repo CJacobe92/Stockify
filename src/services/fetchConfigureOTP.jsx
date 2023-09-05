@@ -1,30 +1,20 @@
 import React from 'react'
+import { API } from './fetchUtils'
 
-const fetchConfigureOTP = async(uid, auth) => {
+const fetchConfigureOTP = async(h) => {
 
   try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/auth/configure_otp/${uid}`
 
-    const request = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-      },
+    const uid = JSON.parse(localStorage.getItem('root'))?.currentUser
+
+    const res = await API.get(`/auth/configure_otp/${uid}`)
+
+    if(res.status ===  200){
+      return res.data
     }
 
-    const response = await fetch(baseURL, request)
-
-    if (!response.ok) {
-      console.error('Failed to fetch')
-    }
-
-    const data = await response.json();
-
-    return data
-
-  } catch(error) {
-    console.error(error)
+  } catch(err) {
+    return {error: err.response.data.error}
   }
 }
 

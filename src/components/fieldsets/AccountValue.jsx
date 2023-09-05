@@ -4,13 +4,12 @@ import PageLoading from '../spinners/PageLoading'
 
 const AccountValue = () => {
 
-  const { state, dataMemo } = useContext(DataContext)
+  const { state, userData } = useContext(DataContext)
   const isLoading = state && state.isLoading
   const [totalValue, setTotalValue] = useState()
-  const accounts = dataMemo && dataMemo.accounts
-  const account = accounts && accounts.reduce((account) => (account))
-  const accountBalance = account && account.balance
-  const portfolios = account && account.portfolios
+  
+  const accountBalance = userData && userData?.accounts?.balance
+  const portfolios = userData && userData?.portfolios
   
   useEffect(() => {
     let sum = 0
@@ -25,7 +24,7 @@ const AccountValue = () => {
     }else{
       setTotalValue(parseFloat(accountBalance))
     }
-  }, [accounts, portfolios])
+  }, [accountBalance, portfolios])
  
   return (
 

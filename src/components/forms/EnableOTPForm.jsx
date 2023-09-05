@@ -9,7 +9,6 @@ const EnableOTPForm = ({setPin, handleSubmit, error, setError, isTyping, setIsTy
 
   const [data, setData] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const { currentUser, auth } = useContext(DataContext)
   
   useEffect(() => {
     const getConfigureOTPData = async() => {
@@ -18,10 +17,9 @@ const EnableOTPForm = ({setPin, handleSubmit, error, setError, isTyping, setIsTy
         
         setIsLoading(true)
         
-        const data = await fetchConfigureOTP(currentUser, auth)
+        const data = await fetchConfigureOTP()
         setData(data)
       
-  
       } catch(error) {
         setError(error)
         console.error(error)

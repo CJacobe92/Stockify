@@ -2,22 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import LoginForm from '../../components/forms/LoginForm';
 import FetchLoading from '../../components/spinners/FetchLoading';
 import { useNavigate } from 'react-router-dom';
-import fetchLogin from '../../services/fetchLogin';
 import { DataContext } from '../../providers/DataContextProvider';
-import Review from './Review';
-import EnableOTP from './EnableOTP';
-import VerifyOTP from './VerifyOTP';
+import { fetchLogin } from '../../services/fetchLogin';
 
 const Login = () => {
 
   const [formData, setFormData] = useState({email: '', password: ''})
-  const [error, setError] = useState(null)
   const [isTyping, setIsTyping] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   
   // Hooks
   const navigate = useNavigate()
-  const { signIn } = useContext(DataContext)
+  const { mutate, isLoading, error} = fetchLogin()
   
   const handleChange = (e) => {
     const {id, value} = e.target
@@ -25,63 +20,33 @@ const Login = () => {
     setIsTyping(true)
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
-  
-      const response = await fetchLogin(formData);
-      const uid = response.uid;
-      const auth = response.auth;
-      const userType = response.userType
-  
-      signIn(uid, auth, userType);
-  
-      if (response.error) {
-        setError(response.error);
-      } else {
-        setIsTyping(false);
-        
-        if(userType == 'Admin') {
-          navigate('/dashboard')
-        }else if (userType == 'User'){
-          switch (true) {
-            case response.activated === 'false':
-              navigate('/review');
-              break;
-    
-            case response.activated === 'true' && response.otp_enabled === 'false':
+      
+      mutate(formData, {
+        onSuccess: (data) => {
+          if(data.user_type === 'Admin'){
+            navigate('/dashboard')
+          }else if(data.user_type === 'User'){
+            if(data.activated === "false"){
+              navigate('/review')
+            }
+
+            if(data.activated === 'true' && data.otp_enabled === 'true'){
               navigate('/enableotp');
-              break;
-    
-            case response.activated === 'true' && response.otp_enabled === 'true' && response.otp_required === 'true':
+            }
+
+            if(data.activated === 'true' && data.otp_enabled === 'true' && data.otp_required === 'true'){
               navigate('/verifyotp');
-              break;
-    
-            case response.activated === 'true' && response.otp_enabled === 'true' && response.otp_required === 'false':
+            }
+
+            if(data.activated === 'true' && data.otp_enabled === 'true' && data.otp_required === 'true'){
               navigate('/portfolio');
-              break;
-    
-            default:
-              // Handle any other cases here
-              break;
+            }
           }
         }
-        
-      }
-    } catch (error) {
-      setError(error);
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+      })
   };
-
-  useEffect(() => {
-    if(isTyping){
-      setError('')
-    }
-  }, [formData])
 
   return (isLoading ? <FetchLoading /> :
     <section className='flex items-center justify-center w-full min-h-screen bg-gray-900'>
