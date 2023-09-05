@@ -3,10 +3,10 @@ import { API } from './fetchUtils'
 import { useMutation } from '@tanstack/react-query'
 
 const fetchActivate = () => {
-  return useMutation(async(context) => {
+  return useMutation(async(variables) => {
     try {
 
-      const res = await API.patch(`/auth/activate?token=${context}`)
+      const res = await API.patch(`/auth/activate?token=${variables}`)
 
       if(res.status === 200){
         return res.data

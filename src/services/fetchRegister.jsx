@@ -4,10 +4,10 @@ import { API } from './fetchUtils'
 
 const fetchRegister = () => {
 
-  return useMutation(async(context) => {
+  return useMutation(async(variables) => {
     try{
 
-      const res = await API.post('/users', {"user": context})
+      const res = await API.post('/users', {"user": variables})
 
       if(res.status === 200){
         return res.data
@@ -17,7 +17,7 @@ const fetchRegister = () => {
       throw err.response.data.error
     }
   }, {
-    onMutate: (variables) => {return variables}
+    onMutate: (variables) => {return variables},
   })
   
 }

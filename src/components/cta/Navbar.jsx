@@ -9,14 +9,10 @@ const Navbar = () => {
   const [activeLink, setActiveLink] = useState('/portfolio')
   const location = useLocation();
   const navigate = useNavigate();
-  const { mutate, onSuccess } = fetchLogout();
+  const { mutate } = fetchLogout();
   
   const handleLogout = () => {
-    mutate()
-    
-    if(onSuccess){
-      navigate('/login')
-    }
+    mutate({navigate})
   }
 
   useEffect(() => {

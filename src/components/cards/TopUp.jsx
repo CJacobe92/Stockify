@@ -1,20 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { Component, useContext, useEffect, useState } from 'react'
 import topup from '../../assets/topup.jpg'
 import fetchUpdateAccount from '../../services/fetchUpdateAccount'
 import { DataContext } from '../../providers/DataContextProvider'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PanToolIcon from '@mui/icons-material/PanTool';
+import { useQueryClient } from '@tanstack/react-query';
+import ComponentLoading from '../spinners/ComponentLoading';
 
 const TopUp = () => {
 
-  const { state, currentUser, auth } = useContext(DataContext)
-  const accounts = state.data && state.data.accounts && state.data.accounts
-  const account = accounts && accounts.reduce((account) => (account))
-  const account_id = account && account.id
+  const { userData } = useContext(DataContext)
+  const queryClient = useQueryClient();
+  
+  const account_id = userData && userData?.accounts.id
 
   const [formData, setFormData] = useState({balance: ''})
   const [error, setError] = useState(null)
   const [isTyping, setIsTyping] = useState(false)
+  const {mutate, isLoading, isFetching} = fetchUpdateAccount();
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -24,12 +27,19 @@ const TopUp = () => {
 
   const handleSubmit = async() => {
     if(isTyping){
-      const response = await fetchUpdateAccount(currentUser, auth, account_id, formData)
-      if(response.ok){
-        setError(false)
-        setIsTyping(false)
-        setFormData({...formData, balance: ''})
-      }
+      mutate({formData, account_id}, {
+        onError: (error) => {
+          setError(true)
+          setMessage(error)
+        },
+        onSuccess: (data) => {
+          setError(false)
+          setIsTyping(false)
+          setFormData({...formData, balance: ''})
+          queryClient.invalidateQueries('userData')
+          return data
+        }
+      })
     }else if(formData.balance == ''){
       setError(true)
     }
@@ -55,7 +65,7 @@ const TopUp = () => {
         <img src={topup}
         className='object-cover h-40 rounded-r-sm w-96'/>
         <div className='flex flex-row h-4 mx-2 mt-4 text-sm'>
-          {renderStatus()}
+          {isLoading || isFetching ? <div className='text-sm font-semibold'>Processing...</div> : renderStatus()}
         </div>
         <div className='mx-2 mt-6 mb-2 text-sm'>
           <p className='font-semibold'>Add funds to your wallet.</p>

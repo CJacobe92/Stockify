@@ -3,7 +3,10 @@ import { API } from './fetchUtils'
 import { useQuery } from '@tanstack/react-query'
 
 const fetchStockData = () => {
-  return useQuery(['stockData'], async() => {
+  const user_type = JSON.parse(localStorage.getItem('root'))?.user_type
+  const user = user_type === 'User' ? true : false
+
+  return useQuery(['stockData', user], async() => {
     try{
       const res = await API.get('/stocks')
 
@@ -24,7 +27,8 @@ const fetchStockData = () => {
     select: (data) =>{
       const stockData = data.data
       return stockData
-    }
+    },
+    enabled: user
   })
 }
 

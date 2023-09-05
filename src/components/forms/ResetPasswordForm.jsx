@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import fetchPasswordReset from '../../services/fetchPasswordReset';
 import { useNavigate } from 'react-router-dom';
+import ComponentLoading from '../spinners/ComponentLoading';
 
 const ResetPasswordForm = () => {
 
   const [formData, setFormData] = useState({ email: '' });
-  const [error, setError] = useState(null)
+  const [showError, setshowError] = useState(null)
   const [message, setMessage ] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const {mutate, isLoading, isFetching, error} = fetchPasswordReset();
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -18,29 +20,29 @@ const ResetPasswordForm = () => {
 
   const handleSubmit = async (e) => {
       e.preventDefault()
-      try{
-        if(formData.email == ''){
-          setError(true)
-          setMessage('Email address cannot be empty.')
-          return
-        }else{
-          const response = await fetchPasswordReset(formData)
-          if(response.error){
-            setError(true)
-            setMessage(response.error)
-          }else{
-            setError(false)
-            setMessage(response.message)
+
+    if(formData.email == ''){
+      setshowError(true)
+      setMessage('Email address cannot be empty.')
+      return
+    }else{
+      if(error){
+        setshowError(true)
+        setMessage(error)
+      }else{
+        setshowError(false)
+        mutate(formData, {
+          onSuccess: (context) => {
+            setMessage(context.message)
             setTimeout(() => {navigate('/login')}, 1500)
           }
-        }
-      }catch(error){
-      
+        })
+      }
     }
   }
 
   const renderMessage  = () => {
-    switch(error){
+    switch(showError){
       case true:
         return(<div className='text-red-700'>{message}</div>);
       case false:
@@ -53,7 +55,7 @@ const ResetPasswordForm = () => {
 
   useEffect(() =>{
     if(isTyping === true){
-      setError(false)
+      setshowError(false)
       setMessage('')
     }
   }, [formData, isTyping])
@@ -66,7 +68,8 @@ const ResetPasswordForm = () => {
       <p className='pt-6 text-xs text-gray-800'>Enter your email address. If your account exists in our system a password reset link
         will be automatically sent to your email.</p>
       <div className='h-4 my-2 text-xs font-semibold'>
-       {renderMessage()}
+       {isLoading || isFetching ? <ComponentLoading /> :
+       renderMessage()}
       </div>
       <input onChange={handleChange} type="email" id="email" className='p-2 font-semibold text-indigo-700 border-2 border-indigo-800 rounded-md outline-none'/>
       <button type='submit' className='p-2 mt-4 font-semibold text-white bg-indigo-700 rounded-sm'>Submit</button>

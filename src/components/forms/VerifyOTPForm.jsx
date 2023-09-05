@@ -8,6 +8,7 @@ import FetchLoading from '../spinners/FetchLoading'
 const VerifyOTPForm = () => {
 
   const {mutate, isLoading, error} = fetchVerifyOTP();
+  const { dispatch } = useContext(DataContext)
   
   const inputRefs = Array.from({ length: 6 }, () => useRef(null))
   
@@ -43,8 +44,15 @@ const VerifyOTPForm = () => {
     e.preventDefault();
       const pin = Object.values(digits).join('')
       mutate(pin, {
-        onSuccess: () => {
+        onSuccess: (data) => {
+          dispatch({
+            type: 'SET_ROOT', 
+            uid: data.uid,
+            auth: data.auth,
+            user_type: data.user_type
+          })
           navigate('/portfolio')
+    
         }
       })
   }

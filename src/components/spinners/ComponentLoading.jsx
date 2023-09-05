@@ -3,7 +3,10 @@ import reload from '../../assets/reload.gif'
 
 const ComponentLoading = () => {
   return (
-    <img src={reload} alt='Loading...' height='20' width='20' className='bg-white'/>
+    <div className='w-auto h-auto'>
+      <img src={reload} alt='Loading...' height='20' width='20' className='bg-white'/>
+    </div>
+    
   )
 }
 

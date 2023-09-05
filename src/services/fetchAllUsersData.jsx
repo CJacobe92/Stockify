@@ -1,19 +1,31 @@
 import React from 'react'
 import { API } from './fetchUtils'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
-const fetchAllUsersData = async(auth) => {
+const fetchAllUsersData = (admin) => {
 
-  try {
+  return useQuery(['allUserData', admin], async() => {
+    try {
 
-    const res = await API.get(`/users`)  
+      const res = await API.get(`/users`)
 
-    if(res.status === 200){
-      return res.data
+      if(res.status === 200){
+        return res.data
+      }
+
+    return []
+    } catch(err) {
+      throw err.response.data.error
     }
-
-  } catch(err) {
-    return {error: err.response.data.error}
-  }
+  }, {
+    onSuccess: (data) => {
+     return data
+    },
+    onError: (error) => {
+      return error
+    },
+    enabled: admin
+  })
 }
 
 export default fetchAllUsersData

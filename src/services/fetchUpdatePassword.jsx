@@ -1,32 +1,31 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
+import { API } from './fetchUtils'
 
-const fetchUpdatePassword = async(formData, auth) => {
+const fetchUpdatePassword = () => {
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/auth/password_update?token=${auth}`
+  const queryClient = useQueryClient();
 
-    const request = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'auth'
-      },
-      body: JSON.stringify({'auth': formData})
+  return useMutation(async(variables) => {
+    try {
+  
+      const res = await API.patch(`/auth/password_update?token=${variables.auth}`, {'auth': variables.formData})
+   
+      if(res.status <= 300 && res.status >= 200){
+        return res.data
+      }
+  
+    } catch(err) {
+      throw err.response.data.error
     }
-
-    const response = await fetch(baseURL, request)
-    const result = await response.json()
-
-
-    if (!response.ok) {
-      return result
+  }, {
+    onMutate: (variables) => {return variables},
+    onSuccess: (data) => {
+      queryClient.invalidateQueries('userData')
+      return data
     }
-
-    return result
-
-  } catch(error) {
-    console.error(error)
-  }
+  })
+  
 }
 
 export default fetchUpdatePassword

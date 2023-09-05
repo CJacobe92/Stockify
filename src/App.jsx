@@ -21,38 +21,28 @@ import Dashboard from './pages/admin/Dashboard'
 
 const App = () => {
 
-  const user_type = JSON.parse(localStorage.getItem('root'))?.user_type
-
   return (
- 
-        <Routes>
-          <Route path={'/'} element={<Landing />}/>
-          <Route path={'/register'} element={<Register />}/>
-          <Route path={'/login'} element={<Login />}/>
-          <Route path={'/api/v1/auth/activate'} element={<Activate />}/>
-          <Route path={'/enableotp'} element={<EnableOTP />} />
-          <Route path={'/verifyotp'} element={<VerifyOTP />} />
-          <Route path={'/review'} element={<Review />} />
-          <Route path={'/reset'} element={<Reset />}/>
-          <Route path={'/api/v1/auth/password_update'} element={<Update />}/>
-
-          {user_type && user_type == 'User' &&
-            <Route element={<UserLayout />}>
-              <Route path={'/portfolio'} element={<Portfolio />}/>
-              <Route path={'/transaction'} element={<Transaction />}/>
-              <Route path={'/account'} element={<Account />}/>
-            </Route> 
-          } 
-
-          {user_type && user_type == 'Admin' &&
-            <Route element={<AdminLayout />}>
-              <Route path={'/dashboard'} element={<Dashboard/>} />
-              <Route path={'/approvals'} element={<Approvals />} />
-              <Route path={'/transactions'} element={<Transactions />} />
-
-            </Route>
-          }
-        </Routes>
+     <Routes>
+      <Route path={'/'} element={<Landing />}/>
+      <Route path={'/register'} element={<Register />}/>
+      <Route path={'/login'} element={<Login />}/>
+      <Route path={'/api/v1/auth/activate'} element={<Activate />}/>
+      <Route path={'/enableotp'} element={<EnableOTP />} />
+      <Route path={'/verifyotp'} element={<VerifyOTP />} />
+      <Route path={'/review'} element={<Review />} />
+      <Route path={'/reset'} element={<Reset />}/>
+      <Route path={'/api/v1/auth/password_update'} element={<Update />}/>
+      <Route element={<UserLayout />}>
+        <Route path={'/portfolio'} element={<Portfolio />}/>
+        <Route path={'/transaction'} element={<Transaction />}/>
+        <Route path={'/account'} element={<Account />}/>
+      </Route> 
+      <Route element={<AdminLayout />}>
+        <Route path={'/dashboard'} element={<Dashboard/>} />
+        <Route path={'/approvals'} element={<Approvals />} />
+        <Route path={'/transactions'} element={<Transactions />} />
+      </Route>
+    </Routes>
   )
 }
 

@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { API } from './fetchUtils'
 import { useMutation } from '@tanstack/react-query'
+import { DataContext } from '../providers/DataContextProvider'
 
 export const fetchLogin = () => {
-  return useMutation(async(context) =>{
+
+  return useMutation(async(variables) =>{
     try {
 
-      const res = await API.post('/auth/login', {"auth": context})
+      localStorage.removeItem('root')
+
+      const res = await API.post('/auth/login', {"auth": variables})
 
       if(res.status <= 300 && res.status >= 200){
         const data = {
@@ -16,10 +20,8 @@ export const fetchLogin = () => {
           otp_enabled:  res.headers.otp_enabled,
           otp_required: res.headers.otp_required,
           user_type: res.headers.user_type
-        }
-  
-        localStorage.setItem('root', JSON.stringify({auth: data.auth, uid: data.uid, user_type: data.user_type}))
-  
+        }  
+        
         return data
       }
       
@@ -29,6 +31,6 @@ export const fetchLogin = () => {
   },{
     onMutate: (variables) => {
       return variables
-    }
+    },
   })
 }

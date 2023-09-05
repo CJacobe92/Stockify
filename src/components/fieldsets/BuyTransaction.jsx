@@ -88,7 +88,7 @@ const BuyTransaction = ({selected}) => {
         <legend className='text-xs font-semibold text-indigo-700'>Buy Stock</legend>
           <div className='flex flex-row justify-between h-6 text-xs font-semibold'>
             <p className='text-indigo-700'>Quantity</p> 
-            {isLoading || isFetching? <div className='w-auto h-auto'><ComponentLoading /></div> :
+            {isLoading || isFetching? <ComponentLoading /> :
             renderMessage()}
           </div>
           <input 

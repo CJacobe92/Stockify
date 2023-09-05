@@ -20,8 +20,6 @@ const fetchVerifyOTP = () => {
           user_type: res.headers.user_type
         }
         
-        localStorage.setItem('root', JSON.stringify({auth: data.auth, uid: data.uid, user_type: data.user_type}))
-
         return data
       }
     
