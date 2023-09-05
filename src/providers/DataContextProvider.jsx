@@ -1,12 +1,14 @@
 import { createContext, useEffect, useMemo, useReducer } from "react";
 import fetchUserData from "../services/fetchUserData";
 import fetchStockData from "../services/fetchStockData";
+import fetchAllUsersData from "../services/fetchAllUsersData";
 
 const root = JSON.parse(localStorage.getItem('root'))
 
 const initialState = {
   auth: root?.auth || null,
   currentUser: root?.currentUser || null,
+  userType: root?.userType || null,
   data: null,
   isLoading: false,
   stock: null,
@@ -22,13 +24,19 @@ const reducer = (state, action) => {
       return {...state, isLoading: false, data: action.data, stockData: action.stockData, error: null}
     case 'FETCH_ERROR':
       return {...state, isLoading: false, error: action.error}
-    case 'SET_CURRENTUSER':
-      return {...state, isLoading: true, currentUser: action.currentUser}
     case 'SET_AUTH':
       return {...state, isLoading: true, auth: action.auth}
+    case 'SET_CURRENTUSER':
+      return {...state, isLoading: true, currentUser: action.currentUser}
+    case 'SET_TYPE':
+      return {...state, isLoading: true, userType: action.userType}
 
     case 'SET_STOCK':
       return {...state, stock: action.stock}
+
+    case 'RESET_STATE':
+      return initialState;
+
     default:
       return state
   }
@@ -43,6 +51,8 @@ export const DataContextProvider = ({children}) => {
   const stockMemo = useMemo(() => state.stockData, [state.stockData])
   const currentUser = useMemo(() => state.currentUser, [state.currentUser])
   const auth = useMemo(() => state.auth, [state.auth])
+  const userType = useMemo(() => state.userType, [state.userType])
+
 
   // Function to trigger a data refetch
   const refetch = async () => {
@@ -56,46 +66,58 @@ export const DataContextProvider = ({children}) => {
     }
   };
 
-  const signIn = (uid, auth) => {
+  const signIn = (uid, auth, userType) => {
     dispatch({type: 'SET_CURRENTUSER', currentUser: uid})
     dispatch({type: 'SET_AUTH', auth: auth})
+    dispatch({type: 'SET_TYPE', userType: userType})
+    const payload = {
+      auth: auth,
+      currentUser: uid,
+      userType: userType
+    }
+    localStorage.setItem('root', JSON.stringify(payload))
   }
 
   const signOut = () => {
-    dispatch({type: 'SET_CURRENTUSER', currentUser: null})
-    dispatch({type: 'SET_AUTH', auth: null})
-    localStorage.removeItem('current_user')
-    localStorage.removeItem('auth')
+    dispatch({type: 'RESET_STATE', currentUser: null})
+    localStorage.removeItem('root')
   }
 
   useEffect(() => {
-    const payload = {
-      auth: state.auth,
-      currentUser: state.currentUser
-    }
-    localStorage.setItem('root', JSON.stringify(payload))
-  }, [])
 
-
-  useEffect(() => {
-    const fetchData = async() => {
-      try{
-        if(currentUser, auth){
-          const data = await fetchUserData(currentUser, auth)
-          const stockData = await fetchStockData(auth)
-          if(data && stockData){
-            dispatch({type: 'FETCH_SUCCESS', data: data.data, stockData: stockData.data})
+    if(userType == 'User'){
+      const getUserData = async() => {
+        try{
+          if(currentUser, auth){
+            const data = await fetchUserData(currentUser, auth)
+            const stockData = await fetchStockData(auth)
+            if(data && stockData){
+              dispatch({type: 'FETCH_SUCCESS', data: data.data, stockData: stockData.data})
+            }
           }
-        }
-      } catch (error){
-        console.error(error)
-      } finally {
-        
+        } catch (error){
+          console.error(error)
+        } 
       }
+  
+      getUserData();
+    } 
+
+    if(userType == 'Admin'){
+      const getAllUsersData = async() => {
+        if(currentUser, auth){
+          const data = await fetchAllUsersData(auth)
+          if(data){
+            dispatch({type: 'FETCH_SUCCESS', data: data.data, stockData: null})
+          }
+         
+        }
+      }
+      getAllUsersData();
     }
 
-    fetchData();
-  }, [currentUser , auth, dispatch])
+    
+  }, [currentUser , auth, dispatch, signIn])
   
   return(
     <DataContext.Provider value={{
@@ -107,7 +129,8 @@ export const DataContextProvider = ({children}) => {
       signIn,
       signOut,
       currentUser,
-      auth
+      auth,
+      userType
       }}>
       {children}
     </DataContext.Provider>

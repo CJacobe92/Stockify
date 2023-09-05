@@ -31,8 +31,11 @@ const EnableOTP = () => {
         const data = await fetchEnableOTP(currentUser, auth, pin)
 
         if(data.auth != null){
+          const uid = data.uid
+          const auth = data.auth
+          const userType =  data.userType
           setIsLoading(true)
-          signIn(data.uid, data.auth)
+          signIn(uid, auth, userType)
           navigate('/portfolio')
         
         }else{
