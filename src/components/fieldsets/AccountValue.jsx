@@ -4,8 +4,7 @@ import PageLoading from '../spinners/PageLoading'
 
 const AccountValue = () => {
 
-  const { state, userData } = useContext(DataContext)
-  const isLoading = state && state.isLoading
+  const { state, userData, userIsLoading } = useContext(DataContext)
   const [totalValue, setTotalValue] = useState()
   
   const accountBalance = userData && userData?.accounts?.balance
@@ -30,7 +29,7 @@ const AccountValue = () => {
 
       <fieldset className='px-2 py-4 mb-4 bg-white border-2 border-indigo-700 rounded-sm'>
         <legend className='text-sm font-semibold text-indigo-700'>Total Account Value</legend>
-        {isLoading ? <div className='flex items-center justify-center h-18 '><PageLoading /></div> :
+        {userIsLoading  ? <div className='flex items-center justify-center h-18 '><PageLoading /></div> :
           <div className='flex items-center justify-start py-4'>
             <p className='text-4xl font-bold text-indigo-900'>$ {totalValue ? totalValue.toFixed(2) : null}</p> 
           </div>
