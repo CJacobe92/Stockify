@@ -31,15 +31,19 @@ const Login = () => {
             type: 'SET_ROOT', 
             uid: data.uid,
             auth: data.auth,
-            user_type: data.user_type
+            user_type: data.user_type,
+            isAuthenticated: true
           })
           
 
           if(data.user_type === 'Admin'){
             
             navigate('/dashboard')
+            dispatch({type: 'IS_ADMIN', isAdmin: true})
     
           }else if(data.user_type === 'User'){
+            dispatch({type: 'IS_USER', isUser: true})
+
             if(data.activated === "false"){
               navigate('/review')
               return

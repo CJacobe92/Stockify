@@ -2,18 +2,20 @@ import React from 'react'
 import { API } from './fetchUtils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 
-const fetchAllUsersData = (admin) => {
+const fetchAllUsersData = (isAdmin) => {
 
-  return useQuery(['allUserData', admin], async() => {
+  return useQuery(['allUserData', isAdmin], async() => {
     try {
 
-      const res = await API.get(`/users`)
+        if(isAdmin){
+          const res = await API.get(`/users`)
 
-      if(res.status === 200){
-        return res.data
-      }
-
-    return []
+          if(res.status === 200){
+            return res.data
+          }
+        }
+        
+      return []
     } catch(err) {
       throw err.response.data.error
     }
@@ -24,7 +26,9 @@ const fetchAllUsersData = (admin) => {
     onError: (error) => {
       return error
     },
-    enabled: admin
+    enabled: isAdmin,
+    refetchOnWindowFocus: isAdmin ,
+    refetchOnMount: isAdmin,
   })
 }
 

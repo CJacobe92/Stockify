@@ -2,7 +2,7 @@
   import React from 'react'
   import { API } from './fetchUtils'
 
-  const fetchLogout = () => {
+  const fetchLogout = ( ) => {
 
     const user_type = JSON.parse(localStorage.getItem('root'))?.user_type
     const queryClient = useQueryClient();
@@ -27,16 +27,11 @@
       },
       onSuccess: (context, variables) => {
         if(context.message == 'Logout successful'){
-
           localStorage.removeItem('root');
-
-          if (user_type === 'User') {
-            queryClient.cancelQueries({queryKey: ['userData']});
-            variables.navigate('/login')
-          } else if (user_type === 'Admin') {
-            queryClient.cancelQueries({queryKey: ['allUsersData']});
-            variables.navigate('/login')
-          }
+          queryClient.cancelQueries({queryKey: ['userData']});
+          queryClient.cancelQueries({queryKey: ['allUsersData']});
+          variables.dispatch({type: 'LOGOUT'})
+          variables.navigate('/login')
         }
       }, 
     })

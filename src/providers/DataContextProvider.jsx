@@ -6,12 +6,19 @@ import fetchAllUsersData from "../services/fetchAllUsersData";
 export const DataContext = createContext(null)
 
 const root = JSON.parse(localStorage.getItem('root'))
+const isAdmin = JSON.parse(localStorage.getItem('isAdmin'))
+const isUser = JSON.parse(localStorage.getItem('isUser'))
+
 
 const initialState = {
   uid: root?.uid || null,
   auth:  root?.auth || null,
   user_type: root?.user_type || '',
+  isAdmin: isAdmin || false,
+  isUser: isUser || false,
+  isAuthenticated: false,
   userData: null,
+
 }
 
 const reducer = (state, action) => {
@@ -21,22 +28,37 @@ const reducer = (state, action) => {
         ...state, 
         uid: action.uid, 
         auth: action.auth, 
-        user_type: action.user_type
-    }
+        user_type: action.user_type,
+        isAuthenticated: action.isAuthenticated
+      }
+    case 'IS_ADMIN':
+      return{
+        ...state, 
+        isAdmin: action.isAdmin
+      }
+    case 'IS_USER':
+      return{
+        ...state, 
+        isUser: action.isUser
+      }
+    case 'LOGOUT':
+      return initialState
+
+    default:
+      return state
   }
 }
 
 export const DataContextProvider = ({children}) => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
+  const isAdmin = state.isAdmin
+  const isUser = state.isUser
 
-  const user_type  = state?.user_type
-  const user = user_type === "User" ? true : false
-  const admin = user_type === "Admin" ? true : false
-
-  const {data: userData } = fetchUserData(user);
-  const {data: stockData } = fetchStockData(admin);
-  const {data: allUsersData} = fetchAllUsersData();
+  const {data: userData } = fetchUserData(isUser);
+  const {data: stockData } = fetchStockData(isUser);
+  const {data: allUsersData} = fetchAllUsersData(isAdmin);
+ 
 
   useEffect(() => {
     const payload={
@@ -44,10 +66,17 @@ export const DataContextProvider = ({children}) => {
       auth: state.auth,
       user_type: state.user_type
     }
-
     localStorage.setItem('root', JSON.stringify(payload))
 
   }, [state.uid, state.auth, state.user_type])
+
+  useEffect(() => {
+    if(isAdmin){
+      localStorage.setItem('isAdmin', JSON.stringify(isAdmin))
+    }else if(isUser){
+      localStorage.setItem('isUser', JSON.stringify(isUser))
+    }
+  }, [state.isAdmin, state.isUser])
 
   return(
     <DataContext.Provider value={{
