@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
-const SearchModal = ({ children, setInput, input}) => {
+const ApprovalModal = ({ children, setInput, input}) => {
   const [open, setOpen] = useState(false);
 
   const closeModal = () => {
@@ -35,4 +35,4 @@ const SearchModal = ({ children, setInput, input}) => {
   );
 };
 
-export default SearchModal;
+export default ApprovalModal;

@@ -3,6 +3,8 @@ import { DataContext } from '../../providers/DataContextProvider'
 import useFormatDate from '../../hooks/useFormatDate'
 import fetchAdminUpdateUserData from '../../services/fetchAdminUpdateUserData'
 import ComponentLoading from '../spinners/ComponentLoading'
+import ApprovalModal from '../modals/ApprovalModal'
+import ApprovalListSearch from '../fieldsets/ApprovalListSearch'
 
 const ApprovalList = () => {
   const { allUsersData, allUsersIsLoading, allUsersIsFetching } = useContext(DataContext)
@@ -10,6 +12,7 @@ const ApprovalList = () => {
   const {formatDate} = useFormatDate()
   
   const itemsPerPage = 10
+  const [input, setInput] = useState({email: ''})
   const [currentPage, setCurrentPage] = useState(1)
   const totalPages =  Math.ceil(allUsersData?.forApproval?.length / itemsPerPage)
 
@@ -18,6 +21,10 @@ const ApprovalList = () => {
 
   const userData = allUsersData && allUsersData?.forApproval?.sort((a, b) => (a.id - b.id)).slice(startIndex, endIndex)
   const {mutate, isLoading, isFetching} = fetchAdminUpdateUserData();
+
+  const handleChange = (e) => {
+    setInput({...input, email: e.target.value})
+  }
 
   const handleNextPage = () => {  
     if (currentPage < totalPages) {
@@ -61,7 +68,10 @@ const ApprovalList = () => {
             </tr>
           </thead>
           <tbody>
-            {userData?.map((user, index) =>(
+            {userData?.filter((user) => {
+                const query = input?.email;
+                return(user?.email.includes(query))
+              }).map((user, index) =>(
               <tr key={index} className={`${index % 2 == 0 ?'bg-white text-indigo-700':  'bg-indigo-200 text-indigo-700'} border border-indigo-700`}>
                 <td className='p-2 font-bold text-center'>{user.id}</td>
                 <td className='p-2 text-center'>{user.firstname}</td>
@@ -78,13 +88,17 @@ const ApprovalList = () => {
           </tbody>
           
         </table>
-        <div className='fixed bottom-5 right-5'>
-          <div className='flex flex-row'>
-            <button onClick={handlePrevPage} className='m-1'>Previous</button>
-              <p className='p-2'>{currentPage}</p>
-            <button onClick={handleNextPage} className='m-1'>Next</button>
-          </div>
+        <div className='fixed flex flex-row items-center right-10 bottom-5'>
+        <div className='flex flex-row items-center justify-between'>
+          <button onClick={handlePrevPage} className='m-1'>Previous</button>
+            <p className='px-2 mx-1 font-semibold text-black bg-white border'>{currentPage}</p>
+          <button onClick={handleNextPage} className='m-1'>Next</button>
         </div>
+        <hr className='h-6 mx-2 border border-white'/>
+          <ApprovalModal title={'Search'} setInput={setInput} input={input}>
+            <ApprovalListSearch handleChange={handleChange}/>
+          </ApprovalModal>
+      </div>
       </div>
        
 

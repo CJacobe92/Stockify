@@ -72,7 +72,7 @@ const TransactionsList = () => {
         <tbody>
           {memoizedData?.map((transaction, index) =>(
             <tr key={index} className={`${index % 2 == 0 ?'bg-white text-indigo-700':  'bg-indigo-200 text-indigo-700'} border border-indigo-700`}>
-              <td className='p-2 text-center'>{transaction.id}</td>
+              <td className='p-2 font-semibold text-center'>{transaction.id}</td>
               <td className='p-2 font-bold text-center'>{transaction.symbol}</td>
               <td className='p-2 text-center'>{transaction.stock_id}</td>
               <td className='p-2 text-center'>{transaction.transaction_type}</td>
@@ -91,11 +91,11 @@ const TransactionsList = () => {
       <div className='fixed flex flex-row items-center right-10 bottom-5'>
         <div className='flex flex-row items-center justify-between'>
           <button onClick={handlePrevPage} className='m-1'>Previous</button>
-            <p className='px-1 mx-1 border border-white'>{currentPage}</p>
+            <p className='px-2 mx-1 font-semibold text-black bg-white border'>{currentPage}</p>
           <button onClick={handleNextPage} className='m-1'>Next</button>
         </div>
         <hr className='h-6 mx-2 border border-white'/>
-          <TransactionsSearchModal title={'Search'}>
+          <TransactionsSearchModal title={'Search'} setInput={setInput} input={input}>
             <TransactionsListSearch handleChange={handleChange}/>
           </TransactionsSearchModal>
       </div>
