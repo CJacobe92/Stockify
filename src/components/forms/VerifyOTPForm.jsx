@@ -45,6 +45,7 @@ const VerifyOTPForm = () => {
       const pin = Object.values(digits).join('')
       mutate(pin, {
         onSuccess: (data) => {
+          dispatch({type: 'IS_USER', isUser: true})
           dispatch({
             type: 'SET_ROOT', 
             uid: data.uid,

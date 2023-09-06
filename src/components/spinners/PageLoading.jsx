@@ -1,9 +1,9 @@
 import React from 'react'
-import reload from '../../assets/reload.gif'
+import pageloading from '../../assets/pageloading.svg'
 
 const PageLoading = () => {
   return (
-    <img src={reload} alt='Loading...' height='50' width='50' className='bg-white'/>
+    <img src={pageloading} alt='Loading...' height='40' width='40' className='bg-white'/>
   )
 }
 

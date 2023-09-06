@@ -2,9 +2,10 @@ import React, { useContext, useState } from 'react'
 import { DataContext } from '../../providers/DataContextProvider'
 import useFormatDate from '../../hooks/useFormatDate'
 import fetchAdminUpdateUserData from '../../services/fetchAdminUpdateUserData'
+import ComponentLoading from '../spinners/ComponentLoading'
 
 const ApprovalList = () => {
-  const { allUsersData } = useContext(DataContext)
+  const { allUsersData, allUsersIsLoading, allUsersIsFetching } = useContext(DataContext)
 
   const {formatDate} = useFormatDate()
   
@@ -15,8 +16,8 @@ const ApprovalList = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const userData = allUsersData && allUsersData?.forApproval?.slice(startIndex, endIndex)
-  const {mutate} = fetchAdminUpdateUserData();
+  const userData = allUsersData && allUsersData?.forApproval?.sort((a, b) => (a.id - b.id)).slice(startIndex, endIndex)
+  const {mutate, isLoading, isFetching} = fetchAdminUpdateUserData();
 
   const handleNextPage = () => {  
     if (currentPage < totalPages) {
@@ -52,6 +53,11 @@ const ApprovalList = () => {
               <th className='p-1 text-center'>Status</th>
               <th className='p-1 text-center'>Created</th>
               <th className='p-1 text-center'>Actions</th>
+              <th>
+                {isLoading|| isFetching || allUsersIsLoading || allUsersIsFetching? 
+                  <ComponentLoading /> : null
+                }
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -66,6 +72,7 @@ const ApprovalList = () => {
                 <td className='flex flex-col w-full p-2 text-xs text-center'>
                   <button className='my-1 mb-1 font-semibold hover:underline' id={user.id} onClick={handleApprove}>Activate</button>
                 </td>
+                <td className='p-2 text-center' />
               </tr>
             ))}
           </tbody>
