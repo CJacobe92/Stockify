@@ -4,6 +4,8 @@ import useFormatDate from '../../hooks/useFormatDate';
 import TransactionsSearchModal from '../modals/TransactionsSearch';
 import TransactionsListSearch from '../fieldsets/TransactionsListSearch';
 import ComponentLoading from '../spinners/ComponentLoading';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const TransactionsList = () => {
   const { allUsersData, allUsersIsLoading, allUsersIsFetching } = useContext(DataContext);
@@ -11,7 +13,11 @@ const TransactionsList = () => {
   const {formatDate} = useFormatDate()
   
 
-  const [input, setInput] = useState({account_number: ''})
+  const [input, setInput] = useState({
+    queryBy: 'account',
+    query: ''
+  })
+  const [isSearching, setIsSearching] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
 
   const itemsPerPage = 10
@@ -20,18 +26,36 @@ const TransactionsList = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   
-  const Data = allUsersData && allUsersData?.transactions?.sort((a, b) => (a.id - b.id)).slice(startIndex, endIndex)
+  const showPagination = isSearching === false ? true : false
+  const paginatedData = allUsersData && allUsersData?.transactions?.sort((a, b) => (a.id - b.id)).slice(startIndex, endIndex)
+  const unPaginatedData = allUsersData && allUsersData?.transactions?.sort((a, b) => (a.id - b.id))
+  const Data = showPagination ? paginatedData :  unPaginatedData
   
   const filteredData = Data?.filter((transaction) => { 
-    const query = input?.account_number
-    return(transaction?.account_number.toString().includes(query))
+
+    const queryType = input.queryBy
+    const query = input.query
+
+    switch(queryType){
+      case 'account':
+        return(transaction?.account_number.toString().includes(query))
+      case 'transaction':
+        return(transaction?.id.toString().includes(query))
+
+      default:
+        return transaction
+    }
+    
   })
   
   const memoizedData = useMemo(() => filteredData, [filteredData])
   
-
+  const handleSearch = () => {
+    setIsSearching(true)
+  }
+  
   const handleChange = (e) => {
-    setInput({...input, account_number: e.target.value})
+    setInput({...input, query: e.target.value})
   }
   
   const handleNextPage = () => {  
@@ -49,7 +73,7 @@ const TransactionsList = () => {
   };
 
   return (
-    <div className='w-full'>
+    <div className='w-full overflow-y-auto h-[75vh]'>
       <table className='w-full text-sm'>
         <thead className='w-full mb-2 text-indigo-700 bg-white border-b-8 border-gray-900'>
           <tr className='px-1'>
@@ -89,16 +113,28 @@ const TransactionsList = () => {
         
       </table>
       <div className='fixed flex flex-row items-center right-10 bottom-5'>
-        <div className='flex flex-row items-center justify-between'>
-          <button onClick={handlePrevPage} className='m-1'>Previous</button>
-            <p className='px-2 mx-1 font-semibold text-black bg-white border'>{currentPage}</p>
-          <button onClick={handleNextPage} className='m-1'>Next</button>
-        </div>
-        <hr className='h-6 mx-2 border border-white'/>
-          <TransactionsSearchModal title={'Search'} setInput={setInput} input={input}>
-            <TransactionsListSearch handleChange={handleChange}/>
+          {showPagination ? 
+            <div className='flex flex-row items-center justify-between'>
+              <button onClick={handlePrevPage} className='m-1'>Previous</button>
+                <p className='px-2 mx-1 font-semibold text-black bg-white border'>{currentPage}</p>
+              <button onClick={handleNextPage} className='m-1'>Next</button>
+            </div> : 
+            <div className='flex flex-row items-center justify-between'>
+              <button onClick={() => setInput({...input, query: ''})} className='flex flex-row items-center justify-center mx-2'>
+                <p className='mr-1'>Reset</p>
+                <RestartAltIcon style={{fontSize: '1.8rem'}}/>
+              </button>
+              <button onClick={() => {setIsSearching(false); setInput({...input, query: ''})}} className='flex flex-row items-center justify-center mx-2'>
+                <p className='mr-1'>Exit</p>
+                <ExitToAppIcon style={{fontSize: '1.8rem'}}/>
+              </button>
+            </div>
+          }
+          <hr className='h-6 mx-2 border border-white'/>
+          <TransactionsSearchModal title={'Search'} setInput={setInput} input={input} handleSearch={handleSearch}>
+            <TransactionsListSearch handleChange={handleChange} input={input} setInput={setInput}/>
           </TransactionsSearchModal>
-      </div>
+        </div>
     </div>
   )
 }

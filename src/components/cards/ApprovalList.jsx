@@ -5,6 +5,9 @@ import fetchAdminUpdateUserData from '../../services/fetchAdminUpdateUserData'
 import ComponentLoading from '../spinners/ComponentLoading'
 import ApprovalModal from '../modals/ApprovalModal'
 import ApprovalListSearch from '../fieldsets/ApprovalListSearch'
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+
 
 const ApprovalList = () => {
   const { allUsersData, allUsersIsLoading, allUsersIsFetching } = useContext(DataContext)
@@ -13,17 +16,27 @@ const ApprovalList = () => {
   
   const itemsPerPage = 10
   const [input, setInput] = useState({email: ''})
+  const [isSearching, setIsSearching] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const totalPages =  Math.ceil(allUsersData?.forApproval?.length / itemsPerPage)
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const userData = allUsersData && allUsersData?.forApproval?.sort((a, b) => (a.id - b.id)).slice(startIndex, endIndex)
+  const showPagination = isSearching === false ? true : false
+  const paginatedData = allUsersData && allUsersData?.forApproval?.sort((a, b) => (a.id - b.id)).slice(startIndex, endIndex)
+  const unPaginatedData = allUsersData?.forApproval?.sort((a, b) => (a.id - b.id))
+  const userData = showPagination ?  paginatedData : unPaginatedData
+  
+
   const {mutate, isLoading, isFetching} = fetchAdminUpdateUserData();
 
   const handleChange = (e) => {
     setInput({...input, email: e.target.value})
+  }
+  
+  const handleSearch = () => {
+    setIsSearching(true)
   }
 
   const handleNextPage = () => {  
@@ -49,7 +62,7 @@ const ApprovalList = () => {
   }
 
   return (
-      <div className='w-full'>
+      <div className='w-full overflow-y-auto h-[75vh]'>
         <table className='w-full text-sm'>
           <thead className='w-full mb-2 text-indigo-700 bg-white border-b-8 border-gray-900'>
             <tr className='px-1'>
@@ -89,16 +102,28 @@ const ApprovalList = () => {
           
         </table>
         <div className='fixed flex flex-row items-center right-10 bottom-5'>
-        <div className='flex flex-row items-center justify-between'>
-          <button onClick={handlePrevPage} className='m-1'>Previous</button>
-            <p className='px-2 mx-1 font-semibold text-black bg-white border'>{currentPage}</p>
-          <button onClick={handleNextPage} className='m-1'>Next</button>
-        </div>
-        <hr className='h-6 mx-2 border border-white'/>
-          <ApprovalModal title={'Search'} setInput={setInput} input={input}>
+          {showPagination ? 
+            <div className='flex flex-row items-center justify-between'>
+              <button onClick={handlePrevPage} className='m-1'>Previous</button>
+                <p className='px-2 mx-1 font-semibold text-black bg-white border'>{currentPage}</p>
+              <button onClick={handleNextPage} className='m-1'>Next</button>
+            </div> : 
+            <div className='flex flex-row items-center justify-between'>
+              <button onClick={() => setInput({...input, email: ''})} className='flex flex-row items-center justify-center mx-2'>
+                <p className='mr-1'>Reset</p>
+                <RestartAltIcon style={{fontSize: '1.8rem'}}/>
+              </button>
+              <button onClick={() => {setIsSearching(false); setInput({...input, email: ''})}} className='flex flex-row items-center justify-center mx-2'>
+                <p className='mr-1'>Exit</p>
+                <ExitToAppIcon style={{fontSize: '1.8rem'}}/>
+              </button>
+            </div>
+          }
+          <hr className='h-6 mx-2 border border-white'/>
+          <ApprovalModal title={'Search'} setInput={setInput} input={input} handleSearch={handleSearch}>
             <ApprovalListSearch handleChange={handleChange}/>
           </ApprovalModal>
-      </div>
+        </div>
       </div>
        
 
