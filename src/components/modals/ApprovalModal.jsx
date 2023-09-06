@@ -22,7 +22,7 @@ const ApprovalModal = ({ children, setInput, input}) => {
       {open && (
         <div
           className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30'
-          onClick={()=>{closeModal(), setInput({...input, email: ''})}}
+          onClick={closeModal}
         >
           <div className='relative z-50 h-auto p-4 w-[60%]' onClick={stopPropagation}>
             <div className='flex flex-row justify-between'>
