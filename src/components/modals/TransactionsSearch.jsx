@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
-const TransactionsSearchModal = ({ children, title }) => {
+const TransactionsSearchModal = ({ children, setInput, input}) => {
   const [open, setOpen] = useState(false);
 
   const closeModal = () => {
@@ -23,7 +23,7 @@ const TransactionsSearchModal = ({ children, title }) => {
       {open && (
         <div
           className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30'
-          onClick={closeModal}
+          onClick={()=>{closeModal(), setInput({...input, account_number: ''})}}
         >
           <div className='relative z-50 h-auto p-4 w-[60%]' onClick={stopPropagation}>
             <div className='flex flex-row justify-between'>

@@ -8,23 +8,29 @@ import PWResetModal from '../modals/PWResetModal'
 import PWReset from '../fieldsets/PWReset'
 import ComponentLoading from '../spinners/ComponentLoading'
 
-const UserList = ({input, handleChange}) => {
+const UserList = () => {
 
   const { allUsersData, allUsersIsLoading, allUsersIsFetching } = useContext(DataContext)
- 
-  
+
   // hooks
   const {formatDate} = useFormatDate()
   const {mutate, isLoading, isFetching} = fetchAdminUpdateUserData();
 
-  const itemsPerPage = 10
+  const [input, setInput] = useState({email: ''})
   const [currentPage, setCurrentPage] = useState(1)
+
+  const itemsPerPage = 10
   const totalPages =  Math.ceil(allUsersData?.users?.length / itemsPerPage)
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   
   const userData = allUsersData && allUsersData?.users?.sort((a, b) => (a.id - b.id)).slice(startIndex, endIndex)
+
+  
+  const handleChange = (e) => {
+    setInput({...input, email: e.target.value})
+  }
 
   const handleNextPage = () => {  
     if (currentPage < totalPages) {
@@ -107,13 +113,13 @@ const UserList = ({input, handleChange}) => {
         <div className='fixed flex flex-row items-center right-10 bottom-5'>
           <div className='flex flex-row items-center justify-between'>
             <button onClick={handlePrevPage} className='m-1'>Previous</button>
-              <p className='px-1 mx-1 border border-white'>{currentPage}</p>
+              <p className='px-2 mx-1 font-semibold text-black bg-white border'>{currentPage}</p>
             <button onClick={handleNextPage} className='m-1'>Next</button>
           </div>
           <hr className='h-6 mx-2 border border-white'/>
-            <SearchModal title={'Search'}>
-              <UserSearch handleChange={handleChange}/>
-            </SearchModal>
+          <SearchModal title={'Search'} setInput={setInput} input={input}>
+            <UserSearch handleChange={handleChange}/>
+          </SearchModal>
         </div>
       </div>
   )
