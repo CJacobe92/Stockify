@@ -12,7 +12,7 @@ const SellModal = ({ children, title }) => {
       </button>
       {open && (
         <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30'>
-          <div className='relative z-50 h-auto p-4 bg-white rounded-lg w-96'>
+          <div className='relative z-50 h-auto p-2 bg-white rounded-lg w-96'>
             <div className='flex flex-row justify-between'>
               <p className='text-sm font-semibold text-indigo-700'>{title}</p>
               <button onClick={() => setOpen(!open)} className='text-xs text-indigo-900 '><CancelIcon /></button>

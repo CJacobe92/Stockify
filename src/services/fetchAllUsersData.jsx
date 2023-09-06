@@ -14,7 +14,7 @@ const fetchAllUsersData = (isAdmin) => {
             return res.data
           }
         }
-        
+
       return []
     } catch(err) {
       throw err.response.data.error
@@ -26,9 +26,20 @@ const fetchAllUsersData = (isAdmin) => {
     onError: (error) => {
       return error
     },
-    enabled: isAdmin,
-    refetchOnWindowFocus: isAdmin ,
-    refetchOnMount: isAdmin,
+    select: (data) => {
+      const users = data?.data.filter((data) => (data.activated === true))
+
+      const account = users && users.flatMap((data) => (data?.accounts))
+      const transactions = account ? account.flatMap(data => data?.transactions).filter(Boolean) : [];
+
+      const forApproval = data?.data.filter((data) => (data.activated === false))
+      return(
+        {users, 
+        forApproval, 
+        transactions
+      })
+    },
+    enabled: isAdmin
   })
 }
 
