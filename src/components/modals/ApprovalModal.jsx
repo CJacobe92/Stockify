@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
-const ApprovalModal = ({ children, setInput, input}) => {
+const ApprovalModal = ({ children, setInput, input, handleSearch}) => {
   const [open, setOpen] = useState(false);
 
   const closeModal = () => {
@@ -14,7 +14,7 @@ const ApprovalModal = ({ children, setInput, input}) => {
 
   return (
     <>
-      <button onClick={() => setOpen(!open)}>
+      <button onClick={() => {setOpen(!open); handleSearch() }}>
         <div className='flex flex-row justify-center p-2 item-center'>
           <ManageSearchIcon style={{ fontSize: '1.8rem' }} />
         </div>
