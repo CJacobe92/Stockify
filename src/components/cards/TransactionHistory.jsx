@@ -41,12 +41,13 @@ import ComponentLoading from '../spinners/ComponentLoading';
           <table className='w-full'>
             <thead className='sticky top-0 text-black bg-white border-b border-indigo-700'>
               <tr>
-                <th className='p-1 text-sm text-center text-gray-700'>Id</th>
+                <th className='p-1 text-sm text-center text-gray-700'>#</th>
                 <th className='p-1 text-sm text-center text-gray-700'>Type</th>
                 <th className='p-1 text-sm text-center text-gray-700'>Symbol</th>
                 <th className='p-1 text-sm text-center text-gray-700'>Quantity</th>
                 <th className='p-1 text-sm text-center text-gray-700'>Price</th>
                 <th className='p-1 text-sm text-center text-gray-700'>Cash Value</th>
+                <th className='p-1 text-sm text-center text-gray-700'>Transaction Id</th>
                 <th className='p-1 text-sm text-center text-gray-700'>Time</th>
                 <th>
                   {userIsLoading || userIsFetching ? 
@@ -153,12 +154,13 @@ import ComponentLoading from '../spinners/ComponentLoading';
                   return transaction
                 }).map((transaction, index) => (
                     <tr key={index} className={`${index % 2 == 0  ? 'bg-white text-black' : 'bg-indigo-700'}`}>
-                      <td className='p-2 text-center'>{transaction != null ? transaction.id : null}</td>
+                     <td className='p-2 text-center'>{index + 1}</td>
                       <td className='p-2 text-center'>{transaction != null ? transaction.transaction_type : null}</td>
                       <td className='p-2 text-center'>{transaction != null ? transaction.symbol : null}</td>
                       <td className='p-2 text-center'>{transaction != null ? transaction.quantity : null}</td>
                       <td className='p-2 text-center'>{transaction != null ? transaction.price : null}</td>
                       <td className='p-2 text-center'>{transaction != null ? transaction.total_cash_value : null}</td>
+                      <td className='p-2 text-center'>{transaction != null ? transaction.id : null}</td>
                       <td className='p-2 text-center'>{transaction != null ? formatDate(transaction.created_at) : null}</td>
                       <td className='p-2 text-center' />
                     </tr>
