@@ -12,6 +12,8 @@ const TopUp = () => {
   const { userData } = useContext(DataContext)
   const queryClient = useQueryClient();
   
+  const account_number = userData && userData?.accounts.account_number
+  const account_balance = userData && userData?.accounts.balance
   const account_id = userData && userData?.accounts.id
 
   const [formData, setFormData] = useState({balance: ''})
@@ -64,11 +66,19 @@ const TopUp = () => {
         <legend className='font-semibold'>Top Up</legend>
         <img src={topup}
         className='object-cover h-40 rounded-r-sm w-96'/>
-        <div className='flex flex-row h-4 mx-2 mt-4 text-sm'>
-          {isLoading || isFetching ? <div className='text-sm font-semibold'>Processing...</div> : renderStatus()}
-        </div>
-        <div className='mx-2 mt-6 mb-2 text-sm'>
-          <p className='font-semibold'>Add funds to your wallet.</p>
+        <div className='mx-2 mt-4 mb-2 text-sm'>
+          <p className='text-lg font-semibold'>Add funds to your wallet.</p>
+          <div className='flex flex-row mt-2 text-sn'>
+            <p className='w-24 font-semibold'>Account#:</p>
+            <p>{account_number}</p>
+          </div>
+          <div className='flex flex-row text-sm'>
+            <p className='w-24 font-semibold'>Balance:</p>
+            <p>&#8369;{account_balance}</p>
+          </div>
+          <div className='flex flex-row justify-end w-full h-4 mx-2 text-sm'>
+            {isLoading && isFetching ? <div className='text-sm font-semibold'>Processing...</div> : renderStatus()}
+          </div>
         </div>
         <div className='flex flex-col mx-2 mt-4'>
           <label className='mb-2 text-xs font-semibold'>Amount</label>
@@ -80,7 +90,7 @@ const TopUp = () => {
         </div>
         <div className='mx-2 mt-4'>
           <p className='text-xs'>
-            Note: Please allow 5 minutes for the amount to reflect on your wallet.
+            Note: Please allow atleast 5 minutes for the amount to reflect on your wallet.
           </p>
         </div>  
        

@@ -43,9 +43,7 @@ const fetchUserData = (isUser) =>{
         transactions
       })
     },
-    enabled: isUser,
-    refetchOnWindowFocus: isUser,
-    refetchOnMount: isUser
+    enabled: isUser
   })
 }
 

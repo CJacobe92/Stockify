@@ -12,13 +12,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div className='h-[90vh] py-4 flex justify-center w-full flex-row justify-between'>
-      <div>
-        <UserSearch handleChange={handleChange}/>
-      </div>
-      
+    <div className='h-[90vh] py-4 flex w-full flex-col'>
+
       <div className='w-full px-4'>
-        <UserList input={input}/>
+        <UserList input={input} handleChange={handleChange}/>
       </div>
      
     </div>

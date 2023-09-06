@@ -1,6 +1,6 @@
 import React from 'react'
 
-const UserSearch = ({handleChange}) => {
+const TransactionsListSearch = ({handleChange}) => {
   return (
     <div className='w-full p-2 bg-white rounded-md shadow-md bg-opacity-80 shadow-indigo-500'>
       <p className='text-xs font-semibold text-indigo-700'>Search</p>
@@ -9,4 +9,4 @@ const UserSearch = ({handleChange}) => {
   )
 }
 
-export default UserSearch
+export default TransactionsListSearch
