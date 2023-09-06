@@ -1,29 +1,29 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
+import { API } from './fetchUtils'
 
-const fetchUpdateAccount = async(uid, auth, account_id, payload) => {
+const fetchUpdateAccount = () => {
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/users/${uid}/accounts/${account_id}`
 
-    const request = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-      },
-      body: JSON.stringify({'account': payload})
+
+  return useMutation(async(variables) => {
+    try {
+      
+      const uid = JSON.parse(localStorage.getItem('root'))?.uid
+
+      const res = await API.patch(`/users/${uid}/accounts/${variables.account_id}`, {'account': variables.formData})
+  
+      if (res.status <= 300 && res.status >= 200) {
+        return res.data
+      }
+
+    } catch(err) {
+      throw err.response.data.error
     }
+  }, {
+    onMutate: (variables) => {return variables},
+  })
 
-    const response = await fetch(baseURL, request)
-
-    if (!response.ok) {
-      console.error('Failed to fetch')
-    }
-    return response
-
-  } catch(error) {
-    console.error(error)
-  }
 }
 
 export default fetchUpdateAccount

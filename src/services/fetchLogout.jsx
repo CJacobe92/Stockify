@@ -1,30 +1,40 @@
-import React from 'react'
+  import { useMutation, useQueryClient } from '@tanstack/react-query'
+  import React from 'react'
+  import { API } from './fetchUtils'
 
-const fetchLogout = async(uid, auth) => {
+  const fetchLogout = ( ) => {
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/auth/logout/${uid}`
+    const user_type = JSON.parse(localStorage.getItem('root'))?.user_type
+    const queryClient = useQueryClient();
 
+    return useMutation(async() => {
+      try { 
+        
+        const uid = JSON.parse(localStorage.getItem('root'))?.uid
 
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-      }
-    }
-
-    const response = await fetch(baseURL, request)
-
-    if (!response.ok) {
-      console.error('Failed to fetch')
-    }
-
-    return response
+        const res = await API.post(`/auth/logout/${uid}`)
     
-  } catch(error) {
-    console.error(error)
+        if(res.status <= 300 && res.status >= 200){
+          return res.data
+        }
+        
+      } catch(err) {
+        throw err.response.data.error
+      }
+    }, {
+      onMutate: (variables) => {
+        return variables
+      },
+      onSuccess: (context, variables) => {
+        if(context.message == 'Logout successful'){
+          localStorage.removeItem('root');
+          queryClient.cancelQueries({queryKey: ['userData']});
+          queryClient.cancelQueries({queryKey: ['allUsersData']});
+          variables.dispatch({type: 'LOGOUT'})
+          variables.navigate('/login')
+        }
+      }, 
+    })
   }
-}
 
-export default fetchLogout
+  export default fetchLogout

@@ -7,12 +7,11 @@ import Login from './Login';
 
 const Review = () => {
 
-  const { signOut } = useContext(DataContext)
   const isAuthenticated = useAuth();
   const navigate = useNavigate();
   
   const handleReturn = () => {
-    signOut();
+
     navigate('/login')
   }
   

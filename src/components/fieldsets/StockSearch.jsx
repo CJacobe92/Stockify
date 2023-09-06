@@ -1,17 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../../providers/DataContextProvider'
 
-const StockSearch = () => {
+const StockSearch = ({setSelected}) => {
   
   const [input, setInput] = useState('')
   const [debouncedInput, setDebouncedInput] = useState(input)
  
-  const { dispatch, stockMemo } = useContext(DataContext)
-  const stockData = stockMemo && stockMemo
+  const { dispatch, stockData } = useContext(DataContext)
 
   const onSelect = (id, symbol, name, percent_change, price, volume) => {
     const payload = {id: id, symbol: symbol, name: name, percent_change: percent_change, price: price, volume: volume }
-    dispatch({type: 'SET_STOCK', stock: payload})
+    setSelected(payload)
     setInput('')
   }
 

@@ -1,35 +1,24 @@
+import { useMutation } from '@tanstack/react-query'
 import React from 'react'
+import { API } from './fetchUtils'
 
-const fetchPasswordReset = async(formData) => {
+const fetchPasswordReset = () => {
+  return useMutation(async(variables) =>{
+    try {
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/auth/password_reset`
-
-    const payload = {
-      email: formData.email,
+      const res = await API.post('/auth/password_reset', {'auth': variables})
+  
+      if (res.status <= 300 && res.status >= 200) {
+        return res.data
+      }
+  
+    } catch(err) {
+      throw err.response.data.error
     }
-
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({'auth': payload})
-    }
-
-    const response = await fetch(baseURL, request)
-    const result = await response.json()
-
-
-    if (!response.ok) {
-      return result
-    }
-
-    return result
-
-  } catch(error) {
-    console.error(error)
-  }
+  }, {
+    onMutate: (variables) => {return variables}
+  })
+    
 }
 
 export default fetchPasswordReset

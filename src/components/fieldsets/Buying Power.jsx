@@ -4,12 +4,11 @@ import PageLoading from '../spinners/PageLoading'
 
 const BuyingPower = () => {
 
-  const { state, dataMemo} = useContext(DataContext)
+  const { state, userData} = useContext(DataContext)
   const isLoading = state && state.isLoading
   const [buyingPower, setBuyingPower] = useState()
-  const accounts = dataMemo && dataMemo.accounts
-  const account = accounts && accounts.reduce((account) => (account))
-  const accountBalance = account && account.balance
+  const accounts = userData && userData?.accounts
+  const accountBalance = accounts && accounts?.balance
 
   useEffect(() => {
     if(accounts){

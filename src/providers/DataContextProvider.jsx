@@ -3,134 +3,88 @@ import fetchUserData from "../services/fetchUserData";
 import fetchStockData from "../services/fetchStockData";
 import fetchAllUsersData from "../services/fetchAllUsersData";
 
+export const DataContext = createContext(null)
+
 const root = JSON.parse(localStorage.getItem('root'))
+const isAdmin = JSON.parse(localStorage.getItem('isAdmin'))
+const isUser = JSON.parse(localStorage.getItem('isUser'))
+
 
 const initialState = {
-  auth: root?.auth || null,
-  currentUser: root?.currentUser || null,
-  userType: root?.userType || null,
-  data: null,
-  isLoading: false,
-  stock: null,
-  stockData: null,
-  error: null,
+  uid: root?.uid || null,
+  auth:  root?.auth || null,
+  user_type: root?.user_type || '',
+  isAdmin: isAdmin || false,
+  isUser: isUser || false,
+  isAuthenticated: false,
+  userData: null,
+
 }
 
 const reducer = (state, action) => {
-  switch(action.type) {
-    case 'FETCH_START':
-      return {...state, isLoading: true, error: null}
-    case 'FETCH_SUCCESS':
-      return {...state, isLoading: false, data: action.data, stockData: action.stockData, error: null}
-    case 'FETCH_ERROR':
-      return {...state, isLoading: false, error: action.error}
-    case 'SET_AUTH':
-      return {...state, isLoading: true, auth: action.auth}
-    case 'SET_CURRENTUSER':
-      return {...state, isLoading: true, currentUser: action.currentUser}
-    case 'SET_TYPE':
-      return {...state, isLoading: true, userType: action.userType}
-
-    case 'SET_STOCK':
-      return {...state, stock: action.stock}
-
-    case 'RESET_STATE':
-      return initialState;
+  switch(action.type){
+    case 'SET_ROOT':
+      return{
+        ...state, 
+        uid: action.uid, 
+        auth: action.auth, 
+        user_type: action.user_type,
+        isAuthenticated: action.isAuthenticated
+      }
+    case 'IS_ADMIN':
+      return{
+        ...state, 
+        isAdmin: action.isAdmin
+      }
+    case 'IS_USER':
+      return{
+        ...state, 
+        isUser: action.isUser
+      }
+    case 'LOGOUT':
+      return initialState
 
     default:
       return state
   }
 }
 
-export const DataContext = createContext(null)
-
 export const DataContextProvider = ({children}) => {
 
-  const [ state, dispatch ] = useReducer(reducer, initialState)
-  const dataMemo = useMemo(() => state.data, [state.data])
-  const stockMemo = useMemo(() => state.stockData, [state.stockData])
-  const currentUser = useMemo(() => state.currentUser, [state.currentUser])
-  const auth = useMemo(() => state.auth, [state.auth])
-  const userType = useMemo(() => state.userType, [state.userType])
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const isAdmin = state.isAdmin
+  const isUser = state.isUser
 
-
-  // Function to trigger a data refetch
-  const refetch = async () => {
-    try {
-      dispatch({ type: 'FETCH_START' });
-      const userData = await fetchUserData(currentUser, auth);
-      const stockData = await fetchStockData(auth);
-      dispatch({ type: 'FETCH_SUCCESS', data: userData.data, stockData: stockData.data });
-    } catch (error) {
-      dispatch({ type: 'FETCH_ERROR', error: error.message });
-    }
-  };
-
-  const signIn = (uid, auth, userType) => {
-    dispatch({type: 'SET_CURRENTUSER', currentUser: uid})
-    dispatch({type: 'SET_AUTH', auth: auth})
-    dispatch({type: 'SET_TYPE', userType: userType})
-    const payload = {
-      auth: auth,
-      currentUser: uid,
-      userType: userType
-    }
-    localStorage.setItem('root', JSON.stringify(payload))
-  }
-
-  const signOut = () => {
-    dispatch({type: 'RESET_STATE', currentUser: null})
-    localStorage.removeItem('root')
-  }
+  const {data: userData } = fetchUserData(isUser);
+  const {data: stockData } = fetchStockData(isUser);
+  const {data: allUsersData} = fetchAllUsersData(isAdmin);
+ 
 
   useEffect(() => {
-
-    if(userType == 'User'){
-      const getUserData = async() => {
-        try{
-          if(currentUser, auth){
-            const data = await fetchUserData(currentUser, auth)
-            const stockData = await fetchStockData(auth)
-            if(data && stockData){
-              dispatch({type: 'FETCH_SUCCESS', data: data.data, stockData: stockData.data})
-            }
-          }
-        } catch (error){
-          console.error(error)
-        } 
-      }
-  
-      getUserData();
-    } 
-
-    if(userType == 'Admin'){
-      const getAllUsersData = async() => {
-        if(currentUser, auth){
-          const data = await fetchAllUsersData(auth)
-          if(data){
-            dispatch({type: 'FETCH_SUCCESS', data: data.data, stockData: null})
-          }
-         
-        }
-      }
-      getAllUsersData();
+    const payload={
+      uid: state.uid,
+      auth: state.auth,
+      user_type: state.user_type
     }
+    localStorage.setItem('root', JSON.stringify(payload))
 
-    
-  }, [currentUser , auth, dispatch, signIn])
-  
+  }, [state.uid, state.auth, state.user_type])
+
+  useEffect(() => {
+    if(isAdmin){
+      localStorage.setItem('isAdmin', JSON.stringify(isAdmin))
+    }else if(isUser){
+      localStorage.setItem('isUser', JSON.stringify(isUser))
+    }
+  }, [state.isAdmin, state.isUser])
+
   return(
     <DataContext.Provider value={{
-      state, 
-      dispatch, 
-      refetch, 
-      dataMemo, 
-      stockMemo,
-      signIn,
-      signOut,
-      currentUser,
-      auth,
-      userType
+      userData,
+      stockData,
+      allUsersData,
+      state,
+      dispatch
       }}>
       {children}
     </DataContext.Provider>

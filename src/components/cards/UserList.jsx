@@ -3,20 +3,20 @@ import { DataContext } from '../../providers/DataContextProvider'
 import useFormatDate from '../../hooks/useFormatDate'
 
 const UserList = ({input}) => {
-  const { dataMemo } = useContext(DataContext)
+  const { allUsersData } = useContext(DataContext)
 
   const {formatDate} = useFormatDate()
   
   const itemsPerPage = 10
   const [currentPage, setCurrentPage] = useState(1)
-  const totalPages =  Math.ceil(dataMemo?.length / itemsPerPage)
+  const totalPages =  Math.ceil(allUsersData?.data?.length / itemsPerPage)
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const userData = dataMemo && dataMemo.slice(startIndex, endIndex)
+  const userData = allUsersData && allUsersData?.data?.slice(startIndex, endIndex)
 
-  const handleNextPage = () => {
+  const handleNextPage = () => {  
     if (currentPage < totalPages) {
 
       setCurrentPage(currentPage + 1);

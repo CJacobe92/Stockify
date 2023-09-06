@@ -7,7 +7,7 @@ import fetchLogout from '../../services/fetchLogout';
 const Credentials = () => {
 
   const navigate = useNavigate()
-  const { currentUser, auth, signOut } = useContext(DataContext);
+  const {mutate, isLoading, isFetching, error} = fetchUpdateUserData()
   
   const [credentials, setCredentials] = useState({
     password: '',
@@ -25,17 +25,13 @@ const Credentials = () => {
     setDataEdited(true)
   }
 
-  const handleUpdate = async() => {
-    if(isDataEdited && matched && currentUser && auth){
-      const response = await fetchUpdateUserData(currentUser, auth, credentials)
-      
-      if(response.ok){
-        const response = await fetchLogout(currentUser, auth)
-        if(response.ok){
-          signOut()
+  const handleUpdate = () => {
+    if(isDataEdited && matched){
+      mutate(credentials, {
+        onSuccess: () => {
           navigate('/login')
         }
-      }
+      })
     }else{
       console.error('Invalid action')
     }

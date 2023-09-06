@@ -1,37 +1,25 @@
+import { useMutation } from '@tanstack/react-query'
 import React from 'react'
+import { API } from './fetchUtils'
 
-const fetchRegister = async(formData) => {
+const fetchRegister = () => {
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/users`
+  return useMutation(async(variables) => {
+    try{
 
-    const payload = {
-      firstname: formData.firstname,
-      lastname: formData.lastname,
-      email: formData.email,
-      password: formData.password,
-      password_confirmation: formData.password_confirmation
+      const res = await API.post('/users', {"user": variables})
+
+      if(res.status === 200){
+        return res.data
+      }
+
+    }catch(err){
+      throw err.response.data.error
     }
-
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({'user': payload})
-    }
-
-    const response = await fetch(baseURL, request)
-    const result = await response.json();
-
-    if (!response.ok) {
-      return result
-    }
-    
-    return result
-  } catch(error) {
-    console.error(error)
-  }
+  }, {
+    onMutate: (variables) => {return variables},
+  })
+  
 }
 
 export default fetchRegister

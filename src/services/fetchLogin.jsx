@@ -1,43 +1,36 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { API } from './fetchUtils'
+import { useMutation } from '@tanstack/react-query'
+import { DataContext } from '../providers/DataContextProvider'
 
-const fetchLogin = async(formData) => {
+export const fetchLogin = () => {
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/auth/login`
+  return useMutation(async(variables) =>{
+    try {
 
-    const payload = {
-      email: formData.email,
-      password: formData.password
-    }
+      localStorage.removeItem('root')
 
-    const request = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({'auth': payload})
-    }
+      const res = await API.post('/auth/login', {"auth": variables})
 
-    const response = await fetch(baseURL, request)
-
-    if (!response.ok) {
-      const result = await response.json()
-      return result
-    }else if(response.ok){
-      const data = {
-        auth: response.headers.get('Authorization'),
-        uid:  response.headers.get('Uid'),
-        activated: response.headers.get('Activated'),
-        otp_enabled:  response.headers.get('Otp_enabled'),
-        otp_required: response.headers.get('Otp_required'),
-        userType: response.headers.get('User-Type')
+      if(res.status <= 300 && res.status >= 200){
+        const data = {
+          auth: res.headers.authorization,
+          uid:  res.headers.uid,
+          activated: res.headers.activated,
+          otp_enabled:  res.headers.otp_enabled,
+          otp_required: res.headers.otp_required,
+          user_type: res.headers.user_type
+        }  
+        
+        return data
       }
-  
-      return data
-    }
-  } catch(error) {
-    console.error(error)
-  }
+      
+    } catch(err) {
+      throw err.response.data.error
+    } 
+  },{
+    onMutate: (variables) => {
+      return variables
+    },
+  })
 }
-
-export default fetchLogin

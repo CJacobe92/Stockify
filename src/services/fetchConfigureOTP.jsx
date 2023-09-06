@@ -1,31 +1,28 @@
 import React from 'react'
+import { API } from './fetchUtils'
+import { useQuery } from '@tanstack/react-query'
 
-const fetchConfigureOTP = async(uid, auth) => {
+const fetchConfigureOTP = () => {
+  return useQuery(['configureOTP'], async() => {
+    try {
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/auth/configure_otp/${uid}`
-
-    const request = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-      },
+      const uid = JSON.parse(localStorage.getItem('root'))?.uid
+  
+      const res = await API.get(`/auth/configure_otp/${uid}`)
+  
+      if(res.status ===  200){
+        return res.data
+      }
+  
+    } catch(err) {
+       throw err.response.data.error
     }
-
-    const response = await fetch(baseURL, request)
-
-    if (!response.ok) {
-      console.error('Failed to fetch')
-    }
-
-    const data = await response.json();
-
-    return data
-
-  } catch(error) {
-    console.error(error)
-  }
+  }, {
+    staleTime: Infinity,
+    cacheTime: Infinity,
+    refetchOnMount: true,
+  })
+  
 }
 
 export default fetchConfigureOTP

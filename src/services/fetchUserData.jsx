@@ -1,30 +1,52 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { API } from './fetchUtils'
+import { useQuery } from '@tanstack/react-query'
+import { DataContext } from '../providers/DataContextProvider'
 
-const fetchUserData = async(uid, auth) => {
+const fetchUserData = (isUser) =>{
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/users/${uid}`
+  return useQuery(['userData'], async() => {
+    try {
 
-    const request = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-      },
+      const uid = JSON.parse(localStorage.getItem('root'))?.uid
+      
+        if(isUser){
+          const res = await API.get(`/users/${uid}`)
+
+          if(res.status <= 300 && res.status >= 200){
+           return res.data
+          }
+        }
+       
+      return []
+    } catch(err) {
+      throw err.response.data.error
     }
+  },
+  {
+    onSuccess: (data) => {
+      return data
+    },
+    onError: (error) => {
+      return error
+    },
+    select: (data) => {
+      const user = data?.data
+      const accounts = user?.accounts.reduce((account) => account)
+      const portfolios =  accounts?.portfolios
+      const transactions = accounts?.transactions
 
-    const response = await fetch(baseURL, request)
-    const result = await response.json();
-
-    if (!response.ok) {
-      console.error('Failed to fetch')
-    }
-
-    return result
-
-  } catch(error) {
-    console.error(error)
-  }
+      return({
+        user,
+        accounts,
+        portfolios,
+        transactions
+      })
+    },
+    enabled: isUser,
+    refetchOnWindowFocus: isUser,
+    refetchOnMount: isUser
+  })
 }
 
 export default fetchUserData

@@ -1,27 +1,29 @@
   import React, { useEffect, useState } from 'react'
 import fetchUpdatePassword from '../../services/fetchUpdatePassword';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ComponentLoading from '../spinners/ComponentLoading';
 
   const UpdatePasswordForm = () => {
     const [formData, setFormData] = useState({ 
       password: '',
       password_confirmation: '' }
     );
-    const [error, setError] = useState(true)
+    const [showError, setshowError] = useState(true)
     const [message, setMessage ] = useState('')
     const navigate = useNavigate();
 
     const location = useLocation();
     const auth = new URLSearchParams(location.search).get('token');
+    const {mutate, isLoading, isFetching, error} = fetchUpdatePassword()
   
     
     useEffect(() => {
-      // Check if passwords match and update error message
+      // Check if passwords match and update showError message
       if (formData.password !== formData.password_confirmation) {
-        setError(true);
+        setshowError(true);
         setMessage('Passwords do not match');
       } else {
-        setError(false);
+        setshowError(false);
         setMessage('');
       }
     }, [formData.password, formData.password_confirmation]);
@@ -32,30 +34,29 @@ import { useLocation, useNavigate } from 'react-router-dom';
     };
   
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        try{
-          if(formData.password == '' || formData.password_confirmation == ''){
-            setError(true)
-            setMessage('All fields required.')
-            return
-          }else{
-            const response = await fetchUpdatePassword(formData, auth)
-            if(response.message){
-              setMessage(response.message)
-              setError(false)
+      e.preventDefault()
+
+      if(formData.password == '' || formData.password_confirmation == ''){
+        setshowError(true)
+        setMessage('All fields required.')
+        return
+      }else{
+        mutate({formData, auth}, {
+          onSuccess: (context) => {
+            setMessage(context.message)
+            setshowError(false)
               setTimeout(() => {navigate('/login')}, 1500)
-            }else if(response.error){
-              setError(true)
-              setMessage(response.error)
-            }
+          },
+          onError: (error) => {
+            setshowError(true)
+            setMessage(error)
           }
-        }catch(error){
-        
+        })
       }
     }
 
     const renderMessage  = () => {
-      switch(error){
+      switch(showError){
         case true:
           return(<div className='text-red-700'>{message}</div>);
         case false:
@@ -78,7 +79,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
             <li>Avoid common words or personal information</li>
           </ol>
         <div className='h-4 my-2 text-xs font-semibold'>
-        {renderMessage()}
+        {isLoading || isFetching ? <ComponentLoading /> : renderMessage()}
         </div>
         <div className='w-full'>
           <label className='text-xs font-semibold text-indigo-700'>Password</label>

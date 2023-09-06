@@ -7,10 +7,9 @@ import FetchLoading from '../spinners/FetchLoading'
 
 const VerifyOTPForm = () => {
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const { currentUser, auth, signIn } = useContext(DataContext)
-
+  const {mutate, isLoading, error} = fetchVerifyOTP();
+  const { dispatch } = useContext(DataContext)
+  
   const inputRefs = Array.from({ length: 6 }, () => useRef(null))
   
   const [digits, setDigits] = useState  ({
@@ -43,28 +42,19 @@ const VerifyOTPForm = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-
-    try{
-
-      setIsLoading(true)
-      
       const pin = Object.values(digits).join('')
-      const data = await fetchVerifyOTP(currentUser, auth, pin)
-
-      if(data.auth != null){
-        const uid = data.uid
-        const auth = data.auth
-        const userType = data.userType
-        
-        signIn(uid, auth, userType)
-        navigate('/portfolio')
-      }
-    } catch(error) {
-      setError(error)
-    } finally {
-      setIsLoading(false)
-      
-    }
+      mutate(pin, {
+        onSuccess: (data) => {
+          dispatch({
+            type: 'SET_ROOT', 
+            uid: data.uid,
+            auth: data.auth,
+            user_type: data.user_type
+          })
+          navigate('/portfolio')
+    
+        }
+      })
   }
 
   return (

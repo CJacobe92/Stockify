@@ -1,58 +1,68 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../../providers/DataContextProvider'
-import fetchBuyTransaction from '../../services/fetchBuyTransaction'
+import fetchBuyTransaction from '../../services/fetchBuyTransaction';
+import ComponentLoading from '../spinners/ComponentLoading';
 
-const BuyTransaction = () => {
 
-  const [transaction, setTransaction] = useState({quantity: '0'})
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+const BuyTransaction = ({selected}) => {
+  
+  const [transaction, setTransaction] = useState({
+    transaction_type: 'buy',
+    quantity: '0'
+  })
+  const [showError, setShowError] = useState(false)
   const [message, setMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   
-  const { state, refetch, currentUser, auth } = useContext(DataContext)
-  const stock = state && state.stock
-  const accounts = state.data && state.data.accounts && state.data.accounts
-  const account = accounts && accounts.reduce((account) => (account))
-    
+  const { userData } = useContext(DataContext)
+  const account = userData && userData?.accounts  
+  const { mutate, error, data, isLoading, isFetching} = fetchBuyTransaction();
+  
   const handleChange = (e) => {
     const {value} = e.target
-    setTransaction({...transaction, quantity: value})
+    const numericValue = value.replace(/[^0-9]/g, '');
+
+    setTransaction({...transaction, quantity: numericValue})
     setIsTyping(true)
   }
-
+  
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
   
-      if(transaction.quantity == 0 || transaction.quantity < 0 || stock.id === null){
-        setError(true)
+      if(transaction.quantity == 0 || transaction.quantity < 0 || selected.id === null){
+        setShowError(true)
         setMessage('Invalid action')
-      }else if(currentUser && auth ){
-        const data =  await fetchBuyTransaction(currentUser, auth, account.id, stock.id, transaction)
+      }else if(error){
+        setTransaction({...transaction, quantity: '0'})
+        setShowError(true)
+        setMessage(error)
         
-        if(data.error){
-          setError(true)
-          setMessage(data.error)
-        }else{
-          refetch();
-          setSuccess(true)
-          setError(false)
+      }else if(!error){
+          const account_id = account?.id
+          const stock_id = selected.id
+          const formData = {
+            transaction_type: transaction.transaction_type,
+            quantity: transaction.quantity
+          };
+          
+          mutate({account_id, stock_id, formData})
+      
+          setShowError(false)
           setIsTyping(false)
-          setMessage('Order successful')
-        }
+          setMessage(data?.message)
       }
     }catch(error){
-      console.error()
+      console.error(error)
     }
   }
   
   const handleBlur = () => {
-    setError(null)
+    setShowError(null)
   }
   
   const renderMessage = () => {
-    switch(error){
+    switch(showError){
       case true: 
       return(
         <p className='text-red-700'>{message}</p>
@@ -66,18 +76,20 @@ const BuyTransaction = () => {
 
   useEffect(() => {
     if(isTyping == true){
-      setError(null)
+      setShowError(null)
       setMessage('')
     }
   }, [isTyping])
-  
+
+
   return (
     <div className='bg-white' onBlur={handleBlur}>
       <fieldset className='p-2 border-2 border-indigo-700'>
         <legend className='text-xs font-semibold text-indigo-700'>Buy Stock</legend>
           <div className='flex flex-row justify-between h-6 text-xs font-semibold'>
             <p className='text-indigo-700'>Quantity</p> 
-            {renderMessage()}
+            {isLoading || isFetching? <ComponentLoading /> :
+            renderMessage()}
           </div>
           <input 
             type="text" 

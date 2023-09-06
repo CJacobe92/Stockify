@@ -3,10 +3,8 @@
   import useFormatDate from '../../hooks/useFormatDate';
 
   const TransactionHistory = ({input, query}) => {
-    const { dataMemo } = useContext(DataContext);
-    const accounts = dataMemo && dataMemo.accounts
-    const account = accounts && accounts.reduce((account) => (account))
-    const transactionsData = account && account.transactions
+    const { userData } = useContext(DataContext);
+    const transactionsData = userData && userData?.transactions
     const {formatDate} = useFormatDate()
 
     const itemsPerPage = 10

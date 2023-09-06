@@ -2,14 +2,15 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { DataContext } from '../../providers/DataContextProvider'
 import useFormatDate from '../../hooks/useFormatDate'
 import fetchUpdateUserData from '../../services/fetchUpdateUserData'
+import { useQueryClient } from '@tanstack/react-query'
 
 const Profile = () => {
   
-  const {dataMemo, refetch, currentUser, auth} = useContext(DataContext)
+  const {userData} = useContext(DataContext)
   
-  const user = dataMemo && dataMemo
-  const firstname = user && user.firstname
-  const lastname = user && user.lastname
+  const user = userData && userData?.user
+  const firstname = user && user?.firstname
+  const lastname = user && user?.lastname
   const email = user && user.email
   const date = user && user.created_at
 
@@ -25,6 +26,8 @@ const Profile = () => {
     email: ''
   })
 
+  // hooks
+  const {mutate, isLoading, isFetching, error} = fetchUpdateUserData();
   const { formatDate } = useFormatDate()
 
   const handleEdit = () => {
@@ -44,16 +47,7 @@ const Profile = () => {
     setEditMode(!editMode)
 
     if(isDataEdited){
-      try{
-        if(currentUser && auth){
-          await fetchUpdateUserData(currentUser, auth, formData)
-          refetch();
-        }
-      }catch(error){
-        console.log(error)
-      } finally {
-        setIsDataEdited(!isDataEdited)
-      }
+      mutate(formData)
     }else{
       const firstname = firstnameRef.current.value
       const lastname = lastnameRef.current.value

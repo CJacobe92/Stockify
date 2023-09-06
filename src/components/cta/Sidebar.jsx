@@ -4,16 +4,15 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ApprovalIcon from '@mui/icons-material/Approval';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import AdminProfile from '../cards/AdminProfile';
-import { DataContext } from '../../providers/DataContextProvider';
+import fetchLogout from '../../services/fetchLogout';
 
 const Sidebar = () => {
 
-  const {signOut } = useContext(DataContext)
   const navigate = useNavigate();
+  const { mutate } = fetchLogout();
 
   const handleLogout = () => {
-    signOut();
-    navigate('/login')
+    mutate({navigate})
   }
 
   return (

@@ -1,31 +1,35 @@
 import React from 'react'
+import { API } from './fetchUtils'
+import { useQuery } from '@tanstack/react-query'
 
-const fetchStockData = async(auth) => {
+const fetchStockData = () => {
+  const user_type = JSON.parse(localStorage.getItem('root'))?.user_type
+  const user = user_type === 'User' ? true : false
 
-  try {
-    const baseURL = `${import.meta.env.VITE_API_URL}/stocks`
+  return useQuery(['stockData', user], async() => {
+    try{
+      const res = await API.get('/stocks')
 
-    const request = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': auth
-      },
+      if(res.status === 200){
+        return res.data
+      }
+
+    } catch(err) {
+      throw err.response.data.error
     }
-
-    const response = await fetch(baseURL, request)
-
-    if (!response.ok) {
-      console.error('Failed to fetch')
-    }
-
-    const data = await response.json();
-
-    return data
-
-  } catch(error) {
-    console.error(error)
-  }
+  }, {
+    onSuccess: (data) =>{
+      return data
+    },
+    onError: (error) =>{
+      return error
+    },
+    select: (data) =>{
+      const stockData = data.data
+      return stockData
+    },
+    enabled: user
+  })
 }
 
 export default fetchStockData

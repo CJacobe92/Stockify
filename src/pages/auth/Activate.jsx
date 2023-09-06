@@ -2,28 +2,21 @@ import React, { useContext, useEffect, useState } from 'react'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { DataContext } from '../../providers/DataContextProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
-import FetchLoading from '../../components/spinners/FetchLoading';
 import fetchActivate from '../../services/fetchActivate';
 
 const Activate = () => {
   
-  const { dispatch, signOut} = useContext(DataContext)
-  const [redirecting, setRedirecting] = useState(false)
   const navigate =  useNavigate()
 
   const location = useLocation();
   const auth = new URLSearchParams(location.search).get('token');
 
+  const {mutate} = fetchActivate();
+
   useEffect(() => {
 
     if(auth) {
-      const activate = async() => {
-        const response = await fetchActivate(auth)
-        if(response.message){
-          console.log(response.message)
-        }
-      }
-      activate();
+      mutate(auth)
     }
   }, [auth])
 
