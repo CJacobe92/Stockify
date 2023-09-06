@@ -3,9 +3,10 @@ import { DataContext } from '../../providers/DataContextProvider';
 import useFormatDate from '../../hooks/useFormatDate';
 import TransactionsSearchModal from '../modals/TransactionsSearch';
 import TransactionsListSearch from '../fieldsets/TransactionsListSearch';
+import ComponentLoading from '../spinners/ComponentLoading';
 
 const TransactionsList = () => {
-  const { allUsersData } = useContext(DataContext);
+  const { allUsersData, allUsersIsLoading, allUsersIsFetching } = useContext(DataContext);
 
   const {formatDate} = useFormatDate()
   
@@ -61,6 +62,11 @@ const TransactionsList = () => {
             <th className='p-1 text-center'>Total Amount</th>
             <th className='p-1 text-center'>Account #</th>
             <th className='p-1 text-center'>Timestamp</th>
+            <th>
+                {allUsersIsLoading|| allUsersIsFetching ? 
+                  <ComponentLoading /> : null
+                }
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -70,11 +76,12 @@ const TransactionsList = () => {
               <td className='p-2 font-bold text-center'>{transaction.symbol}</td>
               <td className='p-2 text-center'>{transaction.stock_id}</td>
               <td className='p-2 text-center'>{transaction.transaction_type}</td>
-              <td className='p-2 text-center'>{transaction.quantity}</td>
+              <td className='p-2 textx-center'>{transaction.quantity}</td>
               <td className='p-2 text-center'>{transaction.price}</td>
               <td className='p-2 text-center'>{transaction.total_cash_value}</td>
               <td className='p-2 text-center'>{transaction.account_number}</td>
-              <td className='p-2 text-center'>{formatDate(transaction.created_at)}</td>
+              <td className='text-center'>{formatDate(transaction.created_at)}</td>
+              <td className='p-2 text-center' />
             </tr>
           ))  
           }

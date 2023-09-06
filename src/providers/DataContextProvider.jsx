@@ -55,9 +55,9 @@ export const DataContextProvider = ({children}) => {
   const isAdmin = state.isAdmin
   const isUser = state.isUser
 
-  const {data: userData, isLoading: userIsLoading} = fetchUserData(isUser);
+  const {data: userData, isLoading: userIsLoading, isFetching: userIsFetching} = fetchUserData(isUser);
   const {data: stockData, isLoading: stockIsLoading } = fetchStockData(isUser);
-  const {data: allUsersData, isLoading: allUsersIsLoading} = fetchAllUsersData(isAdmin);
+  const {data: allUsersData, isLoading: allUsersIsLoading, isFetching: allUsersIsFetching} = fetchAllUsersData(isAdmin);
  
 
   useEffect(() => {
@@ -82,10 +82,12 @@ export const DataContextProvider = ({children}) => {
     <DataContext.Provider value={{
       userData,
       userIsLoading,
+      userIsFetching,
       stockData,
       stockIsLoading,
       allUsersData,
       allUsersIsLoading,
+      allUsersIsFetching,
       state,
       dispatch
       }}>

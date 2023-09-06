@@ -1,9 +1,10 @@
   import React, { useContext, useState } from 'react';
   import { DataContext } from '../../providers/DataContextProvider';
   import useFormatDate from '../../hooks/useFormatDate';
+import ComponentLoading from '../spinners/ComponentLoading';
 
   const TransactionHistory = ({input, query}) => {
-    const { userData } = useContext(DataContext);
+    const { userData, userIsLoading,  userIsFetching} = useContext(DataContext);
     const transactionsData = userData && userData?.transactions
     const {formatDate} = useFormatDate()
 
@@ -40,13 +41,18 @@
           <table className='w-full'>
             <thead className='sticky top-0 text-black bg-white border-b border-indigo-700'>
               <tr>
-                <th className='w-10 p-1 text-sm text-center text-gray-700'>Id</th>
-                <th className='w-10 p-1 text-sm text-center text-gray-700'>Type</th>
-                <th className='w-10 p-1 text-sm text-center text-gray-700'>Symbol</th>
-                <th className='w-10 p-1 text-sm text-center text-gray-700'>Quantity</th>
-                <th className='w-10 p-1 text-sm text-center text-gray-700'>Price</th>
-                <th className='w-10 p-1 text-sm text-center text-gray-700'>Cash Value</th>
-                <th className='w-10 p-1 text-sm text-center text-gray-700'>Time</th>
+                <th className='p-1 text-sm text-center text-gray-700'>Id</th>
+                <th className='p-1 text-sm text-center text-gray-700'>Type</th>
+                <th className='p-1 text-sm text-center text-gray-700'>Symbol</th>
+                <th className='p-1 text-sm text-center text-gray-700'>Quantity</th>
+                <th className='p-1 text-sm text-center text-gray-700'>Price</th>
+                <th className='p-1 text-sm text-center text-gray-700'>Cash Value</th>
+                <th className='p-1 text-sm text-center text-gray-700'>Time</th>
+                <th>
+                  {userIsLoading || userIsFetching ? 
+                    <ComponentLoading /> : null
+                  }
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -154,6 +160,7 @@
                       <td className='p-2 text-center'>{transaction != null ? transaction.price : null}</td>
                       <td className='p-2 text-center'>{transaction != null ? transaction.total_cash_value : null}</td>
                       <td className='p-2 text-center'>{transaction != null ? formatDate(transaction.created_at) : null}</td>
+                      <td className='p-2 text-center' />
                     </tr>
                 ))}
             </tbody>
@@ -164,7 +171,7 @@
           <div className='flex items-center justify-end w-full mt-4'>
             <div className='flex flex-row text-xs'>
               <button onClick={handlePrevPage} className='mx-2 font-semibold'>Previous</button>
-              <p className='w-10 px-2 text-base font-bold text-center text-indigo-700 bg-white border-2 border-indigo-700'>{currentPage}</p>
+              <p className='px-2 text-base font-bold text-center text-indigo-700 bg-white border-2 border-indigo-700'>{currentPage}</p>
               <button onClick={handleNextPage} className='mx-2 font-semibold'>Next</button>
             </div>
           </div> :

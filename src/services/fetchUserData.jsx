@@ -5,6 +5,7 @@ import { DataContext } from '../providers/DataContextProvider'
 
 const fetchUserData = (isUser) =>{
 
+  console.log(isUser)
   return useQuery(['userData'], async() => {
     try {
 

@@ -10,12 +10,12 @@ import ComponentLoading from '../spinners/ComponentLoading'
 
 const UserList = ({input, handleChange}) => {
 
-  const { allUsersData } = useContext(DataContext)
+  const { allUsersData, allUsersIsLoading, allUsersIsFetching } = useContext(DataContext)
  
   
   // hooks
   const {formatDate} = useFormatDate()
-  const {mutate} = fetchAdminUpdateUserData();
+  const {mutate, isLoading, isFetching} = fetchAdminUpdateUserData();
 
   const itemsPerPage = 10
   const [currentPage, setCurrentPage] = useState(1)
@@ -69,6 +69,11 @@ const UserList = ({input, handleChange}) => {
               <th className='p-1 text-center'>OTP Enabled?</th>
               <th className='p-1 text-center'>Created</th>
               <th className='p-1 text-center'>Actions</th>
+              <th>
+                {isLoading|| isFetching || allUsersIsLoading || allUsersIsFetching  ? 
+                  <ComponentLoading /> : null
+                }
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -93,6 +98,7 @@ const UserList = ({input, handleChange}) => {
                   <button onClick={handleRequireMFA} className='font-semibold hover:underline' id={user.id}>Re-require MFA</button>
                   <button onClick={handleDeactivate} className='font-semibold hover:underline' id={user.id}>Deactivate</button>
                 </td>
+                <td className='p-2 text-center' />
               </tr>
             ))}
           </tbody>
