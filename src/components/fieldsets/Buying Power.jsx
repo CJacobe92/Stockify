@@ -20,7 +20,7 @@ const BuyingPower = () => {
       <fieldset className='px-2 py-4 bg-white border-2 border-indigo-700 rounded-sm'>
         <legend className='ml-2 text-xs font-semibold text-indigo-700'>Buying Power</legend>
         {userIsLoading || userIsFetching  ? <div className='flex items-center justify-center'><PageLoading /></div> :
-          <p className='text-4xl font-semibold text-indigo-900'>$ {buyingPower ? buyingPower.toFixed(2) : null}</p>
+          <p className='text-4xl font-semibold text-indigo-900'>&#8369;{buyingPower ? buyingPower.toFixed(2) : null}</p>
         }
        
       </fieldset>          

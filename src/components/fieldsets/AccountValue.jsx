@@ -31,7 +31,7 @@ const AccountValue = () => {
         <legend className='text-sm font-semibold text-indigo-700'>Total Account Value</legend>
         {userIsLoading || userIsFetching ? <div className='flex items-center justify-center h-18 '><PageLoading /></div> :
           <div className='flex items-center justify-start py-4'>
-            <p className='text-4xl font-bold text-indigo-900'>$ {totalValue ? totalValue.toFixed(2) : null}</p> 
+            <p className='text-4xl font-bold text-indigo-900'>&#8369;{totalValue ? totalValue.toFixed(2) : null}</p> 
           </div>
           }
       </fieldset>          
