@@ -8,10 +8,10 @@ const RegisterForm = ({handleChange, handleSubmit, formData, error}) => {
     <form className='flex flex-row justify-center bg-white rounded-sm shadow-md' onSubmit={handleSubmit}>
       <div className='rounded-l-sm'>
         <img src={register}
-        className='object-cover w-56 h-full rounded-l-sm' />
+        className='w-56 h-full rounded-l-sm object-fit' />
       </div>
-    <div className='p-4 mt-4 mb-4 w-96'>
-      <div className='mt-4 text-center'>
+    <div className='p-4 mt-2 mb-2 w-96'>
+      <div className='text-center'>
         <h1 className='text-3xl font-bold text-center text-indigo-500'>Stockify</h1>
         <p className='m-1 text-xs text-gray-600'>"Trade. Thrive. Triumph."</p>
         <p className='mt-4 mb-2 text-xl font-bold text-gray-700'>Sign up for an account.</p>
@@ -21,7 +21,7 @@ const RegisterForm = ({handleChange, handleSubmit, formData, error}) => {
           <span className='text-xs font-semibold text-red-600'>{error}</span>
         </div>
       <div className='flex flex-row'>
-        <div className='w-full m-2'>
+        <div className='w-full mx-2'>
           <label htmlFor="firstname" className='text-xs font-semibold text-gray-700'>Firstname</label>
           <input 
             type="text" 
@@ -32,7 +32,7 @@ const RegisterForm = ({handleChange, handleSubmit, formData, error}) => {
             // onFocus={handleFocus}
             className='w-full p-1 border border-black rounded-sm border-opacity-30 outline-indigo-900'/>
           </div>
-          <div className='w-full m-2'>
+          <div className='w-full mx-2'>
           <label htmlFor="lastname" className='text-xs font-semibold text-gray-700'>Lastname</label>
           <input 
             type="text" 
@@ -43,7 +43,7 @@ const RegisterForm = ({handleChange, handleSubmit, formData, error}) => {
             className='w-full p-1 border border-black rounded-sm border-opacity-30 outline-indigo-900'/>
           </div>
       </div>
-      <div className='m-2'>
+      <div className='mx-2'>
         <label htmlFor="password_confirmation" className='text-xs font-semibold text-gray-700'>Email</label>
         <input 
             type="email" 
@@ -53,7 +53,7 @@ const RegisterForm = ({handleChange, handleSubmit, formData, error}) => {
             onChange={handleChange}
             className='w-full p-1 border border-black rounded-sm border-opacity-30 outline-indigo-900'/>
       </div>
-      <div className='m-2'>
+      <div className='mx-2'>
         <label htmlFor="password" className='text-xs font-semibold text-gray-700'>Password</label>
         <input 
             type="password" 
@@ -63,7 +63,7 @@ const RegisterForm = ({handleChange, handleSubmit, formData, error}) => {
             onChange={handleChange}
             className='w-full p-1 border border-black rounded-sm border-opacity-30 outline-indigo-900'/>
       </div>
-      <div className='m-2'>
+      <div className='mx-2'>
         <label htmlFor="password_confirmation" className='text-xs font-semibold text-gray-700'>Confirm Password</label>
         <input 
             type="password" 
