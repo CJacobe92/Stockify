@@ -13,7 +13,7 @@ const LoginForm = ({handleChange, handleSubmit, formData, error}) => {
   return (
     <form className='flex flex-row justify-center bg-white rounded-sm shadow-md' onSubmit={handleSubmit}>
 
-      <div className='p-4 mt-6 mb-10 w-96'>
+      <div className='p-4 mt-2 mb-2 w-96'>
         <div className='m-2 mb-2 text-center'>
           <h1 className='text-3xl font-bold text-center text-indigo-500'>Stockify</h1>
           <p className='m-1 text-xs text-gray-600'>"Trade. Thrive. Triumph."</p>
@@ -57,7 +57,7 @@ const LoginForm = ({handleChange, handleSubmit, formData, error}) => {
 
       <div className='rounded-r-sm'>
         <img src={login}
-        className='object-cover w-56 h-full rounded-r-sm'/>
+        className='w-56 h-full rounded-r-sm object-fit'/>
       </div>
   </form>
   )
