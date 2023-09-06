@@ -9,6 +9,8 @@ export const fetchLogin = () => {
     try {
 
       localStorage.removeItem('root')
+      localStorage.removeItem('isAdmin')
+      localStorage.removeItem('isUser')
 
       const res = await API.post('/auth/login', {"auth": variables})
 
@@ -21,7 +23,7 @@ export const fetchLogin = () => {
           otp_required: res.headers.otp_required,
           user_type: res.headers.user_type
         }  
-        
+
         return data
       }
       

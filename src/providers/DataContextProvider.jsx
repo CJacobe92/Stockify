@@ -76,7 +76,7 @@ export const DataContextProvider = ({children}) => {
     }else if(isUser){
       localStorage.setItem('isUser', JSON.stringify(isUser))
     }
-  }, [state.isAdmin, state.isUser])
+  }, [state.isAdmin, state.isUser, state.uid, state.auth, state.user_type])
 
   return(
     <DataContext.Provider value={{
