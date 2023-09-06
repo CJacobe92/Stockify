@@ -5,16 +5,15 @@ import SellTransaction from './SellTransaction'
 import PageLoading from '../spinners/PageLoading'
 
 const Holdings = () => {
-  const { state, userData } = useContext(DataContext)
+  const { state, userData, userIsLoading } = useContext(DataContext)
 
-  const isLoading = state && state.isLoading
   const portfolios = userData && userData?.portfolios
 
   return (
     <div className='w-full'>
       <p className='pb-2 text-lg font-semibold text-white bg-gray-900'>Holdings</p>
       <div className='overflow-y-auto bg-white max-h-[72vh] min-h-[72vh] scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-indigo-500' >
-        {isLoading ? (
+        {userIsLoading ? (
           <div className='max-h-[72vh] min-h-[72vh] border border-black flex justify-center items-center'>
             <PageLoading /> 
           </div>)
