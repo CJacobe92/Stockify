@@ -1,5 +1,5 @@
 import React from 'react'
-import reload from '../../assets/reload.gif'
+import reload from '../../assets/reload.svg'
 
 const ComponentLoading = () => {
   return (
