@@ -3,13 +3,16 @@ import fetchSellTransaction from '../../services/fetchSellTransaction'
 import { DataContext } from '../../providers/DataContextProvider'
 
 const SellTransaction = ({portfolio}) => {
+  
 
-  const { refetch, currentUser, auth } = useContext(DataContext)
-  
-  const account_id = portfolio && portfolio.account_id
-  const stock_id = portfolio && portfolio.stock_id
-  
-  const [transaction, setTransaction] = useState({quantity: '0'})
+  const [transaction, setTransaction] = useState({
+    transaction_type: 'sell',
+    quantity: '0'
+  })
+
+  const {mutate} = fetchSellTransaction()
+  const account_id = portfolio?.account_id
+  const stock_id = portfolio?.stock_id
   
   const handleChange = (e) =>{
     const { value } = e.target
@@ -19,8 +22,12 @@ const SellTransaction = ({portfolio}) => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-      await fetchSellTransaction(currentUser, auth, account_id, stock_id, transaction)
-      refetch();
+      const formData = {
+        transaction_type: transaction.transaction_type,
+        quantity: transaction.quantity
+      };
+      
+      mutate({account_id, stock_id, formData})
     } catch(error) {
       console.error(error)
     }
