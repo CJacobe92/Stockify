@@ -80,6 +80,10 @@ const ApprovalList = () => {
     deleteUser(id)
   }
 
+  const handleReset = (e) => {
+    setInput({...input, query: ''})
+  }
+
   return (
       <div className='w-full overflow-y-auto h-[75vh]'>
         <table className='w-full text-sm'>
@@ -148,11 +152,11 @@ const ApprovalList = () => {
               <button onClick={handleNextPage} className='m-1'>Next</button>
             </div> : 
             <div className='flex flex-row items-center justify-between'>
-              <button onClick={() => setInput({...input, query: ''})} className='flex flex-row items-center justify-center mx-2'>
+              <button onClick={handleReset} className='flex flex-row items-center justify-center mx-2'>
                 <p className='mr-1'>Reset</p>
                 <RestartAltIcon style={{fontSize: '1.8rem'}}/>
               </button>
-              <button onClick={() => {setIsSearching(false); setInput({...input, query: ''})}} className='flex flex-row items-center justify-center mx-2'>
+              <button onClick={() => {setIsSearching(false); handleReset}} className='flex flex-row items-center justify-center mx-2'>
                 <p className='mr-1'>Exit</p>
                 <ExitToAppIcon style={{fontSize: '1.8rem'}}/>
               </button>
