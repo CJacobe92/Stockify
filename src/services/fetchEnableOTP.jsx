@@ -6,7 +6,6 @@ const fetchEnableOTP = () => {
   return useMutation(async(context) => {
     try {
 
-      console.log(context)
       const uid = JSON.parse(localStorage.getItem('root'))?.uid
   
       const res = await API.patch(`/auth/enable_otp/${uid}`, {"auth": {"otp": context}})
