@@ -20,7 +20,9 @@ const fetchUpdateUserData = () => {
       throw err.response.data.error
     }
   }, {
-    onMutate: (variables) => {return variables},
+    onMutate: (variables) => {
+      queryClient.cancelQueries({queryKey: ['userData']});
+    return variables},
     onSuccess: (data) => {
       queryClient.invalidateQueries('userData')
       return data

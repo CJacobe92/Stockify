@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
 import { API } from './fetchUtils'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { DataContext } from '../providers/DataContextProvider'
 
 export const fetchLogin = () => {
+
+  const queryClient = useQueryClient();
 
   return useMutation(async(variables) =>{
     try {
@@ -32,6 +34,8 @@ export const fetchLogin = () => {
     } 
   },{
     onMutate: (variables) => {
+      queryClient.cancelQueries({queryKey: ['userData']});
+      queryClient.cancelQueries({queryKey: ['allUsersData']});
       return variables
     },
   })

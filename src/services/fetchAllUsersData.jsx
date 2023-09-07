@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 
 const fetchAllUsersData = (isAdmin) => {
 
-  return useQuery(['allUserData', isAdmin], async() => {
+  return useQuery(['allUsersData', isAdmin], async() => {
     try {
 
         if(isAdmin){
@@ -33,8 +33,8 @@ const fetchAllUsersData = (isAdmin) => {
       const transactions = account ? account.flatMap(data => data?.transactions).filter(Boolean) : [];
 
       const forApproval = data?.data.filter((data) => (data.activated === false))
-      return(
-        {users, 
+      return({
+        users, 
         forApproval, 
         transactions
       })

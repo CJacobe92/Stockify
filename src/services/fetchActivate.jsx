@@ -17,6 +17,7 @@ const fetchActivate = () => {
     }
   }, {
     onMutate: (variables) => {
+      queryClient.cancelQueries({queryKey: ['userData']});
       return variables
     }
   }

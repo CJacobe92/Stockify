@@ -3,8 +3,8 @@ import React from 'react'
 import { API } from './fetchUtils'
 
 const fetchUpdateAccount = () => {
-
-
+  
+  const queryClient = useQueryClient();
 
   return useMutation(async(variables) => {
     try {
@@ -21,7 +21,10 @@ const fetchUpdateAccount = () => {
       throw err.response.data.error
     }
   }, {
-    onMutate: (variables) => {return variables},
+    onMutate: (variables) => {
+      queryClient.cancelQueries({queryKey: ['userData']});
+      return variables
+    },
   })
 
 }

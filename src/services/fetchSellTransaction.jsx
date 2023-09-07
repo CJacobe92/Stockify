@@ -29,6 +29,7 @@ export const fetchSellTransaction = () => {
     }
   }, {
     onMutate: (variables) => {
+      queryClient.cancelQueries({queryKey: ['userData']});
       return variables
     },
     onSuccess: (data) => {

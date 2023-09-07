@@ -19,6 +19,7 @@ export const fetchBuyTransaction = () => {
         stock_id: stock_id
       }
 
+      console.log(payload)
       const res = await API.post(`/users/${uid}/accounts/${account_id}/transactions`, payload)
 
       if(res.status <= 300 && res.status >= 200 ){
@@ -29,11 +30,11 @@ export const fetchBuyTransaction = () => {
     }
   }, {
     onMutate: (variables) => {
+      queryClient.cancelQueries({queryKey: ['userData']});
       return variables
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries('userData')
-      return data
     },
     onError: (error) => {
       console.error(error)
