@@ -18,7 +18,7 @@ const ApprovalList = () => {
   const {formatDate} = useFormatDate()
   
   const itemsPerPage = 10
-  const [input, setInput] = useState({email: ''})
+  const [input, setInput] = useState({query: ''})
   const [isSearching, setIsSearching] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const totalPages =  Math.ceil(allUsersData?.forApproval?.length / itemsPerPage)
@@ -37,7 +37,7 @@ const ApprovalList = () => {
   const {mutate: deleteUser, isLoading: deleteUserIsLoading, isFetching: deleteUserIsFetching} = fetchDeleteUser();
 
   const handleChange = (e) => {
-    setInput({...input, email: e.target.value})
+    setInput({...input, query: e.target.value})
   }
   
   const handleSearch = () => {
@@ -108,9 +108,20 @@ const ApprovalList = () => {
           </thead>
           <tbody>
             {userData?.filter((user) => {
-                const query = input?.email;
-                return(user?.email.includes(query))
-              }).map((user, index) =>(
+              const query = input.query
+              const idQuery = user?.id.toString().includes(query)
+              const firstnameQuery = user?.firstname.includes(query)
+              const lastnameQuery = user?.lastname.includes(query)
+              const emailQuery = user?.email.includes(query)
+              const createdAtQuery = formatDate(user?.created_at).includes(query)
+  
+              return(
+                idQuery 
+                  || firstnameQuery 
+                    || lastnameQuery 
+                      || emailQuery
+                        || createdAtQuery)
+            }).map((user, index) =>(
               <tr key={index} className={`${index % 2 == 0 ?'bg-white text-indigo-700':  'bg-indigo-200 text-indigo-700'} border border-indigo-700`}>
                 <td className='p-2 font-bold text-center'>{user.id}</td>
                 <td className='p-2 text-center'>{user.firstname}</td>
@@ -137,11 +148,11 @@ const ApprovalList = () => {
               <button onClick={handleNextPage} className='m-1'>Next</button>
             </div> : 
             <div className='flex flex-row items-center justify-between'>
-              <button onClick={() => setInput({...input, email: ''})} className='flex flex-row items-center justify-center mx-2'>
+              <button onClick={() => setInput({...input, query: ''})} className='flex flex-row items-center justify-center mx-2'>
                 <p className='mr-1'>Reset</p>
                 <RestartAltIcon style={{fontSize: '1.8rem'}}/>
               </button>
-              <button onClick={() => {setIsSearching(false); setInput({...input, email: ''})}} className='flex flex-row items-center justify-center mx-2'>
+              <button onClick={() => {setIsSearching(false); setInput({...input, query: ''})}} className='flex flex-row items-center justify-center mx-2'>
                 <p className='mr-1'>Exit</p>
                 <ExitToAppIcon style={{fontSize: '1.8rem'}}/>
               </button>
