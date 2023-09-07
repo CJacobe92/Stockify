@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 
 const StockDetails = ({selected}) => {
 
+  console.log(selected)
+
   return (
     <fieldset className='p-2 mb-2 text-gray-800 border-2 border-indigo-700'>
         <legend className='mb-2 ml-2 text-xs font-semibold text-indigo-700'>Stock </legend>

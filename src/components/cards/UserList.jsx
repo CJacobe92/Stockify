@@ -9,6 +9,7 @@ import PWReset from '../fieldsets/PWReset'
 import ComponentLoading from '../spinners/ComponentLoading'
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import fetchDeleteUser from '../../services/fetchDeleteUser'
 
 const UserList = () => {
 
@@ -17,6 +18,7 @@ const UserList = () => {
   // hooks
   const {formatDate} = useFormatDate()
   const {mutate, isLoading, isFetching} = fetchAdminUpdateUserData();
+  const {mutate: deleteUser, isLoading: deleteUserIsLoading, isFetching: deleteUserIsFetching} = fetchDeleteUser();
 
   const [input, setInput] = useState({email: ''})
   const [currentPage, setCurrentPage] = useState(1)
@@ -70,6 +72,12 @@ const UserList = () => {
     mutate({formData, id})
   }
   
+
+  const handleDelete = (e) => {
+    const { id } = e.target
+    deleteUser(id)
+  }
+  
   return (
       <div className='w-full overflow-y-auto h-[75vh]'>
         <table className='w-full text-sm'>
@@ -84,7 +92,12 @@ const UserList = () => {
               <th className='p-1 text-center'>Created</th>
               <th className='p-1 text-center'>Actions</th>
               <th>
-                {isLoading|| isFetching || allUsersIsLoading || allUsersIsFetching  ? 
+                {isLoading
+                  || isFetching 
+                    || allUsersIsLoading 
+                      || allUsersIsFetching  
+                        || deleteUserIsLoading 
+                          || deleteUserIsFetching ? 
                   <ComponentLoading /> : null
                 }
               </th>
@@ -111,6 +124,8 @@ const UserList = () => {
                   </button>
                   <button onClick={handleRequireMFA} className='font-semibold hover:underline' id={user.id}>Re-require MFA</button>
                   <button onClick={handleDeactivate} className='font-semibold hover:underline' id={user.id}>Deactivate</button>
+                  <button onClick={handleDelete} className='font-semibold hover:underline' id={user.id}>Delete</button>
+
                 </td>
                 <td className='p-2 text-center' />
               </tr>

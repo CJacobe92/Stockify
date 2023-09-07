@@ -7,9 +7,12 @@ import ApprovalModal from '../modals/ApprovalModal'
 import ApprovalListSearch from '../fieldsets/ApprovalListSearch'
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import fetchDeleteUser from '../../services/fetchDeleteUser'
+import { fetchSendActivation } from '../../services/fetchSendActivation'
 
 
 const ApprovalList = () => {
+  
   const { allUsersData, allUsersIsLoading, allUsersIsFetching } = useContext(DataContext)
 
   const {formatDate} = useFormatDate()
@@ -30,6 +33,8 @@ const ApprovalList = () => {
   
 
   const {mutate, isLoading, isFetching} = fetchAdminUpdateUserData();
+  const {mutate: sendActivation, isLoading: activationLoading, isFetching: activationFetching} = fetchSendActivation();
+  const {mutate: deleteUser, isLoading: deleteUserIsLoading, isFetching: deleteUserIsFetching} = fetchDeleteUser();
 
   const handleChange = (e) => {
     setInput({...input, email: e.target.value})
@@ -53,12 +58,26 @@ const ApprovalList = () => {
     }
   };
   
-  const handleApprove = (e) => {
+  const handleBypass = (e) => {
     const { id } = e.target
     const formData = {
       activated: true
     }
     mutate({formData, id})
+  }
+
+  const handleSendActivation = (e) => {
+    const { value } = e.target
+    const formData = {
+      email: value
+    }
+    sendActivation({formData})
+  }
+
+  
+  const handleDelete = (e) => {
+    const { id } = e.target
+    deleteUser(id)
   }
 
   return (
@@ -74,7 +93,14 @@ const ApprovalList = () => {
               <th className='p-1 text-center'>Created</th>
               <th className='p-1 text-center'>Actions</th>
               <th>
-                {isLoading|| isFetching || allUsersIsLoading || allUsersIsFetching? 
+                {isLoading 
+                  || isFetching 
+                    || allUsersIsLoading 
+                      || allUsersIsFetching 
+                        || activationLoading 
+                          || activationFetching 
+                            || deleteUserIsLoading
+                              || deleteUserIsFetching ? 
                   <ComponentLoading /> : null
                 }
               </th>
@@ -92,8 +118,10 @@ const ApprovalList = () => {
                 <td className='p-2 font-semibold text-center'>{user.email}</td>
                 <td className='p-2 font-semibold text-center'>{user.activate === 'true' ? 'Activated' : 'Inactive'}</td>
                 <td className='p-2 text-center'>{formatDate(user.created_at)}</td>
-                <td className='flex flex-col w-full p-2 text-xs text-center'>
-                  <button className='my-1 mb-1 font-semibold hover:underline' id={user.id} onClick={handleApprove}>Activate</button>
+                <td className='flex flex-row items-center w-full p-2 text-xs justify-evenly'>
+                  <button className='my-1 mb-1 font-semibold hover:underline' id={user.id} onClick={handleBypass}>Bypass</button>
+                  <button className='my-1 mb-1 font-semibold hover:underline' value={user.email} onClick={handleSendActivation}>Send Activation</button>
+                  <button onClick={handleDelete} className='font-semibold hover:underline' id={user.id}>Delete</button>
                 </td>
                 <td className='p-2 text-center' />
               </tr>
