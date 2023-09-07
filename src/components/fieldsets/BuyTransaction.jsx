@@ -10,6 +10,7 @@ const BuyTransaction = ({selected}) => {
     transaction_type: 'buy',
     quantity: '0'
   })
+  
   const [showError, setShowError] = useState(false)
   const [message, setMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
