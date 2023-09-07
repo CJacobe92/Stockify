@@ -9,7 +9,7 @@ export const fetchSellTransaction = () => {
   return useMutation(async(context) => {
 
     try{
-      const uid = JSON.parse(localStorage.getItem('root'))?.currentUser
+      const uid = JSON.parse(localStorage.getItem('root'))?.uid
       const account_id = context.account_id
       const stock_id = context.stock_id
       const formData = context.formData
