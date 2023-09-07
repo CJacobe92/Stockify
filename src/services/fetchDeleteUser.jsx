@@ -18,7 +18,11 @@ const fetchDeleteUser = () => {
       throw err.response.data.error
     }
   }, {
-    onMutate: (variables) => {return variables},
+    onMutate: (variables) => {
+      queryClient.cancelQueries({queryKey: ['allUsersData']});
+
+      return variables}
+      ,
     onSuccess: (data) => {
       queryClient.invalidateQueries('allUserData')
       return data

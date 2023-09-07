@@ -23,16 +23,14 @@
       }
     }, {
       onMutate: (variables) => {
+        queryClient.cancelQueries({queryKey: ['userData']});
+        queryClient.cancelQueries({queryKey: ['allUsersData']});
         return variables
       },
       onSuccess: (context, variables) => {
         if(context.message == 'Logout successful'){
           variables.dispatch({type: 'LOGOUT'})
-          localStorage.removeItem('root');
-          localStorage.removeItem('isAdmin')
-          localStorage.removeItem('isUser')
-          queryClient.cancelQueries({queryKey: ['userData']});
-          queryClient.cancelQueries({queryKey: ['allUsersData']});
+          localStorage.clear()
           variables.navigate('/login')
         }
       }, 

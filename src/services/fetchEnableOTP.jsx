@@ -1,8 +1,11 @@
 import React from 'react'
 import { API } from './fetchUtils'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const fetchEnableOTP = () => {
+
+  const queryClient = useQueryClient();
+  
   return useMutation(async(context) => {
     try {
 
@@ -29,7 +32,9 @@ const fetchEnableOTP = () => {
       throw err.response.data.error
     }
   }, {
-    onMutate: (variables) => {return variables}
+    onMutate: (variables) => {
+      queryClient.cancelQueries({queryKey: ['userData']});
+      return variables}
   })
 }
 
