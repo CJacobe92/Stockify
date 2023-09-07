@@ -4,7 +4,9 @@ import home1 from '../assets/home1.png'
 import home2 from '../assets/home2.png'
 import home3 from '../assets/home3.svg'
 import FacebookIcon from '@mui/icons-material/Facebook';
-
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Landing = () => {
   return (
@@ -97,10 +99,22 @@ const Landing = () => {
         <div className='flex flex-col items-center justify-center col-span-1'>
           <ol>
             <li className='my-2 text-sm font-semibold text-indigo-200'>Follow Us</li>
-            <li className='text-white'>Facebook</li>
-            <li className='text-white'>Instagram</li>
-            <li className='text-white'>Twitter</li>
-            <li className='text-white'>Linked In</li>
+            <li className='flex flex-row items-center text-white'>
+              <FacebookIcon className='mr-1'/>
+              Facebook
+            </li>
+            <li className='flex flex-row items-center text-white'>
+              <InstagramIcon className='mr-1'/>
+              Instagram
+            </li>
+            <li className='flex flex-row items-center text-white'>
+              <TwitterIcon className='mr-1'/>
+              Twitter
+            </li>
+            <li className='flex flex-row items-center text-white'>
+              <LinkedInIcon className='mr-1'/>
+              LinkedIn
+            </li>
           </ol>
         </div>
       </div>
