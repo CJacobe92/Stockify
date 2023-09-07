@@ -8,7 +8,7 @@ const Holdings = () => {
   const { state, userData, userIsLoading,  userIsFetching} = useContext(DataContext)
 
   const portfolios = userData && userData?.portfolios
-
+  
   return (
     <div className='w-full'>
       <p className='pb-2 text-lg font-semibold text-white bg-gray-900'>Holdings</p>

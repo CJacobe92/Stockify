@@ -5,7 +5,7 @@ import ComponentLoading from '../spinners/ComponentLoading';
 
 
 const BuyTransaction = ({selected}) => {
-  
+
   const [transaction, setTransaction] = useState({
     transaction_type: 'buy',
     quantity: '0'
