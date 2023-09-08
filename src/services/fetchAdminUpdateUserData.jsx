@@ -21,22 +21,11 @@ const fetchAdminUpdateUserData = () => {
   }, {
     onMutate: async (variables) => {
       await queryClient.cancelQueries({queryKey: ['allUsersData']});
-
-      const previousData =  queryClient.getQueryData(['allUsersData'])
-      const newData = variables.allUsersData
-
-      const updatedData = {
-        ...previousData,
-        ...newData,
-      };
-      
-      queryClient.setQueryData(['allUsersData'], updatedData)
-
-      return variables && previousData
+      return variables
     },
 
-    onError: (err,context) => {
-      queryClient.setQueryData(['allUsersData'], context)
+    onError: (err) => {
+      console.error(err)
     },
     onSuccess: async (data) => {
       await queryClient.invalidateQueries('allUserData')

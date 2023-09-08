@@ -28,7 +28,7 @@ const SellTransaction = ({portfolio}) => {
         quantity: transaction.quantity
       };
       
-      mutate({account_id, stock_id, formData, userData})
+      mutate({account_id, stock_id, formData})
     } catch(error) {
       console.error(error)
     }
