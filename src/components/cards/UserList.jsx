@@ -71,6 +71,15 @@ const UserList = () => {
     }
     mutate({formData, id})
   }
+
+  const handleByPassMFA = (e) => {
+    const { id } = e.target
+    const formData = {
+      otp_required: false
+    }
+    mutate({formData, id})
+    console.log('clicked')
+  }
   
   const handleDelete = (e) => {
     const { id } = e.target
@@ -138,6 +147,7 @@ const UserList = () => {
                     </PWResetModal>
                   </button>
                   <button onClick={handleRequireMFA} className='font-semibold hover:underline' id={user.id}>Re-require MFA</button>
+                  <button onClick={handleByPassMFA} className='font-semibold hover:underline' id={user.id}>Bypass MFA</button>
                   <button onClick={handleDeactivate} className='font-semibold hover:underline' id={user.id}>Deactivate</button>
                   <button onClick={handleDelete} className='font-semibold hover:underline' id={user.id}>Delete</button>
 

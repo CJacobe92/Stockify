@@ -1,6 +1,6 @@
 import React from 'react'
-import { API } from './fetchUtils'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { API } from './fetchUtils';
 
 const fetchVerifyOTP = () => {
 

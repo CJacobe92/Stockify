@@ -11,11 +11,9 @@ const Sidebar = () => {
 
   const navigate = useNavigate();
   const { mutate } = fetchLogout();
-  const {dispatch} = useContext(DataContext)
-
 
   const handleLogout = () => {
-    mutate({navigate, dispatch})
+    mutate({navigate})
   }
 
   return (

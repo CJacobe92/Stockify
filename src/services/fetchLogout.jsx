@@ -4,9 +4,6 @@
 
   const fetchLogout = ( ) => {
 
-    const user_type = JSON.parse(localStorage.getItem('root'))?.user_type
-    const queryClient = useQueryClient();
-
     return useMutation(async() => {
       try { 
         
@@ -23,14 +20,11 @@
       }
     }, {
       onMutate: (variables) => {
-        queryClient.cancelQueries({queryKey: ['userData']});
-        queryClient.cancelQueries({queryKey: ['allUsersData']});
         return variables
       },
       onSuccess: (context, variables) => {
         if(context.message == 'Logout successful'){
-          variables.dispatch({type: 'LOGOUT'})
-          localStorage.clear()
+          localStorage.clear();
           variables.navigate('/login')
         }
       }, 

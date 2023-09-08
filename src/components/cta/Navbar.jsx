@@ -10,10 +10,9 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { mutate } = fetchLogout();
-  const {dispatch} = useContext(DataContext)
   
   const handleLogout = () => {
-    mutate({navigate, dispatch})
+    mutate({navigate})
   }
 
   useEffect(() => {

@@ -8,12 +8,10 @@ import { DataContext } from '../providers/DataContextProvider';
 
 const AdminLayout = () => {
   const isAuthenticated = useAuth();
-  
-  const {state} = useContext(DataContext)
-  const user_type = state?.user_type
-  
-  
-  return isAuthenticated  && user_type == 'Admin' ? (
+
+  const isAdmin = JSON.parse(localStorage.getItem('root'))?.isAdmin
+
+  return isAuthenticated && isAdmin === true ? (
     <div className='flex flex-row w-full min-h-screen text-white bg-gray-900 justify-centers item-center'>
       <Sidebar />
       <Outlet />

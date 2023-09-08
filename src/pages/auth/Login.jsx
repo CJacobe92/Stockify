@@ -24,49 +24,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
       
-      mutate(formData, {
-        onSuccess: (data) => {
-
-          dispatch({
-            type: 'SET_ROOT', 
-            uid: data.uid,
-            auth: data.auth,
-            user_type: data.user_type,
-            isAuthenticated: true
-          })
-          
-
-          if(data.user_type === 'Admin'){
-            
-            navigate('/dashboard')
-            dispatch({type: 'IS_ADMIN', isAdmin: true})
-    
-          }else if(data.user_type === 'User'){
-            dispatch({type: 'IS_USER', isUser: true})
-
-            if(data.activated === "false"){
-              navigate('/review')
-              return
-            }
-    
-            if(data.activated === 'true' && data.otp_enabled === 'false'){
-              navigate('/enableotp');
-              return
-            }
-    
-            if(data.activated === 'true' && data.otp_enabled === 'true' && data.otp_required === 'true'){
-              navigate('/verifyotp');
-              return
-            }
-    
-            if(data.activated === 'true' && data.otp_enabled === 'true' && data.otp_required === 'false'){
-              navigate('/portfolio');
-            }
-          }
-
-      
-        }
-      })
+      mutate({formData, navigate})
   };
 
   return (isLoading ? <FetchLoading /> :

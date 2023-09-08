@@ -8,11 +8,9 @@ import { DataContext } from '../providers/DataContextProvider';
 const UserLayout = () => {
   const isAuthenticated = useAuth()
   
-  const {state} = useContext(DataContext)
-  const user_type = state?.user_type
+  const isAdmin = JSON.parse(localStorage.getItem('root'))?.isAdmin
 
-
-  return isAuthenticated && user_type == 'User' ? (
+  return isAuthenticated && isAdmin === false ? (
     <div className='flex flex-col w-full min-h-screen text-white bg-gray-900'>
       <Navbar />
       <Outlet />
