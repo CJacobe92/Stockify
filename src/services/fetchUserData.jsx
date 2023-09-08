@@ -6,7 +6,7 @@ import { storage } from './utils'
 
 const fetchUserData = () =>{
 
-  const isAdmin = JSON.parse(localStorage.getItem('root'))?.isAdmin
+  const isAdmin = storage.isAdmin();
   const isEnabled = isAdmin === false ? true : false
 
   return useQuery(['userData'], async() => {
@@ -14,13 +14,12 @@ const fetchUserData = () =>{
 
       const uid = storage.uid();
       
-      if(uid){
-        const res = await API.get(`/users/${uid}`)
+      const res = await API.get(`/users/${uid}`)
 
-        if(res.status <= 300 && res.status >= 200){
-           return res.data
-        }
+      if(res.status <= 300 && res.status >= 200){
+          return res.data
       }
+    
 
     } catch(err) {
       throw err.response.data.error
