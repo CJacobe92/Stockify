@@ -18,7 +18,7 @@ const BuyTransaction = ({selected}) => {
   const { userData } = useContext(DataContext)
   const user = userData?.data      
   const accounts = user?.accounts.reduce((account) => account)
-  const account_id = 0
+  const account_id = accounts?.id
   
   const { mutate, error, data, isLoading, isFetching} = fetchBuyTransaction();
   
