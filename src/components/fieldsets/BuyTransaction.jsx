@@ -19,6 +19,7 @@ const BuyTransaction = ({selected}) => {
   const user = userData?.data      
   const accounts = user?.accounts.reduce((account) => account)
   const account_id = accounts?.id
+  const stock_id = selected?.id
   
   const { mutate, error, data, isLoading, isFetching} = fetchBuyTransaction();
   
@@ -43,7 +44,8 @@ const BuyTransaction = ({selected}) => {
         setMessage(error)
         
       }else if(!error){
-          const stock_id = selected.id
+
+        if(account_id && stock_id){
           const formData = {
             transaction_type: transaction.transaction_type,
             quantity: transaction.quantity
@@ -54,6 +56,7 @@ const BuyTransaction = ({selected}) => {
           setShowError(false)
           setIsTyping(false)
           setMessage(data?.message)
+        }
       }
     }catch(error){
       console.error(error)
