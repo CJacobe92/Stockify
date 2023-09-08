@@ -11,7 +11,7 @@ const fetchAllUsersData = () => {
   return useQuery(['allUsersData'], async() => {
     try {
 
-      if(isAdmin){
+      if(isEnabled){
         const res = await API.get(`/users`)
 
         if(res.status <= 300 && res.status >= 200){
