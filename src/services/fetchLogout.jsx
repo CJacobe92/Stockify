@@ -1,6 +1,7 @@
   import { useMutation, useQueryClient } from '@tanstack/react-query'
   import React from 'react'
-  import { API } from './fetchUtils'
+  import { API } from './api'
+import { storage } from './utils';
 
   const fetchLogout = ( ) => {
 
@@ -28,7 +29,7 @@
       },
       onSuccess: (context, variables) => {
         if(context.message == 'Logout successful'){
-          localStorage.clear();
+          storage.removeRoot()
           variables.navigate('/login')
         }
       }, 

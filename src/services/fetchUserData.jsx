@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { API } from './fetchUtils'
+import { API } from './api'
 import { useQuery } from '@tanstack/react-query'
 import { DataContext } from '../providers/DataContextProvider'
+import { storage } from './utils'
 
 const fetchUserData = () =>{
 
@@ -11,7 +12,7 @@ const fetchUserData = () =>{
   return useQuery(['userData'], async() => {
     try {
 
-      const uid = JSON.parse(localStorage.getItem('root'))?.uid
+      const uid = storage.uid
       
       if(uid){
         const res = await API.get(`/users/${uid}`)

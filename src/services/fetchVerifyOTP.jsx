@@ -1,6 +1,7 @@
 import React from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { API } from './fetchUtils';
+import { API } from './api';
+import { storage } from './utils';
 
 const fetchVerifyOTP = () => {
 
@@ -9,7 +10,7 @@ const fetchVerifyOTP = () => {
   return useMutation(async(context) => {
     try {
       
-      const uid = JSON.parse(localStorage.getItem('root'))?.uid
+      const uid = storage.uid
 
       const res = await API.post(`/auth/verify_otp/${uid}`,{auth: {otp: context}})
       
