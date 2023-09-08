@@ -8,6 +8,8 @@ export const fetchLogin = () => {
   return useMutation(async(variables) =>{
     try {
 
+      storage.removeRoot
+
       const res = await API.post('/auth/login', {"auth": variables.formData})
 
       if(res.status <= 300 && res.status >= 200){
@@ -19,8 +21,7 @@ export const fetchLogin = () => {
           otp_required: res.headers.otp_required,
           user_type: res.headers.user_type
         }  
-
-
+        
         const payload = {
           uid: data.uid,
           auth: data.auth,
