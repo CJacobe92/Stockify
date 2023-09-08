@@ -42,8 +42,6 @@ export const fetchLogin = () => {
       return variables
     },
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries('allUserData')
-      queryClient.invalidateQueries('UserData')
 
       if(data.auth !== null ){
 
