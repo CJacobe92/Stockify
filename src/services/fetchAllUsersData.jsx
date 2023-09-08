@@ -11,12 +11,14 @@ const fetchAllUsersData = () => {
   return useQuery(['allUsersData'], async() => {
     try {
 
-      const res = await API.get(`/users`)
+      if(isEnabled){
+        const res = await API.get(`/users`)
 
-      if(res.status === 200){
-        return res.data
+        if(res.status <= 300 && res.status >= 200){
+          return res.data
+        }
       }
-    
+      
     } catch(err) {
       throw err.response.data.error
     }
