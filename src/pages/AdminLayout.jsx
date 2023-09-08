@@ -9,6 +9,8 @@ const AdminLayout = () => {
 
   const isAdmin = storage.isAdmin
 
+  console.log(isAdmin)
+  
   return isAuthenticated && isAdmin === true ? (
     <div className='flex flex-row w-full min-h-screen text-white bg-gray-900 justify-centers item-center'>
       <Sidebar />

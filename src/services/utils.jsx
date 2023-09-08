@@ -1,6 +1,7 @@
 export const storage = {
-  uid: () => JSON.parse(window.localStorage.getItem('root'))?.uid,
-  isAdmin: () => JSON.parse(window.localStorage.getItem('root')).isAdmin,
-  setRoot: (payload) => window.localStorage.setItem('root', JSON.stringify(payload)),
-  removeRoot: () =>  window.localStorage.removeItem('root')
+  uid: JSON.parse(localStorage.getItem('root'))?.uid,
+  auth: JSON.parse(localStorage.getItem('root'))?.auth,
+  isAdmin: JSON.parse(localStorage.getItem('root'))?.isAdmin,
+  setRoot: (payload) => localStorage.setItem('root', JSON.stringify(payload)),
+  removeRoot: () =>  localStorage.removeItem('root')
 }
