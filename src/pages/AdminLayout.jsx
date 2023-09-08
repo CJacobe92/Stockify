@@ -3,11 +3,14 @@ import { Navigate, Outlet } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import Sidebar from '../components/cta/Sidebar';
 import { storage } from '../services/utils';
+import fetchAllUsersData from '../services/fetchAllUsersData';
 
 const AdminLayout = () => {
   const isAuthenticated = useAuth();
 
   const isAdmin = storage.isAdmin();
+  
+  fetchAllUsersData()
   
   return isAuthenticated && isAdmin === true ? (
     <div className='flex flex-row w-full min-h-screen text-white bg-gray-900 justify-centers item-center'>

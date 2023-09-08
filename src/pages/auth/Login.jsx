@@ -4,12 +4,14 @@ import FetchLoading from '../../components/spinners/FetchLoading';
 import { useNavigate } from 'react-router-dom';
 import { DataContext } from '../../providers/DataContextProvider';
 import { fetchLogin } from '../../services/fetchLogin';
+import fetchAllUsersData from '../../services/fetchAllUsersData';
 
 const Login = () => {
 
   const [formData, setFormData] = useState({email: '', password: ''})
   const [isTyping, setIsTyping] = useState(false)
   const {dispatch} = useContext(DataContext)
+
   
   // Hooks
   const navigate = useNavigate()
