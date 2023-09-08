@@ -22,7 +22,7 @@ const fetchAdminUpdateUserData = () => {
     onMutate: async (variables) => {
       await queryClient.cancelQueries({queryKey: ['allUsersData']});
 
-      const previousData =  queryClient.getQueryData(['userData'])
+      const previousData =  queryClient.getQueryData(['allUsersData'])
       const newData = variables.allUsersData
 
       const updatedData = {
@@ -30,7 +30,7 @@ const fetchAdminUpdateUserData = () => {
         ...newData,
       };
       
-      queryClient.setQueryData(['userData'], updatedData)
+      queryClient.setQueryData(['allUsersData'], updatedData)
 
       return variables && previousData
     },
