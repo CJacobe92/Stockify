@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
-import { API } from './fetchUtils'
+import { API } from './api';
 
 const fetchRegister = () => {
 

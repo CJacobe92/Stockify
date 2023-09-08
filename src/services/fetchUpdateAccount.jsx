@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
-import { API } from './fetchUtils'
 import { storage } from './utils';
+import { API } from './api';
 
 const fetchUpdateAccount = () => {
   
