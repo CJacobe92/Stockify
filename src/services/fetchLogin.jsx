@@ -1,12 +1,10 @@
 import React, { useContext } from 'react'
-import { API } from './fetchUtils'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { DataContext } from '../providers/DataContextProvider'
+import { API } from './api'
+import { useMutation } from '@tanstack/react-query'
+import { storage } from './utils'
 
 export const fetchLogin = () => {
   
-  const queryClient = useQueryClient();
-
   return useMutation(async(variables) =>{
     try {
 
@@ -23,13 +21,13 @@ export const fetchLogin = () => {
         }  
 
 
-        const rootPayload = {
+        const payload = {
           uid: data.uid,
           auth: data.auth,
           isAdmin: data.user_type === 'Admin' ? true : false
         }
 
-        localStorage.setItem('root', JSON.stringify(rootPayload))
+        storage.setRoot(payload)
 
         return data
       }

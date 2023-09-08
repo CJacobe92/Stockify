@@ -1,5 +1,5 @@
 import React from 'react'
-import { API } from './fetchUtils'
+import { API } from './api'
 import { useMutation } from '@tanstack/react-query'
 
 const fetchActivate = () => {

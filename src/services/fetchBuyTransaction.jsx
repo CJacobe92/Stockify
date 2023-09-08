@@ -1,6 +1,7 @@
 import React from 'react'
-import { API } from './fetchUtils'
+import { API } from './api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { storage } from './utils';
 
 export const fetchBuyTransaction = () => {
 
@@ -9,7 +10,7 @@ export const fetchBuyTransaction = () => {
   return useMutation(async(context) => {
 
     try{
-      const uid = JSON.parse(localStorage.getItem('root'))?.uid
+      const uid = storage.uid
       const account_id = context.account_id
       const stock_id = context.stock_id
       const formData = context.formData

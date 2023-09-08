@@ -1,13 +1,13 @@
 import React from 'react'
-import { API } from './fetchUtils'
+import { API } from './api'
 import { useQuery } from '@tanstack/react-query'
+import { storage } from './utils'
 
 const fetchConfigureOTP = () => {
   return useQuery(['configureOTP'], async() => {
     try {
 
-      const uid = JSON.parse(localStorage.getItem('root'))?.uid
-  
+      const uid = storage.uid
       const res = await API.get(`/auth/configure_otp/${uid}`)
   
       if(res.status ===  200){

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
-import { API } from './fetchUtils'
+import { API } from './api'
+import { storage } from './utils';
 
 const fetchUpdateUserData = () => {
   const queryClient = useQueryClient();
@@ -8,7 +9,7 @@ const fetchUpdateUserData = () => {
   return useMutation(async(variables) => {
     try {
 
-      const uid = JSON.parse(localStorage.getItem('root'))?.uid
+      const uid = storage.uid
 
       const res = await API.patch(`/users/${uid}`, {"user": variables})
   

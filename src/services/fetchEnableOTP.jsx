@@ -1,6 +1,7 @@
 import React from 'react'
-import { API } from './fetchUtils'
+import { API } from './api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { storage } from './utils';
 
 const fetchEnableOTP = () => {
 
@@ -22,8 +23,14 @@ const fetchEnableOTP = () => {
           otp_required: res.headers.otp_required,
           user_type: res.headers.user_type
         }
-        
-        localStorage.setItem('root', JSON.stringify({auth: data.auth, uid: data.uid, user_type: data.user_type}))
+
+        const payload = {
+          uid: data.uid,
+          auth: data.auth,
+          isAdmin: data.user_type === 'Admin' ? true : false
+        }
+
+        storage.setRoot(payload)
 
         return data
       }

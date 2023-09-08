@@ -1,10 +1,11 @@
 import React from 'react'
-import { API } from './fetchUtils'
+import { API } from './api'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { storage } from './utils'
 
 const fetchAllUsersData = () => {
 
-  const isAdmin = JSON.parse(localStorage.getItem('root'))?.isAdmin
+  const isAdmin = storage.isAdmin
   const isEnabled = isAdmin === true ? true : false
 
   return useQuery(['allUsersData', isAdmin], async() => {
