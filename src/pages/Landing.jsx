@@ -23,10 +23,7 @@ const Landing = () => {
             <Link className='m-2 font-semibold text-white hover:text-indigo-500'>Support</Link>
           </div>
         </div>
-        
-          
         <div>
-        
           <Link to={'/login'} className='px-6 py-2 m-2 font-semibold text-white bg-indigo-700 rounded-sm'>Login</Link>
           <Link to={'/register'} className='m-2 font-semibold text-indigo-300'>Register</Link>
         </div>
@@ -46,12 +43,12 @@ const Landing = () => {
             </p>
           </div>
         </div>
-        <img src={home1} className='object-contain col-span-1'/>
+        <img src={home1} className='object-contain col-span-1' loading="lazy"/>
       </div>
             
       <div className='grid items-center grid-cols-2 gap-4 px-20 bg-gray-800'>
         <div>
-          <img src={home2} className='object-contain col-span-1 h-96'/>
+          <img src={home2} className='object-contain col-span-1 h-96' loading="lazy"/>
         </div>
         
         <div className='flex flex-col col-span-1 my-6 text-white'>
@@ -72,7 +69,7 @@ const Landing = () => {
         <h1 className='text-5xl font-semibold text-indigo-300 '>Stockify</h1> 
         <h1 className='mt-4 text-2xl font-semibold text-white'>Where Trading Dreams Soar, Knowledge Empowers, and Success Finds Its Home.</h1>
         <h1 className='mt-4 text-xl font-semibold text-indigo-200'>Your Journey to Financial Triumph Begins Here."</h1>
-        <img src={home3} className='object-contain col-span-1 mt-6 h-96'/>
+        <img src={home3} className='object-contain col-span-1 mt-6 h-96' loading="lazy"/>
       </div>
       <div className='grid items-center justify-center grid-cols-3 gap-4 px-20 py-10 text-xs bg-gray-600'>
         <div className='flex flex-col items-center justify-center col-span-1'>

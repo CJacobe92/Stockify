@@ -28,7 +28,7 @@ const fetchStockData = () => {
       const stockData = data.data
       return stockData
     },
-    enabled: user
+    // enabled: user
   })
 }
 

@@ -5,7 +5,7 @@ import SellTransaction from './SellTransaction'
 import PageLoading from '../spinners/PageLoading'
 
 const Holdings = () => {
-  const { state, userData, userIsLoading,  userIsFetching} = useContext(DataContext)
+  const { userData, userIsLoading,  userIsFetching} = useContext(DataContext)
 
   const portfolios = userData && userData?.portfolios
   
