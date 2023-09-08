@@ -12,7 +12,7 @@ const fetchUserData = () =>{
   return useQuery(['userData'], async() => {
     try {
 
-      const uid = storage.uid
+      const uid = storage.uid();
       
       if(uid){
         const res = await API.get(`/users/${uid}`)
@@ -32,19 +32,6 @@ const fetchUserData = () =>{
     },
     onError: (error) => {
       return error
-    },
-    select: (data) => {
-      const user = data?.data
-      const accounts = user?.accounts.reduce((account) => account)
-      const portfolios =  accounts?.portfolios
-      const transactions = accounts?.transactions
-
-      return({
-        user,
-        accounts,
-        portfolios,
-        transactions
-      })
     },
     enabled: isEnabled
   })

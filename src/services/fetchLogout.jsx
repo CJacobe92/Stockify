@@ -10,7 +10,7 @@ import { storage } from './utils';
     return useMutation(async() => {
       try { 
         
-        const uid = JSON.parse(localStorage.getItem('root'))?.uid
+        const uid = storage.uid();
 
         const res = await API.post(`/auth/logout/${uid}`)
     

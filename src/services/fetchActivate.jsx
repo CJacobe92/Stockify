@@ -1,8 +1,11 @@
 import React from 'react'
 import { API } from './api'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const fetchActivate = () => {
+
+  const queryClient = useQueryClient();
+
   return useMutation(async(variables) => {
     try {
 
@@ -16,8 +19,8 @@ const fetchActivate = () => {
       throw err.data.response.error
     }
   }, {
-    onMutate: (variables) => {
-      queryClient.cancelQueries({queryKey: ['userData']});
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries({queryKey: ['userData']});
       return variables
     }
   }

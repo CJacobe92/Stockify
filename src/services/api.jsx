@@ -3,7 +3,7 @@ import { storage } from "./utils";
 const BASE_URL = import.meta.env.VITE_API_URL
 
 const authInterceptor = (req) => {
-  const token = storage.auth
+  const token = storage.auth();
 
   if(token){
     req.headers.Authorization = token

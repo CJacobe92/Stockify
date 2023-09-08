@@ -7,8 +7,10 @@ import PageLoading from '../spinners/PageLoading'
 const Holdings = () => {
   const { userData, userIsLoading,  userIsFetching} = useContext(DataContext)
 
-  const portfolios = userData && userData?.portfolios
-  
+  const user = userData?.data
+  const accounts = user?.accounts.reduce((account) => account)
+  const portfolios =  accounts?.portfolios
+
   return (
     <div className='w-full'>
       <p className='pb-2 text-lg font-semibold text-white bg-gray-900'>Holdings</p>

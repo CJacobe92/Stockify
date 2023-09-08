@@ -12,9 +12,11 @@ const TopUp = () => {
   const { userData } = useContext(DataContext)
   const queryClient = useQueryClient();
   
-  const account_number = userData && userData?.accounts.account_number
-  const account_balance = userData && userData?.accounts.balance
-  const account_id = userData && userData?.accounts.id
+  const user = userData?.data      
+  const accounts = user?.accounts.reduce((account) => account)
+  const account_number = accounts?.account_number
+  const account_balance = accounts?.balance
+  const account_id = accounts?.id
 
   const [formData, setFormData] = useState({balance: ''})
   const [error, setError] = useState(null)

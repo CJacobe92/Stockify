@@ -10,7 +10,7 @@ export const fetchSellTransaction = () => {
   return useMutation(async(context) => {
 
     try{
-      const uid = storage.uid
+      const uid = storage.uid();
       const account_id = context.account_id
       const stock_id = context.stock_id
       const formData = context.formData
@@ -29,16 +29,30 @@ export const fetchSellTransaction = () => {
       throw err.response.data.error
     }
   }, {
-    onMutate: (variables) => {
+    onMutate: async(variables) => {
+      await queryClient.cancelQueries({queryKey: ['userData']});
+
       queryClient.cancelQueries({queryKey: ['userData']});
-      return variables
+
+      const previousData =  queryClient.getQueryData(['userData'])
+      const newData = variables.userData
+
+      const updatedData = {
+        ...previousData,
+        ...newData,
+      };
+      
+      queryClient.setQueryData(['userData'], updatedData)
+
+      return variables && previousData
+
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries('userData')
       return data
     },
-    onError: (error) => {
-      console.error(error)
+    onError: (error, context) => {
+      queryClient.setQueryData(['userData'], context)
     }
   });
 };

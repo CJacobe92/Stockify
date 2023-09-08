@@ -9,7 +9,7 @@ const fetchUpdateUserData = () => {
   return useMutation(async(variables) => {
     try {
 
-      const uid = storage.uid
+      const uid = storage.uid();
 
       const res = await API.patch(`/users/${uid}`, {"user": variables})
   

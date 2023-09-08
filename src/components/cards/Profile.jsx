@@ -8,7 +8,7 @@ const Profile = () => {
   
   const {userData} = useContext(DataContext)
   
-  const user = userData && userData?.user
+  const user = userData?.data      
   const firstname = user && user?.firstname
   const lastname = user && user?.lastname
   const email = user && user.email

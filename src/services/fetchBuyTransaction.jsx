@@ -10,7 +10,7 @@ export const fetchBuyTransaction = () => {
   return useMutation(async(context) => {
 
     try{
-      const uid = storage.uid
+      const uid = storage.uid();
       const account_id = context.account_id
       const stock_id = context.stock_id
       const formData = context.formData
@@ -20,7 +20,6 @@ export const fetchBuyTransaction = () => {
         stock_id: stock_id
       }
 
-      console.log(payload)
       const res = await API.post(`/users/${uid}/accounts/${account_id}/transactions`, payload)
 
       if(res.status <= 300 && res.status >= 200 ){
@@ -30,15 +29,28 @@ export const fetchBuyTransaction = () => {
       throw err.response.data.error
     }
   }, {
-    onMutate: (variables) => {
+    onMutate: async(variables) => {
+      await queryClient.cancelQueries({queryKey: ['userData']});
+
       queryClient.cancelQueries({queryKey: ['userData']});
-      return variables
+
+      const previousData =  queryClient.getQueryData(['userData'])
+      const newData = variables.userData
+
+      const updatedData = {
+        ...previousData,
+        ...newData,
+      };
+      
+      queryClient.setQueryData(['userData'], updatedData)
+
+      return variables && previousData
     },
     onSuccess: () => {
       queryClient.invalidateQueries('userData')
     },
-    onError: (error) => {
-      console.error(error)
+    onError: (error, context) => {
+      queryClient.setQueryData(['userData'], context)
     }
   });
 };

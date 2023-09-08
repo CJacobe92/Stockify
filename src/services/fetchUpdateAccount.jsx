@@ -10,7 +10,7 @@ const fetchUpdateAccount = () => {
   return useMutation(async(variables) => {
     try {
       
-      const uid = storage.uid
+      const uid = storage.uid();
 
       const res = await API.patch(`/users/${uid}/accounts/${variables.account_id}`, {'account': variables.formData})
   

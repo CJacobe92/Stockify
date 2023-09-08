@@ -4,7 +4,8 @@ import { DataContext } from '../../providers/DataContextProvider'
 
 const SellTransaction = ({portfolio}) => {
   
-
+  const {userData} = useContext(DataContext)
+  
   const [transaction, setTransaction] = useState({
     transaction_type: 'sell',
     quantity: '0'
@@ -27,7 +28,7 @@ const SellTransaction = ({portfolio}) => {
         quantity: transaction.quantity
       };
       
-      mutate({account_id, stock_id, formData})
+      mutate({account_id, stock_id, formData, userData})
     } catch(error) {
       console.error(error)
     }

@@ -16,7 +16,10 @@ const BuyTransaction = ({selected}) => {
   const [isTyping, setIsTyping] = useState(false)
   
   const { userData } = useContext(DataContext)
-  const account = userData && userData?.accounts  
+  const user = userData?.data      
+  const accounts = user?.accounts.reduce((account) => account)
+  const account_id = 0
+  
   const { mutate, error, data, isLoading, isFetching} = fetchBuyTransaction();
   
   const handleChange = (e) => {
@@ -40,14 +43,13 @@ const BuyTransaction = ({selected}) => {
         setMessage(error)
         
       }else if(!error){
-          const account_id = account?.id
           const stock_id = selected.id
           const formData = {
             transaction_type: transaction.transaction_type,
             quantity: transaction.quantity
           };
           
-          mutate({account_id, stock_id, formData})
+          mutate({account_id, stock_id, formData, userData})
       
           setShowError(false)
           setIsTyping(false)

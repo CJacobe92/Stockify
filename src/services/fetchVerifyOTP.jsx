@@ -10,7 +10,7 @@ const fetchVerifyOTP = () => {
   return useMutation(async(context) => {
     try {
       
-      const uid = storage.uid
+      const uid = storage.uid();
 
       const res = await API.post(`/auth/verify_otp/${uid}`,{auth: {otp: context}})
       
