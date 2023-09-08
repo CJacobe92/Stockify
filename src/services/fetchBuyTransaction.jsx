@@ -32,25 +32,13 @@ export const fetchBuyTransaction = () => {
     onMutate: async(variables) => {
       await queryClient.cancelQueries({queryKey: ['userData']});
 
-      queryClient.cancelQueries({queryKey: ['userData']});
-
-      const previousData =  queryClient.getQueryData(['userData'])
-      const newData = variables.userData
-
-      const updatedData = {
-        ...previousData,
-        ...newData,
-      };
-      
-      queryClient.setQueryData(['userData'], updatedData)
-
-      return variables && previousData
+      return variables
     },
     onSuccess: () => {
       queryClient.invalidateQueries('userData')
     },
     onError: (error, context) => {
-      queryClient.setQueryData(['userData'], context)
+      console.error(error)
     }
   });
 };

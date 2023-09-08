@@ -61,7 +61,7 @@ const UserList = () => {
     const formData = {
       activated: false
     }
-    mutate({formData, id, allUsersData})
+    mutate({formData, id})
   }
 
   const handleRequireMFA = (e) => {
@@ -69,7 +69,7 @@ const UserList = () => {
     const formData = {
       otp_enabled: false
     }
-    mutate({formData, id, allUsersData})
+    mutate({formData, id})
   }
 
   const handleByPassMFA = (e) => {
@@ -77,7 +77,7 @@ const UserList = () => {
     const formData = {
       otp_required: false
     }
-    mutate({formData, id, allUsersData})
+    mutate({formData, id})
   }
   
   const handleDelete = (e) => {

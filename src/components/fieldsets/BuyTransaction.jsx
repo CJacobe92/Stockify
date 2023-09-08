@@ -49,7 +49,7 @@ const BuyTransaction = ({selected}) => {
             quantity: transaction.quantity
           };
           
-          mutate({account_id, stock_id, formData, userData})
+          mutate({account_id, stock_id, formData})
       
           setShowError(false)
           setIsTyping(false)
