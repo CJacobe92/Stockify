@@ -1,10 +1,7 @@
 import React, { useCallback, useContext } from 'react'
 import { Navigate, Outlet } from 'react-router-dom';
-import useGetData from '../hooks/useGetData';
 import useAuth from '../hooks/useAuth';
-import AdminNavbar from '../components/cta/AdminNavbar';
 import Sidebar from '../components/cta/Sidebar';
-import { DataContext } from '../providers/DataContextProvider';
 import { storage } from '../services/utils';
 
 const AdminLayout = () => {
