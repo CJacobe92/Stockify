@@ -32,7 +32,6 @@ const SellTransaction = ({portfolio}) => {
       console.error(error)
     }
   }
-  console.log(portfolio)
 
   return (
     <form onSubmit={handleSubmit} className='py-2'>
