@@ -1,10 +1,12 @@
 import axios from "axios";
+import { storage } from "./utils";
 const BASE_URL = import.meta.env.VITE_API_URL
 
 const authInterceptor = (req) => {
-  const accessToken =  JSON.parse(localStorage.getItem('root'))?.auth
-  if(accessToken){
-    req.headers.Authorization = accessToken
+  const token = storage.auth
+
+  if(token){
+    req.headers.Authorization = token
   }
   return req
 }

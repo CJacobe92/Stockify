@@ -24,6 +24,14 @@ const fetchVerifyOTP = () => {
           user_type: res.headers.user_type
         }
         
+        const payload = {
+          uid: data.uid,
+          auth: data.auth,
+          isAdmin: data.user_type === 'Admin' ? true : false
+        }
+
+        storage.setRoot(payload)
+
         return data
       }
     

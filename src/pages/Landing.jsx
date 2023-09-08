@@ -62,7 +62,7 @@ const Landing = () => {
         </div>
       </div>
 
-      <div className='flex flex-col items-center justify-center px-20 py-10 bg-indigo-1000'>
+      <div className='flex flex-col px-20 py-10 text-center bg-indigo-1000'>
         <h1 className='mb-4 text-5xl font-bold text-indigo-500'>Stockify</h1> 
         <h2 className='mt-4 text-2xl font-semibold text-white'>Where Trading Dreams Soar, Knowledge Empowers, and Success Finds Its Home.</h2>
         <h3 className='mt-4 text-xl font-semibold text-indigo-200'>"Your Journey to Financial Triumph Begins Here."</h3>
