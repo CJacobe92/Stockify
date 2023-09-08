@@ -4,9 +4,8 @@ import PageLoading from '../spinners/PageLoading'
 
 const AccountValue = () => {
 
-  const { userData, userIsLoading, userIsFetching } = useContext(DataContext)
+  const { userData,  userIsLoading, userIsFetching } = useContext(DataContext)
   const [totalValue, setTotalValue] = useState()
-  
   const user = userData?.data
   const accounts = user?.accounts.reduce((account) => account)
   const portfolios =  accounts?.portfolios
@@ -29,13 +28,15 @@ const AccountValue = () => {
  
   return (
 
-      <fieldset className='px-2 py-4 mb-4 bg-white border-2 border-indigo-700 rounded-sm'>
-        <legend className='text-sm font-semibold text-indigo-700'>Total Account Value</legend>
-        {userIsLoading || userIsFetching ? <div className='flex items-center justify-center h-18 '><PageLoading /></div> :
-          <div className='flex items-center justify-start py-4'>
-            <p className='text-4xl font-bold text-indigo-900'>&#8369;{totalValue ? totalValue.toFixed(2) : null}</p> 
+      <fieldset className='px-2 mb-4 bg-white border-2 border-indigo-700 rounded-sm'>
+        <legend className='text-sm font-semibold text-indigo-700'>Account Value</legend>
+          <div className='flex flex-col'>
+            <div className='flex items-end justify-end w-full h-4'>
+              {userIsLoading || userIsFetching ? <PageLoading /> : null}
+            </div>
+            <p className='mb-4 text-4xl font-bold text-indigo-900'>&#8369;{totalValue ? totalValue.toFixed(2) : null}</p> 
           </div>
-          }
+          
       </fieldset>          
   )
 }
