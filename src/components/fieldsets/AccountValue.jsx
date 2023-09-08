@@ -7,9 +7,11 @@ const AccountValue = () => {
   const { userData, userIsLoading, userIsFetching } = useContext(DataContext)
   const [totalValue, setTotalValue] = useState()
   
-  const accountBalance = userData && userData?.accounts?.balance
-  const portfolios = userData && userData?.portfolios
-  
+  const user = userData?.data
+  const accounts = user?.accounts.reduce((account) => account)
+  const portfolios =  accounts?.portfolios
+  const accountBalance = accounts?.balance
+
   useEffect(() => {
     let sum = 0
     

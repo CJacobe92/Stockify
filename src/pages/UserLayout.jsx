@@ -7,7 +7,7 @@ import { storage } from '../services/utils';
 const UserLayout = () => {
   const isAuthenticated = useAuth()
   
-  const isAdmin = storage.isAdmin
+  const isAdmin = storage.isAdmin();
 
   return isAuthenticated && isAdmin === false ? (
     <div className='flex flex-col w-full min-h-screen text-white bg-gray-900'>

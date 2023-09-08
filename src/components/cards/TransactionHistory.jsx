@@ -5,7 +5,11 @@ import ComponentLoading from '../spinners/ComponentLoading';
 
   const TransactionHistory = ({input, query}) => {
     const { userData, userIsLoading,  userIsFetching} = useContext(DataContext);
-    const transactionsData = userData && userData?.transactions
+    
+    const user = userData?.data      
+    const accounts = user?.accounts.reduce((account) => account)
+    const transactionsData = accounts?.transactions
+    
     const {formatDate} = useFormatDate()
 
     const itemsPerPage = 10

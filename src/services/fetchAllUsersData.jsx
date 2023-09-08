@@ -5,10 +5,10 @@ import { storage } from './utils'
 
 const fetchAllUsersData = () => {
 
-  const isAdmin = storage.isAdmin
+  const isAdmin = storage.isAdmin()
   const isEnabled = isAdmin === true ? true : false
 
-  return useQuery(['allUsersData', isAdmin], async() => {
+  return useQuery(['allUsersData'], async() => {
     try {
 
       const res = await API.get(`/users`)

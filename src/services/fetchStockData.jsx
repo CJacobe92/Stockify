@@ -5,7 +5,7 @@ import { storage } from './utils'
 
 const fetchStockData = () => {
 
-  const isAdmin = storage.isAdmin
+  const isAdmin = storage.isAdmin();
   const isEnabled = isAdmin === false ? true : false
 
   return useQuery(['stockData'], async() => {

@@ -6,8 +6,10 @@ const BuyingPower = () => {
 
   const { userData, userIsLoading, userIsFetching } = useContext(DataContext)
   const [buyingPower, setBuyingPower] = useState()
-  const accounts = userData && userData?.accounts
-  const accountBalance = accounts && accounts?.balance
+ 
+  const user = userData?.data
+  const accounts = user?.accounts.reduce((account) => account)
+  const accountBalance = accounts?.balance
 
   useEffect(() => {
     if(accounts){
