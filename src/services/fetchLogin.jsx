@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { API } from './api'
 import { useMutation } from '@tanstack/react-query'
 import { storage } from './utils'
+import fetchAllUsersData from './fetchAllUsersData'
+import fetchUserData from './fetchUserData'
 
 export const fetchLogin = () => {
   
@@ -47,9 +49,9 @@ export const fetchLogin = () => {
         if(data.user_type === 'Admin'){
         
           variables.navigate('/dashboard')
-
+        
         }else if(data.user_type === 'User'){
-          
+    
           if(data.activated === "false"){
             variables.navigate('/review')
             return

@@ -12,6 +12,7 @@ const fetchAllUsersData = () => {
     try {
 
       if(isEnabled){
+        console.log('All users fetched called')
         const res = await API.get(`/users`)
 
         if(res.status <= 300 && res.status >= 200){
