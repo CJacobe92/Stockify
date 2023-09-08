@@ -4,12 +4,14 @@ import useFormatDate from '../../hooks/useFormatDate'
 import SearchModal from '../modals/SearchModal'
 import UserSearch from '../fieldsets/UserSearch'
 import fetchAdminUpdateUserData from '../../services/fetchAdminUpdateUserData'
-import PWResetModal from '../modals/PWResetModal'
-import PWReset from '../fieldsets/PWReset'
+import PWResetModal from '../modals/EditModal'
+import PWReset from '../fieldsets/EditUser'
 import ComponentLoading from '../spinners/ComponentLoading'
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import fetchDeleteUser from '../../services/fetchDeleteUser'
+import EditModal from '../modals/EditModal'
+import EditUser from '../fieldsets/EditUser'
 
 const UserList = () => {
 
@@ -133,14 +135,13 @@ const UserList = () => {
                 <td className='p-2 text-center'>{formatDate(user.created_at)}</td>
                 <td className='flex flex-row items-center w-full p-2 text-xs text-center justify-evenly'>
                   <button className='font-semibold hover:underline' id={user.id}>
-                    <PWResetModal title={'Reset Password'}>
-                      <PWReset user={user}/>
-                    </PWResetModal>
+                    <EditModal title={'Edit'}>
+                      <EditUser user={user}/>
+                    </EditModal>
                   </button>
                   <button onClick={handleRequireMFA} className='font-semibold hover:underline' id={user.id}>Re-require MFA</button>
                   <button onClick={handleDeactivate} className='font-semibold hover:underline' id={user.id}>Deactivate</button>
                   <button onClick={handleDelete} className='font-semibold hover:underline' id={user.id}>Delete</button>
-
                 </td>
                 <td className='p-2 text-center' />
               </tr>
