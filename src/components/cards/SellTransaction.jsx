@@ -1,15 +1,31 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import fetchSellTransaction from '../../services/fetchSellTransaction'
 import { DataContext } from '../../providers/DataContextProvider'
 
 const SellTransaction = ({portfolio}) => {
     
+  const {mutate, error} = fetchSellTransaction()
+  
   const [transaction, setTransaction] = useState({
     transaction_type: 'sell',
     quantity: '0'
   })
 
-  const {mutate, error} = fetchSellTransaction()
+  const [showError, setShowError] = useState(null);
+
+  useEffect(() => {
+
+    setShowError(error);
+    
+    const timer = setTimeout(() => {
+      setShowError(null);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [error]);
+  
   const account_id = portfolio?.account_id
   const stock_id = portfolio?.stock_id
   
@@ -56,7 +72,7 @@ const SellTransaction = ({portfolio}) => {
       
       <fieldset className='p-2 border-2 border-indigo-700'>
         <legend className='text-xs font-semibold text-indigo-700 text-start'>Quantity</legend>
-        <div className='h-6 text-red-700'>{error ? error : null}</div>
+        <div className='h-4 text-red-700'>{showError}</div>
         <div className='flex flex-row w-full justify-evenly'>
           <input 
             type="text" 
