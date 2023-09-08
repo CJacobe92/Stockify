@@ -3,7 +3,7 @@ import pageloading from '../../assets/pageloading.svg'
 
 const PageLoading = () => {
   return (
-    <img src={pageloading} alt='Loading...' height='40' width='40' className='bg-white'/>
+    <img src={pageloading} alt='Loading...' height='15' width='15'/>
   )
 }
 
