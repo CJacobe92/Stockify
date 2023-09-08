@@ -4,6 +4,8 @@
 
   const fetchLogout = ( ) => {
 
+    const queryClient = useQueryClient();
+
     return useMutation(async() => {
       try { 
         
@@ -20,6 +22,8 @@
       }
     }, {
       onMutate: (variables) => {
+        queryClient.cancelQueries({queryKey: ['allUsersData']});
+        queryClient.cancelQueries({queryKey: ['userData']});
         return variables
       },
       onSuccess: (context, variables) => {
