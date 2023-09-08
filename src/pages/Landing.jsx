@@ -71,10 +71,10 @@ const Landing = () => {
         <h1 className='mt-4 text-xl font-semibold text-indigo-200'>Your Journey to Financial Triumph Begins Here."</h1>
         <img src={home3} className='object-contain col-span-1 mt-6 h-96' loading="lazy"/>
       </div>
-      <div className='grid items-center justify-center grid-cols-3 gap-4 px-20 py-10 text-xs bg-gray-600'>
+      <div className='grid items-center justify-center grid-cols-3 gap-4 px-20 py-2 text-xs bg-gray-700'>
         <div className='flex flex-col items-center justify-center col-span-1'>
           <ol>
-            <li className='my-2 text-sm font-semibold text-indigo-200'>Customer Service</li>
+            <li className='my-1 text-sm font-semibold text-indigo-200'>Customer Service</li>
             <li className='text-white'>Help Centre</li>
             <li className='text-white'>Stockify Cares</li>
             <li className='text-white'>Payment Methods</li>
@@ -85,7 +85,7 @@ const Landing = () => {
 
         <div className='flex flex-col items-center justify-center col-span-1'>
           <ol>
-            <li className='my-2 text-sm font-semibold text-indigo-200'>About Stockify</li>
+            <li className='my-1 text-sm font-semibold text-indigo-200'>About Stockify</li>
             <li className='text-white'>About Us</li>
             <li className='text-white'>Stockify Careers</li>
             <li className='text-white'>Stockify Blog</li>
@@ -95,7 +95,7 @@ const Landing = () => {
         </div>
         <div className='flex flex-col items-center justify-center col-span-1'>
           <ol>
-            <li className='my-2 text-sm font-semibold text-indigo-200'>Follow Us</li>
+            <li className='my-1 text-sm font-semibold text-indigo-200'>Follow Us</li>
             <li className='flex flex-row items-center text-white'>
               <FacebookIcon className='mr-1'/>
               Facebook

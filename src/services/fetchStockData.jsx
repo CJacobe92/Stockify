@@ -8,7 +8,7 @@ const fetchStockData = () => {
   const isAdmin = storage.isAdmin
   const isEnabled = isAdmin === false ? true : false
 
-  return useQuery(['stockData', user], async() => {
+  return useQuery(['stockData'], async() => {
     try{
       const res = await API.get('/stocks')
 
